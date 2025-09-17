@@ -20,7 +20,7 @@ pip install -r requirements.txt
 将config目录下的prompt_example.txt重命名为prompt.txt
 按自己喜好添加提示词，也可以不修改
 ```
-4. 打开游戏，并用管理员权限运行Whimbox：
+4. 打开游戏，将游戏设置为窗口模式，分辨率1920*1080，并用管理员权限运行Whimbox：
 ```
 python whimbox.py
 ```
