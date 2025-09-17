@@ -6,7 +6,7 @@ Whimbox，一个基于大语言模型和图像识别技术的游戏AI智能体�
 ## 运行
 目前项目仍在开发阶段，只建议有python开发能力的用户尝试使用。
 ```
-python -m pip install paddlepaddle-gpu==3.1.0 -i https://www.paddlepaddle.org.cn/packages/stable/cu126/
+python -m pip install paddlepaddle-gpu==3.2.0 -i https://www.paddlepaddle.org.cn/packages/stable/cu126/
 pip install -r requirements.txt
 python whimbox.py（需要游戏已经在运行）
 ```
