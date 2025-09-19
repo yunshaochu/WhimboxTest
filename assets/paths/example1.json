@@ -7,510 +7,308 @@
   },
   "points": [
     {
-      "action": "TELEPORT",
-      "action_params": null,
       "id": 0,
-      "move_mode": "WALK",
-      "point_type": "TARGET",
       "position": [
-        8582.2,
-        3637.7
-      ]
+        8573.2,
+        3639.8
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "TELEPORT"
     },
     {
-      "action": null,
-      "action_params": null,
       "id": 1,
+      "position": [
+        8580.2,
+        3643.6
+      ],
+      "point_type": "TARGET",
       "move_mode": "WALK",
-      "point_type": "PASS",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 2,
       "position": [
         8585.8,
-        3636.9
-      ]
+        3632.2
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
     },
     {
-      "action": null,
-      "action_params": null,
-      "id": 2,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8587.7,
-        3636.0
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
       "id": 3,
-      "move_mode": "WALK",
-      "point_type": "TARGET",
       "position": [
-        8589.6,
-        3635.0
-      ]
+        8584,
+        3629.1
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
     },
     {
-      "action": null,
-      "action_params": null,
       "id": 4,
-      "move_mode": "WALK",
-      "point_type": "PASS",
       "position": [
-        8589.6,
-        3632.3
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 5,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8589.7,
-        3629.2
-      ]
-    },
-    {
-      "action": "PICK_UP",
-      "action_params": null,
-      "id": 6,
-      "move_mode": "WALK",
+        8586.8,
+        3628.4
+      ],
       "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 5,
       "position": [
         8588.8,
-        3628.4
-      ]
+        3627.9
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
     },
     {
-      "action": null,
-      "action_params": null,
+      "id": 6,
+      "position": [
+        8596.7,
+        3633
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
       "id": 7,
-      "move_mode": "WALK",
-      "point_type": "PASS",
       "position": [
-        8590.9,
-        3629.1
-      ]
+        8602.5,
+        3645.7
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
     },
     {
-      "action": null,
-      "action_params": null,
       "id": 8,
-      "move_mode": "WALK",
-      "point_type": "PASS",
       "position": [
-        8592.8,
-        3631.1
-      ]
+        8594.4,
+        3654.6
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
     },
     {
-      "action": null,
-      "action_params": null,
       "id": 9,
-      "move_mode": "WALK",
-      "point_type": "PASS",
       "position": [
-        8594.6,
-        3632.2
-      ]
+        8583.6,
+        3662.5
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
     },
     {
-      "action": null,
-      "action_params": null,
       "id": 10,
-      "move_mode": "WALK",
-      "point_type": "PASS",
       "position": [
-        8596.7,
-        3633.0
-      ]
-    },
-    {
-      "action": "PICK_UP",
-      "action_params": null,
-      "id": 11,
-      "move_mode": "WALK",
-      "point_type": "TARGET",
-      "position": [
-        8596.7,
-        3633.6
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 12,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8597.4,
-        3635.7
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 13,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8598.5,
-        3638.7
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 14,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8599.4,
-        3641.4
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 15,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8600.6,
-        3643.7
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 16,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8601.3,
-        3645.8
-      ]
-    },
-    {
-      "action": "PICK_UP",
-      "action_params": null,
-      "id": 17,
-      "move_mode": "WALK",
-      "point_type": "TARGET",
-      "position": [
-        8601.3,
-        3645.8
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 18,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8599.1,
-        3646.9
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 19,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8597.3,
-        3649.6
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 20,
-      "move_mode": "WALK",
-      "point_type": "TARGET",
-      "position": [
-        8595.2,
-        3650.8
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 21,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8593.3,
-        3653.5
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 22,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8591.2,
-        3656.7
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 23,
-      "move_mode": "WALK",
-      "point_type": "TARGET",
-      "position": [
-        8589.5,
-        3659.2
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 24,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8587.4,
-        3660.5
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 25,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8584.9,
-        3663.1
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 26,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8582.8,
-        3664.3
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 27,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8578.9,
+        8574.2,
         3666.3
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 28,
-      "move_mode": "WALK",
+      ],
       "point_type": "TARGET",
-      "position": [
-        8577.0,
-        3668.2
-      ]
+      "move_mode": "WALK"
     },
     {
-      "action": null,
-      "action_params": null,
-      "id": 29,
-      "move_mode": "WALK",
-      "point_type": "PASS",
+      "id": 11,
       "position": [
-        8574.3,
-        3668.1
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 30,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8572.5,
-        3667.0
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 31,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8570.5,
-        3667.0
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 32,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8567.2,
-        3666.4
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 33,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8564.7,
-        3665.7
-      ]
-    },
-    {
-      "action": "PICK_UP",
-      "action_params": null,
-      "id": 34,
-      "move_mode": "WALK",
+        8564.6,
+        3666.3
+      ],
       "point_type": "TARGET",
-      "position": [
-        8564.7,
-        3665.0
-      ]
+      "move_mode": "WALK",
+      "action": "PICK_UP"
     },
     {
-      "action": null,
-      "action_params": null,
-      "id": 35,
-      "move_mode": "WALK",
-      "point_type": "PASS",
+      "id": 12,
       "position": [
-        8565.4,
-        3663.1
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 36,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8566.7,
-        3661.1
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 37,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8568.6,
-        3657.2
-      ]
-    },
-    {
-      "action": "PICK_UP",
-      "action_params": null,
-      "id": 38,
-      "move_mode": "WALK",
+        8569.3,
+        3657.3
+      ],
       "point_type": "TARGET",
-      "position": [
-        8568.5,
-        3656.5
-      ]
+      "move_mode": "WALK",
+      "action": "PICK_UP"
     },
     {
-      "action": null,
-      "action_params": null,
-      "id": 39,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8567.0,
-        3653.1
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 40,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8565.5,
-        3651.5
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 41,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8564.8,
-        3649.5
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 42,
-      "move_mode": "WALK",
-      "point_type": "PASS",
+      "id": 13,
       "position": [
         8563.5,
         3647.7
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 43,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8561.5,
-        3645.7
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 44,
-      "move_mode": "WALK",
-      "point_type": "PASS",
-      "position": [
-        8560.8,
-        3643.6
-      ]
-    },
-    {
-      "action": null,
-      "action_params": null,
-      "id": 45,
-      "move_mode": "WALK",
+      ],
       "point_type": "TARGET",
+      "move_mode": "JUMP"
+    },
+    {
+      "id": 14,
       "position": [
-        8560.8,
-        3643.6
-      ]
+        8551.5,
+        3632.3
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 15,
+      "position": [
+        8554.8,
+        3619.3
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 16,
+      "position": [
+        8553.5,
+        3624.6
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 17,
+      "position": [
+        8558.6,
+        3624.5
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 18,
+      "position": [
+        8562.8,
+        3623.2
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 19,
+      "position": [
+        8567.3,
+        3615.6
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 20,
+      "position": [
+        8575.1,
+        3602.9
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 21,
+      "position": [
+        8576.3,
+        3598.9
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 22,
+      "position": [
+        8579,
+        3591
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 23,
+      "position": [
+        8580.8,
+        3592.6
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 24,
+      "position": [
+        8588.8,
+        3598.8
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
+    },
+    {
+      "id": 25,
+      "position": [
+        8596.5,
+        3600.2
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 26,
+      "position": [
+        8608.1,
+        3611
+      ],
+      "point_type": "TARGET",
+      "move_mode": "JUMP"
+    },
+    {
+      "id": 27,
+      "position": [
+        8623.5,
+        3627.4
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 28,
+      "position": [
+        8631.1,
+        3611.1
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 29,
+      "position": [
+        8640.6,
+        3619
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 30,
+      "position": [
+        8653.5,
+        3639.2
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK",
+      "action": "PICK_UP"
+    },
+    {
+      "id": 31,
+      "position": [
+        8667.8,
+        3623.6
+      ],
+      "point_type": "TARGET",
+      "move_mode": "WALK"
     }
   ]
 }

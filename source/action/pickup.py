@@ -22,11 +22,11 @@ class PickupTask(TaskTemplate):
                     pickup_item_dict[pickup_item] = 1
                 if DEBUG_MODE:
                     # debug模式下，不采集，这样可以多测几遍
-                    itt.delay(0.2, comment="等待采集完成")
+                    itt.delay(0.5, comment="等待采集完成")
                     break
                 else:
                     itt.key_press('f')
-                    itt.delay(0.2, comment="等待采集完成")
+                    itt.delay(0.5, comment="等待采集完成")
             else:
                 break
         
