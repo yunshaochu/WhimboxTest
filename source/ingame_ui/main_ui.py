@@ -8,11 +8,13 @@ import keyboard
 
 from source.common import handle_lib
 from source.common.logger import logger
+from source.common.utils.utils import get_active_window_process_name
+from source.common.cvars import PROCESS_NAME
 
 from .components import ChatMessage, ChatMessageWidget, CollapsedChatWidget
 from .workers import QueryWorker
 
-update_time = 1000  # ui更新间隔，ms
+update_time = 500  # ui更新间隔，ms
 
 class IngameUI(QWidget):
     ui_update_signal = pyqtSignal(str, str)
@@ -49,17 +51,13 @@ class IngameUI(QWidget):
         self.ui_update_signal.connect(self.handle_ui_update)
 
         # 窗口设置
-        self.setWindowTitle("AI游戏助手")
+        self.setWindowTitle("奇想盒")
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         hwnd = int(self.winId())
         win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE,
                                win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_TRANSPARENT)
-        
-        # MISC
         self.last_bbox = 0
-        self.handle_settled = False
-        self.stop_output_flag = False
         
         # 键盘监听
         keyboard.on_press_key("/", lambda e: QTimer.singleShot(0, self.on_slash_pressed))
@@ -171,7 +169,7 @@ class IngameUI(QWidget):
         
         # 标题栏
         title_layout = QHBoxLayout()
-        title_label = QLabel("🐱大语言猫型游戏助手")
+        title_label = QLabel("📦奇想盒")
         title_label.setStyleSheet("""
             QLabel {
                 background-color: transparent;
@@ -357,7 +355,7 @@ class IngameUI(QWidget):
             self.expanded_widget.hide()
         if self.collapsed_widget:
             self.collapsed_widget.show()
-        self.setGeometry(0, 0, 80, 60)  # 设置小窗口大小
+        self.setGeometry(0, 0, 128, 128)  # 设置小窗口大小
     
     def show_expanded(self):
         """显示展开状态"""
@@ -380,7 +378,7 @@ class IngameUI(QWidget):
         
         # 添加欢迎消息（仅在首次展开时）
         if not self.chat_messages:
-            self.add_message("👋 您好！我是大语言猫型游戏助手，请输入您需要的帮助。", 'ai')
+            self.add_message("👋 您好！我是奇想盒📦，请告诉我你想做什么？。", 'ai')
     
     def collapse_chat(self):
         """收缩聊天界面"""
@@ -418,9 +416,9 @@ class IngameUI(QWidget):
                     chat_x = win_bbox[0] + 10
                     chat_y = win_bbox[3] - 610
                 else:
-                    # 收缩状态：显示在游戏窗口右上角
+                    # 收缩状态：显示在游戏窗口左上角
                     chat_x = win_bbox[0] + 10
-                    chat_y = win_bbox[3] - 100
+                    chat_y = win_bbox[3] - 610
                 
                 self.move(chat_x, chat_y)
             except Exception as e:
@@ -469,7 +467,15 @@ class IngameUI(QWidget):
         self.current_worker.start()
     
     def update_ui_position(self):
-        """定时更新，处理窗口位置"""
+        """定时更新，处理窗口隐藏和位置"""
+        active_process_name = get_active_window_process_name()
+        if (not active_process_name == PROCESS_NAME) and (not active_process_name == 'python.exe'):
+            self.hide()
+            return
+        else:
+            if not self.isVisible():
+                self.show()
+        
         if self.isVisible():
             # 获取游戏窗口位置
             if handle_lib.HANDLE:
