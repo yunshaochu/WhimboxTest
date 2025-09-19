@@ -1,5 +1,5 @@
 # 预计最大移动速度
-MOVE_SPEED = 20
+MOVE_SPEED = 22
 
 # Magic numbers for 1920x1080 desktop
 MINIMAP_CENTER = (79 + 102, 20 + 102)

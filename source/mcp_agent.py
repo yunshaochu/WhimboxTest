@@ -83,7 +83,7 @@ async def query_agent(text, thread_id="default", stream_callback=None, status_ca
             # 工具调用开始
             tool_name = event.get("name", "")
             if stream_callback:
-                stream_callback(f"🔧 操作中，不要动游戏哦~\n")
+                stream_callback(f"🔧 任务进行中，可以按“引号”键，随时终止任务\n")
             if status_callback:
                 status_callback("on_tool_start", tool_name)
         
@@ -91,7 +91,7 @@ async def query_agent(text, thread_id="default", stream_callback=None, status_ca
             # 工具调用结束
             tool_output = data.get("output", "")
             if stream_callback:
-                stream_callback(f"✅ 操作完成，总结成果中~\n")
+                stream_callback(f"💭 任务完成，总结成果中~\n")
             if status_callback:
                 status_callback("on_tool_end", tool_name)
         
@@ -99,7 +99,7 @@ async def query_agent(text, thread_id="default", stream_callback=None, status_ca
             # 工具调用错误
             error = data.get("error", "")
             if stream_callback:
-                stream_callback(f"❌ 操作失败: {error}\n")
+                stream_callback(f"❌ 任务失败: {error}\n")
         
         elif event_type == "on_chat_model_start":
             # 开始生成回复

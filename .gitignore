@@ -127,7 +127,7 @@ tools/*
 Logs/*
 assets/paths/*
 !assets/paths/readme.md
-!assets/paths/example.json
+!assets/paths/example*.json
 config/*
 !config/config_example.ini
 !config/prompt_example.txt

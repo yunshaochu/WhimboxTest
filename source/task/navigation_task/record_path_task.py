@@ -8,7 +8,6 @@ from source.ui.page_assets import *
 import time
 from source.common.path_lib import *
 from source.map.map import nikki_map
-import keyboard
 from threading import Lock
 import os
 from source.task.navigation_task.rdp import rdp_optimize
@@ -27,13 +26,7 @@ class RecordPathTask(TaskTemplate):
         # self.last_direction = 0
         # self.last_target_position = None # 上一个必经点
         self.path_point_list = []
-        keyboard.add_hotkey(';', self.recognize)
-        keyboard.add_hotkey("'", self.stop_record)
-        self.stop_record_flag = False
-
-
-    def stop_record(self):
-        self.stop_record_flag = True
+        self.add_hotkey(';', self.recognize)
 
 
     def recognize(self):
@@ -51,7 +44,7 @@ class RecordPathTask(TaskTemplate):
         return position_list
 
 
-    def _add_point(self, position, point_type=POINT_TYPE_PASS, move_mode=None, action=None, action_params=None, is_end=False):
+    def _add_point(self, position, point_type=POINT_TYPE_PASS, move_mode=None, action=None, action_params=None):
         with self._lock:
             if move_mode == None:
                 move_mode = get_move_mode_in_game()
@@ -69,7 +62,7 @@ class RecordPathTask(TaskTemplate):
             self.path_point_list.append(pp)
 
 
-    @register_step("记录路径起点")
+    @register_step("准备中，请稍等")
     def step1(self):
         nikki_map.reinit_smallmap()
         current_posi = nikki_map.get_position()
@@ -81,11 +74,11 @@ class RecordPathTask(TaskTemplate):
             raise Exception("起点与最近的传送点太远了，不予记录")
 
 
-    @register_step("自动记录路线中……")
+    @register_step("开始录制，按“分号”记录特殊点位")
     def step2(self):
         while True:
             time.sleep(self.step_sleep)
-            if self.stop_record_flag or self.task_stop_flag:
+            if self.task_stop_flag:
                 break
             if not ui_control.verify_page(page_main):
                 continue
@@ -101,10 +94,10 @@ class RecordPathTask(TaskTemplate):
 
             if dist >= self.min_gap:
                 self._add_point(curr_posi)
+        self.save_path()
 
 
-    @register_step("保存路线中……")
-    def step3(self):
+    def save_path(self):
         end_position = nikki_map.get_position()
         self._add_point(end_position, POINT_TYPE_TARGET)
 
@@ -128,7 +121,8 @@ class RecordPathTask(TaskTemplate):
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         save_json(path_record.model_dump(), json_name, save_path)
-        self.log_to_gui(f"路线保存成功，路径：{os.path.join(save_path, json_name)}")
+        # self.log_to_gui(f"路线保存成功，路径：{os.path.join(save_path, json_name)}")
+        self.update_task_result(message=f"录制成功，路线名：{name}")
 
 
 def optimize_path(path_point_list):

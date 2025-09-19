@@ -380,9 +380,10 @@ if __name__ == '__main__':
     """
     import time
     minimap = MiniMap()
-    minimap.init_position((2800*2, 3920*2)) # 疯愿之子营地
+    # minimap.init_position((2800*2, 3920*2)) # 疯愿之子营地
     # minimap.init_position((3213*2, 2203*2)) # 花愿镇，搭配师协会
     # minimap.init_position((5650.7, 4531.5)) # 蓝龙
+    minimap.init_position((6552.7, 3906.7))
     # while True:
     #     img = minimap._get_minimap(itt.capture(), minimap.MINIMAP_RADIUS)
     #     cv2.imshow('123', img)
@@ -390,14 +391,14 @@ if __name__ == '__main__':
     #     time.sleep(0.1)
 
     # 定位测试
-    if True:
+    if False:
         while 1:
             time.sleep(0.1)
             minimap.update_position(itt.capture())
             print(minimap.position)
 
     # 镜头朝向测试
-    if False:
+    if True:
         while 1:
             time.sleep(0.1)
             minimap.update_rotation(itt.capture(), update_position=True)

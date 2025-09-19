@@ -1,4 +1,4 @@
-![logo](/logo.png)
+![logo](/doc/logo.png)
 ~~不会画画，先放个红温星凑合一下~~
 # Whimbox(奇想盒)
 Whimbox，一个基于大语言模型和图像识别技术的游戏AI智能体，带给你全新的游戏体验！
@@ -94,7 +94,4 @@ Whinbox/
 可参考`source\task\daily_task`内的几个task，并在`source\mcp_server.py`中注册，就能被大模型调用。
 
 ### 自动跑图路线录制
-打开游戏，前往想录制的路线起点，运行`source\task\navigation_task\record_path_task.py`，然后就随便跑图吧，会自动录制你跑过的路线。
-* 如果你觉得有个点位很关键，需要后期编辑，可以按`;`记录
-* 按`'`结束录制，会自动保存json到`assets\paths`目录下
-* 前往[路线编辑网站](https://nikkigallery.vip/autotools/pathcheck),对路线进行编辑并保存
+详情请阅读 [录制和编辑跑图路线](./assets/paths/readme.md)

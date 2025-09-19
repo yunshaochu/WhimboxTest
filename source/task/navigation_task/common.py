@@ -13,8 +13,8 @@ not_teleport_offset = 15
 
 class PathInfo(BaseModel):
     name: str   # 路径名，也是导出的json文件名
-    type: str   # 类型：采集、捕虫、清洁、战斗、综合
-    target: str # 目标：素材名
+    type: Optional[str] = None   # 类型：采集、捕虫、清洁、战斗、综合
+    target: Optional[str] = None # 目标：素材名
     region: str
 
 class PathPoint(BaseModel):

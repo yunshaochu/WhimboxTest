@@ -36,11 +36,11 @@ def get_safe_rotation(last_angle=None, offset=5):
         if time_cost < 0.04:
             time.sleep(0.04-time_cost)
             if succ_times >= 3:
-                logger.trace(f"get_rotation break: succ >=2")
+                # logger.trace(f"get_rotation break: succ >=2")
                 break
         else:
             if succ_times >= 1:
-                logger.trace(f"get_rotation break: succ")
+                # logger.trace(f"get_rotation break: succ")
                 break
     return angle_list[-1]
 

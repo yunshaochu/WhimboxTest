@@ -2,8 +2,10 @@
 # 所以就不整原项目thread管理那一套了，怎么简单怎么来
 from source.common.logger import logger
 from source.ingame_ui.ingame_ui import win_ingame_ui
-import time
 from source.common.cvars import DEBUG_MODE
+
+from pynput import keyboard
+import time
 
 STATE_TYPE_SUCCESS = "success"
 STATE_TYPE_ERROR = "error"
@@ -54,6 +56,43 @@ class TaskTemplate:
         self.task_result = TaskResult()
         self.__auto_register_steps()
 
+        # 创建pynput监听器
+        self.key_callbacks = {}  # 存储按键回调
+        self.listener = keyboard.Listener(on_press=self._on_key_press)
+        self.listener.daemon = True  # 设为守护线程
+        self.listener.start()
+
+        # 添加默认停止热键
+        self.add_hotkey("'", self.task_stop)
+
+        
+    def _on_key_press(self, key):
+        """处理按键事件"""
+        try:
+            # 检查是否是字符键
+            if hasattr(key, 'char') and key.char in self.key_callbacks:
+                self.key_callbacks[key.char]()
+            # 检查是否是特殊键
+            elif key in self.key_callbacks:
+                self.key_callbacks[key]()
+        except Exception as e:
+            logger.error(f"热键处理错误: {e}")
+
+    def add_hotkey(self, key_str, callback):
+        """添加热键监听"""
+        # 将字符串键转换为pynput键对象
+        if len(key_str) == 1:  # 单个字符
+            self.key_callbacks[key_str] = callback
+        else:
+            # 处理特殊键，如'space', 'esc'等
+            try:
+                # 尝试将键名转换为pynput.keyboard.Key对象
+                key_obj = getattr(keyboard.Key, key_str)
+                self.key_callbacks[key_obj] = callback
+            except AttributeError:
+                logger.warning(f"无法识别的键: {key_str}")
+
+
     def __auto_register_steps(self):
         """自动注册带有_register_step标记的方法"""
         # 获取类的所有方法，包括继承的
@@ -69,12 +108,14 @@ class TaskTemplate:
                 self.steps_dict[method_name] = task_step
                 self.step_order.append(method_name)
 
+
     def on_error(self, state_msg=""):
         """定义 error_step"""
         def wrapper(func):
             self.error_step = TaskStep(func, "error_step", STATE_TYPE_ERROR, state_msg)
             return func
         return wrapper
+
 
     def task_run(self):
         """核心执行逻辑"""
@@ -119,8 +160,13 @@ class TaskTemplate:
             if DEBUG_MODE:
                 import traceback
                 logger.error(traceback.format_exc())
-
+        
         finally:
+            self.handle_finally()
+            # 停止键盘监听器
+            if hasattr(self, 'listener') and self.listener.is_alive():
+                self.listener.stop()
+                self.listener.join()
             return self.task_result
 
 
@@ -128,12 +174,23 @@ class TaskTemplate:
         '''处理异常，如果子类有异常要处理，就实现这个方法'''
         pass
 
+    def handle_finally(self):
+        '''
+        如果子类有需要在finally时进行的操作，就实现这个方法
+        比如需要在结束时释放资源等等
+        '''
+        pass
+
+
     def task_stop(self):
+        '''如果子类有需要在停止时进行的操作，就实现这个方法，并调用父类的这个'''
         self.task_stop_flag = True
+
 
     def get_state_msg(self):
         """获得当前任务的状态信息，供agent显示"""
         return self.current_step.state.msg if self.current_step else ""
+
 
     def log_to_gui(self, msg, is_error=False):
         if not is_error:
@@ -143,6 +200,7 @@ class TaskTemplate:
         if win_ingame_ui:
             win_ingame_ui.ui_update_signal.emit("update_ai_message", msg)
         logger.info(msg)
+
 
     def update_task_result(self, status="success", message=""):
         self.task_result = TaskResult(status, message)

@@ -1,7 +1,11 @@
-from fastmcp import FastMCP
 import source.task.daily_task as daily_task
 from source.task.navigation_task.common import get_path_json_name
 from source.task.navigation_task.auto_path_task import AutoPathTask
+from source.task.navigation_task.record_path_task import RecordPathTask
+from source.common.path_lib import ASSETS_PATH
+
+from fastmcp import FastMCP
+import os
 
 mcp = FastMCP('whimbox_server')
 
@@ -66,6 +70,54 @@ async def navigation_task(target_item) -> dict:
         task_result = task.task_run()
         return task_result.to_dict()
 
+@mcp.tool()
+async def load_path(path_name: str) -> dict:
+    """
+    加载并测试指定的跑图路径文件
+
+    Args:
+        path_name: 路径文件名
+
+    Returns:
+        dict: 包含操作状态的字典，包含status和message字段
+    """
+    path_json_name = f'{path_name}.json'
+    if os.path.exists(os.path.join(ASSETS_PATH, "paths", path_json_name)):
+        task = AutoPathTask(path_json_name)
+        task_result = task.task_run()
+        return task_result.to_dict()
+    else:
+        return {
+            "status": "error",
+            "message": f"路径文件{path_json_name}不存在"
+        }
+
+@mcp.tool()
+async def record_path() -> dict:
+    """
+    记录跑图路线
+
+    Returns:
+        dict: 包含操作状态的字典，包含status和message字段
+    """
+    task = RecordPathTask()
+    task_result = task.task_run()
+    return task_result.to_dict()
+
+@mcp.tool()
+async def edit_path() -> dict:
+    """
+    用浏览器前往路线编辑网站，编辑指定的跑图路径文件
+    
+    Returns:
+        dict: 包含操作状态的字典，包含status和message字段
+    """
+    import webbrowser
+    webbrowser.open(f"https://nikkigallery.vip/autotools/pathcheck")
+    return {
+        "status": "success",
+        "message": f"已打开路线编辑网站，请在浏览器中编辑路径文件"
+    }
 
 def start_mcp_server():
     mcp.run(
