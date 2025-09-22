@@ -9,13 +9,20 @@ import ctypes
 
 from source.ui.template import img_manager, text_manager, posi_manager
 from source.common.timer_module import TimeoutTimer, AdvanceTimer
-from source.api.pdocr_new import ocr
 from source.common.cvars import *
 from source.common.path_lib import ROOT_PATH
 from source.common.logger import logger, get_logger_format_date
 from source.common.utils.utils import get_active_window_process_name
-from source.config.config import GlobalConfig
 from source.common.utils.img_utils import crop, similar_img
+from source.config.config import global_config
+
+ocr_type = global_config.get('General', 'ocr')
+if ocr_type == 'rapid':
+    from source.api.ocr_rapid import ocr
+elif ocr_type == 'paddle':
+    from source.api.pdocr_new import ocr
+else:
+    raise ValueError(f"ocr配置错误：{ocr_type}")
 
 def before_operation(print_log=False):
     def outwrapper(func):
@@ -106,6 +113,10 @@ class InteractionBGD:
         res = ocr.get_all_texts(cap, mode=1)
         return res
 
+    def ocr_multiple_lines(self, area: posi_manager.Area) -> list:
+        cap = self.capture(posi = area.position)
+        res = ocr.get_all_texts(cap, mode=0)
+        return res
 
     def ocr_and_detect_posi(self, area: posi_manager.Area):
         cap = self.capture(posi=area.position)
@@ -177,7 +188,7 @@ class InteractionBGD:
 
     def get_text_existence(self, textobj: text_manager.TextTemplate, ret_mode=IMG_BOOL, cap=None):
         if cap == None:
-            cap = self.capture(posi = textobj.cap_area)
+            cap = self.capture(posi = textobj.cap_area.position)
         res = ocr.get_all_texts(cap)
         is_exist = textobj.match_results(res)
         if textobj.is_print_log(is_exist):
