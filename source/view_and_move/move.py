@@ -145,7 +145,9 @@ class MoveController(AdvanceThreading):
         # 估算移动时间
         speed = self._estimate_move_speed()
         target_dist = euclidean_distance(current_posi, target_posi)
-        duration = target_dist / speed
+        # 减去magic数字，避免移动过头
+        # todo: 根据电脑性能动态计算这个magic，大致等于一次auto_path_task的inner_step循环的耗时。可能还有其他更好的预估移动时间的方式
+        duration = target_dist / speed - 0.2
         # if target_dist < offset:
         #     duration /= 2
         #     logger.debug(f"distance to target is less than offset, move slowly")
