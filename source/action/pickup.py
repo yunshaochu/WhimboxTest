@@ -12,6 +12,9 @@ class PickupTask(TaskTemplate):
         pickup_item_dict = {}
         while True:
             texts = itt.ocr_multiple_lines(TextFPickUp.cap_area)
+            # 预处理texts，去除非中文的元素
+            texts = [text for text in texts if any('\u4e00' <= char <= '\u9fff' for char in text)]
+            
             if len(texts) == 2 and texts[1] == TextFPickUp.text:
                 pickup_item = texts[0]
                 if pickup_item in pickup_item_dict:
@@ -39,5 +42,6 @@ class PickupTask(TaskTemplate):
         self.log_to_gui(f"已采集:{res}")
 
 if __name__ == "__main__":
-    pickup_task = PickupTask()
-    pickup_task.task_run()
+    while True:
+        pickup_task = PickupTask()
+        pickup_task.task_run()

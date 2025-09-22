@@ -213,5 +213,5 @@ class AutoPathTask(TaskTemplate):
 
 
 if __name__ == "__main__":
-    task = AutoPathTask("梦境仓库2.json")
+    task = AutoPathTask("example1.json")
     task.task_run()
