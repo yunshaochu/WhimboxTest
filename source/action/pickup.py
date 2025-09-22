@@ -1,6 +1,5 @@
 from source.task.task_template import TaskTemplate, register_step
 from source.interaction.interaction_core import itt
-from source.api.pdocr_new import ocr
 from source.ui.ui_assets import TextFPickUp
 from source.common.cvars import DEBUG_MODE
 
@@ -12,8 +11,7 @@ class PickupTask(TaskTemplate):
     def step1(self):
         pickup_item_dict = {}
         while True:
-            cap = itt.capture(posi=TextFPickUp.cap_area)
-            texts = ocr.get_all_texts(cap)
+            texts = itt.ocr_multiple_lines(TextFPickUp.cap_area)
             if len(texts) == 2 and texts[1] == TextFPickUp.text:
                 pickup_item = texts[0]
                 if pickup_item in pickup_item_dict:
@@ -41,13 +39,5 @@ class PickupTask(TaskTemplate):
         self.log_to_gui(f"已采集:{res}")
 
 if __name__ == "__main__":
-    import time
-    import cv2
-    while True:
-        cap = itt.capture(posi=TextFPickUp.cap_area)
-        texts = ocr.get_all_texts(cap)
-        if len(texts) != 2:
-            print(texts)
-            cv2.imshow("cap", cap)
-            cv2.waitKey(0)
-        time.sleep(0.2)
+    pickup_task = PickupTask()
+    pickup_task.task_run()

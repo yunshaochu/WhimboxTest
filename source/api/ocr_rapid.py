@@ -46,22 +46,18 @@ class RapidOcr():
             return ''.join(rec_texts)
         return rec_texts
 
-    def _show_ocr_result(self, img, result):
+    def _show_ocr_result(self, img, res):
         """独立的画框和显示逻辑"""
+        # 创建一个副本用于绘制，避免修改原图
         img_with_boxes = img.copy()
-        if result and result.boxes is not None and result.txts is not None:
-            for box, txt in zip(result.boxes, result.txts):
-                pts = box.astype(int).reshape((-1, 1, 2))
-                cv2.polylines(img_with_boxes, [pts], isClosed=True, color=(0, 255, 0), thickness=2)
-                
-                y_pos = int(box[0][1]) - 10
-                if y_pos < 10: y_pos = int(box[0][1]) + 20
-                cv2.putText(img_with_boxes, txt, (int(box[0][0]), y_pos),
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
         
+        for box in res.values():
+            # 绘制绿色边界框
+            x1, y1, x2, y2 = int(box[0]), int(box[1]), int(box[2]), int(box[3])
+            cv2.rectangle(img_with_boxes, (x1, y1), (x2, y2), (0, 255, 0), 2)  # 绿色框，线宽为2
+            
         cv2.imshow("OCR Debug", img_with_boxes)
         cv2.waitKey(0)
-        cv2.destroyWindow("OCR Debug")
 
     def detect_and_ocr(self, img, show_res=False):
         res = self.analyze(img)
@@ -69,10 +65,18 @@ class RapidOcr():
         if res and res.boxes is not None and res.txts is not None:
             for box, txt in zip(res.boxes, res.txts):
                 if len(txt) > 1:
-                    ret[self._replace_texts(txt)] = box
+                    # 简化为左上角和右下角坐标，方便后续点击
+                    x_coords = [point[0] for point in box]
+                    y_coords = [point[1] for point in box]
+                    left_top_x = min(x_coords)
+                    left_top_y = min(y_coords)
+                    right_bottom_x = max(x_coords)
+                    right_bottom_y = max(y_coords)
+                    simplified_box = [left_top_x, left_top_y, right_bottom_x, right_bottom_y]
+                    ret[self._replace_texts(txt)] = simplified_box
 
         if show_res:
-            self._show_ocr_result(img, res)
+            self._show_ocr_result(img, ret)
         return ret
 
 ocr = RapidOcr()
@@ -80,30 +84,6 @@ ocr = RapidOcr()
 # ---------------- 调用 Demo ----------------
 if __name__ == '__main__':
     from source.common.path_lib import ASSETS_PATH
-    
-    img_path = os.path.join(ASSETS_PATH, "1.jpg")
-    img = cv2.imread(img_path)
-
-    if img is None:
-        logger.error(f"Error: Could not read image from {img_path}")
-    else:
-        logger.info("--- Testing get_all_texts ---")
-        texts = ocr.get_all_texts(img, per_monitor=True)
-        logger.info(texts)
-
-        logger.info("\n--- Testing get_all_texts (mode=1) ---")
-        text_str = ocr.get_all_texts(img, mode=1)
-        logger.info(text_str)
-
-        logger.info("\n--- Testing detect_and_ocr ---")
-        text_box_map = ocr.detect_and_ocr(img)
-        logger.info(text_box_map)
-
-        logger.info("\n--- Testing detect_and_ocr with show_res=True ---")
-        logger.info("A window with the image and OCR results should appear.")
-        try:
-            ocr.detect_and_ocr(img, show_res=True)
-            logger.info("Test finished. Close the image window to continue.")
-        except Exception as e:
-            logger.error(f"An error occurred during visualization: {e}", exc_info=True)
-            logger.warning("This might be because you are running in an environment without a GUI.")
+    path = os.path.join(ASSETS_PATH, "imgs", "Windows", "BigMap", "common", "AreaBigMapRegionSelect.jpg")
+    img = cv2.imread(path)
+    print(ocr.detect_and_ocr(img, show_res=True))
