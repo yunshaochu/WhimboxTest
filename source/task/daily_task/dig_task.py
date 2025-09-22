@@ -45,7 +45,7 @@ class DigTask(TaskTemplate):
         if wait_until_appear_then_click(ButtonDigGather):
             return "step3" # 可一键收获，执行收获流程
         else:
-            dig_num_str = itt.ocr_single_line(AreaTextDigingNum)
+            dig_num_str = itt.ocr_single_line(AreaTextDigingNum, padding=30)
             try:
                 diging_num = int(dig_num_str.split("/")[0])
             except:

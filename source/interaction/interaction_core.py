@@ -13,7 +13,7 @@ from source.common.cvars import *
 from source.common.path_lib import ROOT_PATH
 from source.common.logger import logger, get_logger_format_date
 from source.common.utils.utils import get_active_window_process_name
-from source.common.utils.img_utils import crop, similar_img
+from source.common.utils.img_utils import crop, similar_img, add_padding
 from source.config.config import global_config
 
 ocr_type = global_config.get('General', 'ocr')
@@ -108,13 +108,17 @@ class InteractionBGD:
         return ret
 
 
-    def ocr_single_line(self, area: posi_manager.Area) -> str:
+    def ocr_single_line(self, area: posi_manager.Area, padding=0) -> str:
         cap = self.capture(posi = area.position)
+        if padding:
+            cap = add_padding(cap, padding)
         res = ocr.get_all_texts(cap, mode=1)
         return res
 
-    def ocr_multiple_lines(self, area: posi_manager.Area) -> list:
+    def ocr_multiple_lines(self, area: posi_manager.Area, padding=0) -> list:
         cap = self.capture(posi = area.position)
+        if padding:
+            cap = add_padding(cap, padding)
         res = ocr.get_all_texts(cap, mode=0)
         return res
 
