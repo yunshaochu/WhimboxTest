@@ -20,12 +20,6 @@ LOG_WHEN_TRUE = 1
 LOG_WHEN_FALSE = 2
 LOG_ALL = 3
 
-# map
-PROVINCE_MIRALAND = [
-    "心愿原野",
-    "星海",
-]
-
 IMG_RATE = 0
 IMG_POSI = 1
 IMG_POINT = 2

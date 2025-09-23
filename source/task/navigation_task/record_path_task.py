@@ -66,7 +66,7 @@ class RecordPathTask(TaskTemplate):
     def step1(self):
         nikki_map.reinit_smallmap()
         current_posi = nikki_map.get_position()
-        closest_teleporter = nikki_map.find_closest_teleporter(current_posi)
+        closest_teleporter = nikki_map.find_closest_teleporter(current_posi, nikki_map.map_name)
         distance = euclidean_distance(current_posi, closest_teleporter.position)
         if distance < not_teleport_offset:
             self._add_point(current_posi, POINT_TYPE_TARGET, MOVE_MODE_WALK, ACTION_TELEPORT)
@@ -109,19 +109,22 @@ class RecordPathTask(TaskTemplate):
         date_str = time.strftime("%Y%m%d%H%M%S", now)
         name = f"我的路线_{date_str}"
         json_name = f"{name}.json"
+        region_name, map_name = nikki_map.update_region_and_map_name(use_cache=True)
         path_record = PathRecord(
             info=PathInfo(
                 name=name, 
                 type="", 
                 target="",
-                region=nikki_map.get_region_name(use_cache=True)),
+                region=region_name,
+                map=map_name,
+            ),
             points=self.path_point_list
         )
         save_path = os.path.join(ASSETS_PATH, "paths")
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         save_json(path_record.model_dump(), json_name, save_path)
-        # self.log_to_gui(f"路线保存成功，路径：{os.path.join(save_path, json_name)}")
+        logger.info(f"路线保存成功，路径：{os.path.join(save_path, json_name)}")
         self.update_task_result(message=f"录制成功，路线名：{name}")
 
 

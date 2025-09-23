@@ -65,7 +65,7 @@ class MiniMap:
         search_area = area_offset((0, 0, *search_size), offset=(-search_size // 2).astype(np.int64))
         search_area = area_offset(search_area, offset=np.multiply(search_position, POSITION_SEARCH_SCALE))
         search_area = np.array(search_area).astype(np.int64)
-        search_image = crop(MiraLandMap.img, search_area)
+        search_image = crop(MAP_ASSETS_DICT[self.map_name]['luma_05x'].img, search_area)
         if CV_DEBUG_MODE:
             show_search_image = search_image.copy()
             # 在show_search_image中心画一个半径为2px的方块
@@ -111,7 +111,7 @@ class MiniMap:
         image = self._get_minimap(origin_image, MINIMAP_POSITION_RADIUS)
         image = rgb2luma(image)
 
-        best_sim, best_local_sim, best_loca = self._predict_position(image, MINIMAP_POSITION_SCALE)
+        best_sim, best_local_sim, best_loca = self._predict_position(image, MINIMAP_POSITION_SCALE_DICT[self.map_name])
 
         if self.verify_position(tuple(np.round(best_loca, 1))):
             self.position_similarity = round(best_sim, 5)
@@ -215,7 +215,7 @@ class MiniMap:
             self.update_position(image)
 
         # Get current minimap
-        scale = MINIMAP_POSITION_SCALE * POSITION_SEARCH_SCALE
+        scale = MINIMAP_POSITION_SCALE_DICT[self.map_name] * POSITION_SEARCH_SCALE
         minimap = self._get_minimap(image, radius=MINIMAP_RADIUS)
         minimap = rgb2luma(minimap)
 
@@ -227,7 +227,7 @@ class MiniMap:
         area = np.array(area).astype(int)
 
         # Crop pngmap around current position and resize to current minimap
-        image = crop(MiraLandMap.img, area)
+        image = crop(MAP_ASSETS_DICT[self.map_name]['luma_05x'].img, area)
         image = cv2.resize(image, None, fx=1 / scale, fy=1 / scale, interpolation=cv2.INTER_LINEAR)
         # if CV_DEBUG_MODE:
         #     cv2.imshow('minimap', minimap)
@@ -380,15 +380,13 @@ if __name__ == '__main__':
     """
     import time
     minimap = MiniMap()
+    # minimap.map_name = MAP_NAME_MIRALAND
     # minimap.init_position((2800*2, 3920*2)) # 疯愿之子营地
     # minimap.init_position((3213*2, 2203*2)) # 花愿镇，搭配师协会
     # minimap.init_position((5650.7, 4531.5)) # 蓝龙
-    minimap.init_position((6552.7, 3906.7))
-    # while True:
-    #     img = minimap._get_minimap(itt.capture(), minimap.MINIMAP_RADIUS)
-    #     cv2.imshow('123', img)
-    #     cv2.waitKey(1)
-    #     time.sleep(0.1)
+    minimap.map_name = MAP_NAME_STARSEA
+    # minimap.init_position((3087.6,2260.0)) # 海滩
+    minimap.init_position((2030.8, 1394.4)) # 晶簇之谷
 
     # 定位测试
     if False:

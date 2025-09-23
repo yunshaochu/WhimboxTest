@@ -7,6 +7,7 @@ from source.interaction.interaction_core import itt
 from source.map.data.nikki_teleporter import DICT_TELEPORTER
 from source.map.detection.bigmap import BigMap
 from source.map.detection.minimap import MiniMap
+from source.map.detection.utils import trans_region_name_to_map_name
 from source.map.convert import *
 from source.common.logger import logger
 from source.common.utils.posi_utils import *
@@ -38,6 +39,7 @@ class Map(MiniMap, BigMap):
         self.last_valid_position = [0, 0]
         self.history_position_list = []
         self.region_name = None
+        self.map_name = None
         
 
     def _upd_smallmap(self) -> None:
@@ -99,17 +101,18 @@ class Map(MiniMap, BigMap):
         return list(r_posi)
 
 
-    def get_region_name(self, use_cache=False) -> str:
-        if use_cache and self.region_name is not None:
-            return self.region_name
+    def update_region_and_map_name(self, use_cache=False) -> str:
+        if use_cache and self.region_name is not None and self.map_name is not None:
+            return self.region_name, self.map_name
         else:
-            self.region_name= itt.ocr_single_line(AreaBigMapRegionName)
-            return self.region_name
+            self.region_name= itt.ocr_single_line(AreaBigMapRegionName, padding=30)
+            self.map_name = trans_region_name_to_map_name(self.region_name)
+            return self.region_name, self.map_name
 
 
     def reinit_smallmap(self) -> None:
         ui_control.ui_goto(page_bigmap)
-        self.get_region_name()
+        self.update_region_and_map_name()
         posi = self.get_bigmap_posi()
         logger.info(f"init_position:{posi}")
         self.init_position(tuple(map(int, list(posi))))
@@ -235,12 +238,12 @@ class Map(MiniMap, BigMap):
         after_move_posi = self.get_bigmap_posi()
         if not force_center:
             if euclidean_distance(
-                convert_MiralandMAP_to_InGameMapPx(after_move_posi), 
-                convert_MiralandMAP_to_InGameMapPx(target_posi)
+                convert_PngMapPx_to_InGameMapPx(after_move_posi, self.map_name), 
+                convert_PngMapPx_to_InGameMapPx(target_posi, self.map_name)
                 ) <= self.TP_RANGE:
                 return list(
-                    convert_MiralandMAP_to_InGameMapPx(target_posi)
-                    - convert_MiralandMAP_to_InGameMapPx(after_move_posi)
+                    convert_PngMapPx_to_InGameMapPx(target_posi, self.map_name)
+                    - convert_PngMapPx_to_InGameMapPx(after_move_posi, self.map_name)
                     + np.array([screen_center_x, screen_center_y]))
 
         if euclidean_distance(after_move_posi, target_posi) <= self.BIGMAP_TP_OFFSET:
@@ -251,7 +254,7 @@ class Map(MiniMap, BigMap):
             else:
                 return self._move_bigmap(target_posi=target_posi)
 
-    def find_closest_teleporter(self, posi: list):
+    def find_closest_teleporter(self, posi: list, map_name: str):
         """
         return closest teleporter position: 
         
@@ -260,13 +263,13 @@ class Map(MiniMap, BigMap):
         """
         min_dist = 99999
         min_teleporter = None
-        for i in DICT_TELEPORTER:
-            if DICT_TELEPORTER[i].province in PROVINCE_MIRALAND:
-                i_posi = DICT_TELEPORTER[i].position
-                i_dist = euclidean_distance(posi, i_posi)
-                if i_dist < min_dist:
-                    min_teleporter = DICT_TELEPORTER[i]
-                    min_dist = i_dist
+        for checkpoint in DICT_TELEPORTER[map_name]:
+            if checkpoint.province in PROVINCE_NAMES:
+                cp_posi = checkpoint.position
+                dist = euclidean_distance(posi, cp_posi)
+                if dist < min_dist:
+                    min_teleporter = checkpoint
+                    min_dist = dist
         return min_teleporter
 
     def _switch_to_area(self, tp_province, tp_region):
@@ -279,7 +282,7 @@ class Map(MiniMap, BigMap):
             itt.move_and_click(center)
 
         # 判断当前区域是否是目标区域
-        current_region = self.get_region_name()
+        current_region, _ = self.update_region_and_map_name()
         if current_region != tp_region:
             # 不是目标区域，就进行区域选择
             itt.move_and_click(AreaBigMapRegionName.center_position())
@@ -288,6 +291,8 @@ class Map(MiniMap, BigMap):
             if tp_province == "星海":
                 box = text_box_dict["星海"]
                 click_box(box, AreaBigMapRegionSelect)
+                itt.wait_until_stable()
+                self.update_region_and_map_name()
                 return True
             elif tp_province == "心愿原野":
                 # 如果识别出“纪念山地”，说明心愿原野下拉框已展开
@@ -300,7 +305,8 @@ class Map(MiniMap, BigMap):
                     text_box_dict = itt.ocr_and_detect_posi(AreaBigMapRegionSelect)
                     if tp_region in text_box_dict:
                         click_box(text_box_dict[tp_region], AreaBigMapRegionSelect)
-                        time.sleep(0.5)
+                        itt.wait_until_stable()
+                        self.update_region_and_map_name()
                         return True
                     itt.move_to(AreaBigMapRegionSelect.center_position())
                     itt.middle_scroll(-15)
@@ -310,7 +316,7 @@ class Map(MiniMap, BigMap):
         else:
             return True
 
-    def bigmap_tp(self, posi: list, csf=lambda: False) -> t.Tuple[float, float]:
+    def bigmap_tp(self, posi: list, map_name: str, csf=lambda: False) -> t.Tuple[float, float]:
         """传送到指定坐标。
 
         Args:
@@ -322,7 +328,7 @@ class Map(MiniMap, BigMap):
         """
         logger.debug(f'bigmap tp to: {posi}')
         ui_control.ensure_page(page_bigmap)
-        target_teleporter = self.find_closest_teleporter(posi)
+        target_teleporter = self.find_closest_teleporter(posi, map_name)
         tp_posi = target_teleporter.position
         tp_province = target_teleporter.province
         tp_region = target_teleporter.region
@@ -368,9 +374,13 @@ if __name__ == '__main__':
     # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([-39458.51171875, 7906.2314453125]))
     # 传送到心愿圣殿
     # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([137436.1875, -130633.34375]))
-    nikki_map.bigmap_tp([8582.2,3637.7])
+    # nikki_map.bigmap_tp([8582.2,3637.7])
     # 传送到女王行宫遗迹前庭
-    # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([57470.0390625, 91131.6953125]))
+    nikki_map.bigmap_tp(convert_GameLoc_to_PngMapPx([57470.0390625, 91131.6953125], MAP_NAME_MIRALAND))
+    # 传送到星海无界枢纽
+    # nikki_map.bigmap_tp([1696, 2029], MAP_NAME_STARSEA)
+    # 传送到星海海滩
+    # nikki_map.bigmap_tp([3341, 2352], MAP_NAME_STARSEA)
 
     # res = itt.ocr_and_detect_posi(AreaBigMapRegionSelect)
     # print(res)

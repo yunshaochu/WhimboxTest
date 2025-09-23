@@ -26,17 +26,17 @@ class BigMap:
 
         Returns: (new)png position
         """
-        scale = BIGMAP_POSITION_SCALE * BIGMAP_SEARCH_SCALE
+        scale = BIGMAP_POSITION_SCALE_DICT[self.map_name] * BIGMAP_SEARCH_SCALE
         image = rgb2luma(image)
         center = np.array(image_size(image)) / 2 * scale
         image = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
 
-        result = cv2.matchTemplate(MiralandBigMap.img, image, cv2.TM_CCOEFF_NORMED)
+        result = cv2.matchTemplate(MAP_ASSETS_DICT[self.map_name]["luma_0125x"].img, image, cv2.TM_CCOEFF_NORMED)
         _, sim, _, loca = cv2.minMaxLoc(result)
 
         # Gaussian filter to get local maximum
         local_maximum = cv2.subtract(result, cv2.GaussianBlur(result, (9, 9), 0))
-        mask = image_center_crop(MiralandBigMapMask.img, size=image_size(local_maximum))
+        mask = image_center_crop(MAP_ASSETS_DICT[self.map_name]["mask_0125x"].img, size=image_size(local_maximum))
         local_maximum = cv2.copyTo(local_maximum, mask)
         _, local_sim, _, loca = cv2.minMaxLoc(local_maximum)
 
@@ -53,7 +53,7 @@ class BigMap:
         if CV_DEBUG_MODE:
             cv2.imshow("image",image)
             loca = loca + precise_loca + center
-            close_area = crop(MiralandBigMap.img, [loca[0]-200,loca[1]-200,loca[0]+200,loca[1]+200])
+            close_area = crop(MAP_ASSETS_DICT[self.map_name]["luma_0125x"].img, [loca[0]-200,loca[1]-200,loca[0]+200,loca[1]+200])
             center = (close_area.shape[1] // 2, close_area.shape[0] // 2)
             cv2.circle(close_area, center, 5, (0, 0, 255), 2)
             cv2.imshow("bigmap_nearby", close_area)
@@ -81,6 +81,7 @@ class BigMap:
 
 if __name__ == '__main__':
     bm = BigMap()
+    bm.map_name = MAP_NAME_STARSEA
     from source.interaction.interaction_core import itt
     import time
 

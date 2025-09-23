@@ -22,6 +22,11 @@ DEFAULT_CONFIG = {
             'type': bool,
             'description': '游戏是否为无边框窗口'
         },
+        'ocr': {
+            'value': 'rapid',
+            'type': str,
+            'description': 'OCR引擎，可选：rapid、paddle'
+        }
     },
     'Agent': {
         'model':{

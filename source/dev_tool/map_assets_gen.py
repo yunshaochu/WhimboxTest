@@ -59,11 +59,13 @@ def gen_ArrowRotateMapAll(arrow: MapAsset, arrows_map):
 
 
 if __name__ == '__main__':
-    MiralandMapOrg = MapAsset('w01_v8')
-    gen_luma_05x_0125x_map(MiralandMapOrg)
+    # MiralandMapOrg = MapAsset('w01_v8')
+    # gen_luma_05x_0125x_map(MiralandMapOrg)
 
-    ARROW = MapAsset('ARROW')
-    arrows_map = gen_arrows_map(ARROW)
-    gen_ArrowRotateMap(ARROW, arrows_map)
-    gen_ArrowRotateMapAll(ARROW, arrows_map)
+    # ARROW = MapAsset('ARROW')
+    # arrows_map = gen_arrows_map(ARROW)
+    # gen_ArrowRotateMap(ARROW, arrows_map)
+    # gen_ArrowRotateMapAll(ARROW, arrows_map)
 
+    StartSeaMapOrg = MapAsset('w14000000_v2')
+    gen_luma_05x_0125x_map(StartSeaMapOrg)

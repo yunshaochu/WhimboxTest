@@ -1,0 +1,2239 @@
+{
+    "miraland": [
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "祝余测试",
+            "position": [
+                6823.1,
+                6057.2
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "复活传送测试1",
+            "position": [
+                6756.9,
+                5579.2
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "晓晨测试",
+            "position": [
+                7724.3,
+                3287.5
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "测试地图",
+            "position": [
+                6721.8,
+                5640.2
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "关卡记录测试",
+            "position": [
+                6700.8,
+                5638.9
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "溶洞入口",
+            "position": [
+                6353.6,
+                4083.6
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "暖阳花谷",
+            "position": [
+                7362.4,
+                4329.8
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "溶洞深处",
+            "position": [
+                7178.2,
+                3800.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨树浅滩前沿",
+            "position": [
+                9319.9,
+                2961.4
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "boss测试",
+            "position": [
+                6794.0,
+                5587.0
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "搭配师协会纪念旧址旁",
+            "position": [
+                5578.8,
+                4191.4
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "古花愿镇纪念公园雕像旁",
+            "position": [
+                5655.1,
+                4514.0
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "回廊转角",
+            "position": [
+                7217.7,
+                6043.6
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "Hujiang测试3",
+            "position": [
+                6941.6,
+                5573.0
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "Hujiang测试4",
+            "position": [
+                6933.9,
+                5555.3
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "Hujiang测试5",
+            "position": [
+                6935.0,
+                5585.3
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "山地小径",
+            "position": [
+                5607.3,
+                4507.3
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "Hujiang测试1",
+            "position": [
+                6938.9,
+                5578.7
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "Hujiang测试2",
+            "position": [
+                6937.9,
+                5596.7
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "办公室",
+            "position": [
+                6996.9,
+                5103.6
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "西枝牌NPC罐头",
+            "position": [
+                6734.6,
+                5583.4
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图1",
+            "position": [
+                7761.5,
+                5191.9
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图2",
+            "position": [
+                7767.9,
+                5058.2
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图3",
+            "position": [
+                7978.1,
+                5057.9
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图4",
+            "position": [
+                7957.0,
+                4795.1
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图5",
+            "position": [
+                8218.7,
+                4820.6
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图6",
+            "position": [
+                8403.4,
+                4863.5
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "yantian测试地图7",
+            "position": [
+                8340.3,
+                5163.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "曙光山地悬崖",
+            "position": [
+                9702.5,
+                3960.2
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "大丸子测试地图1",
+            "position": [
+                6638.2,
+                5669.7
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "水道之始",
+            "position": [
+                6476.4,
+                4991.8
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "水道尽头",
+            "position": [
+                5941.1,
+                4972.4
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "曲曲水道",
+            "position": [
+                6315.3,
+                5239.9
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "异步节点测试场景",
+            "position": [
+                6716.7,
+                6517.0
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "阿贤测试关卡",
+            "position": [
+                6724.2,
+                5786.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "芳香萃取室",
+            "position": [
+                6761.3,
+                5525.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "美妆流水线",
+            "position": [
+                6841.9,
+                5507.0
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "卸妆制作间",
+            "position": [
+                7010.8,
+                5720.4
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "通用交互物测试关卡_隐形检查点",
+            "position": [
+                6811.3,
+                5542.6
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "通用交互物测试关卡_流转之柱",
+            "position": [
+                6766.9,
+                5542.6
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "通用交互物测试关卡_记录灯盏",
+            "position": [
+                6811.3,
+                5587.0
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "AutoTestDlg",
+            "position": [
+                6574.7,
+                5565.0
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "new island7",
+            "position": [
+                7379.7,
+                6404.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "剑材前庭",
+            "position": [
+                6692.5,
+                5659.0
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "河畔山地林间道",
+            "position": [
+                7116.8,
+                7060.7
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "接待室后窗",
+            "position": [
+                7433.8,
+                5663.2
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "断裂回廊",
+            "position": [
+                7439.3,
+                5896.9
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "最初的仓库",
+            "position": [
+                6328.4,
+                6014.6
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "new island_1stcheck",
+            "position": [
+                7802.1,
+                6958.4
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "mountain_west",
+            "position": [
+                7269.5,
+                6811.8
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "mountain_east",
+            "position": [
+                8064.7,
+                6393.3
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "moutain_dungeon",
+            "position": [
+                7260.3,
+                6569.3
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "mountain_top",
+            "position": [
+                7379.7,
+                6404.7
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "newisland_home",
+            "position": [
+                7843.2,
+                7023.5
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "测试用点1",
+            "position": [
+                6694.7,
+                5781.0
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "废弃疯愿之子营地",
+            "position": [
+                5598.7,
+                7830.4
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "废弃疯愿之子营地前哨站",
+            "position": [
+                6094.4,
+                7353.6
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "绿野货运码头",
+            "position": [
+                6759.9,
+                6211.7
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "遗迹山坡",
+            "position": [
+                6085.2,
+                6696.1
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "昆测试地图_Monster",
+            "position": [
+                6762.5,
+                5678.6
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "转角之后",
+            "position": [
+                7213.5,
+                6040.8
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "纸鹤仓库",
+            "position": [
+                6570.3,
+                6050.2
+            ]
+        },
+        {
+            "region": "密林安全区",
+            "province": "巨木之森",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "斗兽场中心",
+            "position": [
+                6722.1,
+                5596.5
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "家园",
+            "position": [
+                12021.0,
+                3763.4
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "采集物测试2",
+            "position": [
+                6376.5,
+                5983.0
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "采集物测试1",
+            "position": [
+                10294.8,
+                8818.0
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "大世界测试1",
+            "position": [
+                6716.1,
+                5573.5
+            ]
+        },
+        {
+            "region": "null",
+            "province": "null",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "室内测试1",
+            "position": [
+                6706.7,
+                5599.0
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "变大关卡测试复活点",
+            "position": [
+                6304.2,
+                6011.5
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "缇米丝美妆工坊",
+            "position": [
+                8952.9,
+                2373.4
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "绿野交互物测试关卡流转之柱",
+            "position": [
+                8263.6,
+                5584.8
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "绿野交互物测试关卡记录灯盏",
+            "position": [
+                8263.8,
+                5560.1
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "绿野交互物测试关卡隐形检查点",
+            "position": [
+                8263.4,
+                5528.1
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "苦修派营地",
+            "position": [
+                9959.9,
+                3298.7
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "运输通道",
+            "position": [
+                6746.8,
+                6162.2
+            ]
+        },
+        {
+            "region": "密林安全区",
+            "province": "巨木之森",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "斗兽场回廊",
+            "position": [
+                6545.7,
+                5584.9
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "珍酿仓库",
+            "position": [
+                7008.4,
+                5498.2
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨兽单元测试关卡",
+            "position": [
+                6644.0,
+                5924.7
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "AIFT测试-花愿镇",
+            "position": [
+                6465.3,
+                4376.6
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "小石树田村入口",
+            "position": [
+                5251.0,
+                6187.4
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "村居岔路",
+            "position": [
+                4677.3,
+                5612.9
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "紫穗草花田",
+            "position": [
+                4583.3,
+                5290.4
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "落石谷",
+            "position": [
+                3860.7,
+                4903.6
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "斯切尔托老宅",
+            "position": [
+                4042.9,
+                5295.7
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "染织工坊旁石树",
+            "position": [
+                4127.0,
+                4988.4
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "滑翔训练石树",
+            "position": [
+                4293.9,
+                5333.1
+            ]
+        },
+        {
+            "region": "小石树田村",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "火冠石树",
+            "position": [
+                4799.4,
+                5429.9
+            ]
+        },
+        {
+            "region": "",
+            "province": "",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "昆测试地图1",
+            "position": [
+                6610.1,
+                5474.5
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "古铸剑遗址大门",
+            "position": [
+                9475.9,
+                3608.5
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "古铸剑遗址入口",
+            "position": [
+                9592.6,
+                2920.5
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "守卫遗址",
+            "position": [
+                9597.0,
+                3722.5
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "幽林山洞",
+            "position": [
+                9827.9,
+                4037.5
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "工坊水车",
+            "position": [
+                9084.1,
+                2075.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "种植园入口",
+            "position": [
+                9331.1,
+                2154.9
+            ]
+        },
+        {
+            "region": "孤岛区",
+            "province": "家园地图1",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "孤岛区",
+            "position": [
+                5664.0,
+                5596.6
+            ]
+        },
+        {
+            "region": "花海区",
+            "province": "家园地图1",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "花海区",
+            "position": [
+                5725.4,
+                4920.4
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "怪味愿望山坡",
+            "position": [
+                9788.2,
+                2157.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "绝望球仓库",
+            "position": [
+                10161.2,
+                2278.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "浅滩山坡",
+            "position": [
+                9284.4,
+                2671.3
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "熔炼高塔",
+            "position": [
+                6732.7,
+                5929.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "藏剑之殿",
+            "position": [
+                6737.0,
+                6011.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "曙光长廊",
+            "position": [
+                6677.9,
+                5865.5
+            ]
+        },
+        {
+            "region": "蜗牛城",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "藏宝室",
+            "position": [
+                6720.0,
+                5700.5
+            ]
+        },
+        {
+            "region": "蜗牛城",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "宝库顶层",
+            "position": [
+                6686.0,
+                5606.6
+            ]
+        },
+        {
+            "region": "蜗牛城",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "宝库底部",
+            "position": [
+                6705.0,
+                5612.3
+            ]
+        },
+        {
+            "region": "蜗牛城",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "宝库中层",
+            "position": [
+                6724.8,
+                5589.6
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "麦田旁",
+            "position": [
+                3417.3,
+                4891.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "欢乐市集入口",
+            "position": [
+                2651.4,
+                4179.3
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "帅小子马戏团",
+            "position": [
+                2489.0,
+                3921.8
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "涟漪之窖旁",
+            "position": [
+                2574.4,
+                5099.1
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "木桶小居",
+            "position": [
+                2308.4,
+                5096.3
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "呜呜车站旧月台",
+            "position": [
+                3237.3,
+                3610.4
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "呜呜车站石树顶",
+            "position": [
+                3434.7,
+                3454.6
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "星空钓场旁（小道）",
+            "position": [
+                1556.4,
+                3223.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "星空钓场顶端",
+            "position": [
+                1545.4,
+                2857.1
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "乘风磨坊入口",
+            "position": [
+                1435.0,
+                4419.9
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "乘风磨坊顶端",
+            "position": [
+                1284.1,
+                4361.0
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "丰饶古村村口",
+            "position": [
+                4209.2,
+                2751.5
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "遗忘者村居",
+            "position": [
+                4242.6,
+                2268.1
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "志愿兵团哨塔",
+            "position": [
+                2739.8,
+                2521.0
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "大许愿池",
+            "position": [
+                2932.2,
+                2544.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "麦浪农场旧码头",
+            "position": [
+                3081.7,
+                5009.0
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "石之冠顶端",
+            "position": [
+                2874.5,
+                2305.6
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "呜呜车站修理站",
+            "position": [
+                3383.5,
+                3728.8
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "木桶荫地",
+            "position": [
+                2359.6,
+                5128.3
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "石碑地",
+            "position": [
+                4434.2,
+                2384.1
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "麦浪农场石树顶",
+            "position": [
+                3406.5,
+                4797.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "欢乐市集登顶道",
+            "position": [
+                2467.9,
+                4057.0
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "石之冠入口",
+            "position": [
+                2964.3,
+                2590.1
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "幽灵列车入口",
+            "position": [
+                3544.7,
+                3528.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "呜呜车站集装中心",
+            "position": [
+                3410.6,
+                3648.7
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "志愿兵团监狱",
+            "position": [
+                2783.4,
+                2272.7
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "乘风磨坊中层",
+            "position": [
+                1314.7,
+                4259.8
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "咚咚窝瓜工坊",
+            "position": [
+                2370.3,
+                2272.0
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "水龙卷观测站",
+            "position": [
+                3294.5,
+                2505.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "心愿通行许可处",
+            "position": [
+                8250.9,
+                4757.6
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "洞察圣堂前",
+            "position": [
+                7770.4,
+                4760.7
+            ]
+        },
+        {
+            "region": "蜗牛城",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "外部矛顶",
+            "position": [
+                22959.8,
+                -1629.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "通风甬道",
+            "position": [
+                6634.8,
+                5761.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨树浅滩",
+            "position": [
+                9600.7,
+                2537.2
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "近卫队驻地",
+            "position": [
+                9865.8,
+                2718.6
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨树居民区",
+            "position": [
+                9817.3,
+                2656.9
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "心愿圣殿",
+            "position": [
+                9771.8,
+                2684.3
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "愿望质检中心前",
+            "position": [
+                8822.6,
+                3177.2
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "心愿研发所",
+            "position": [
+                8848.9,
+                2896.2
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "古木河畔",
+            "position": [
+                8572.0,
+                3634.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "花谷瀑布",
+            "position": [
+                10231.4,
+                2869.8
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "金蔷薇花谷",
+            "position": [
+                10521.8,
+                3389.7
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "心愿庆典管理处",
+            "position": [
+                10521.0,
+                2889.2
+            ]
+        },
+        {
+            "region": "祈愿树林",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "星没之地",
+            "position": [
+                10730.1,
+                3659.1
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "悠悠垂钓协会花愿镇分部",
+            "position": [
+                6455.5,
+                4908.7
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "西西亚艺术学院采风基地",
+            "position": [
+                5842.1,
+                5048.2
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "绿野活动支援中心",
+            "position": [
+                5841.2,
+                5762.7
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "捕虫小屋",
+            "position": [
+                6186.8,
+                5437.9
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "列车月台",
+            "position": [
+                7293.1,
+                5677.0
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "载客车厢",
+            "position": [
+                8315.7,
+                5553.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "集装货厢",
+            "position": [
+                7949.9,
+                5553.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "重载板车",
+            "position": [
+                7475.0,
+                5553.2
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "轻载板车",
+            "position": [
+                7073.2,
+                5553.7
+            ]
+        },
+        {
+            "region": "石树田无人区",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "列车控制室",
+            "position": [
+                8625.9,
+                5553.6
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "滋啦啦服务社",
+            "position": [
+                1696.3,
+                18698.6
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "聆风高地山麓",
+            "position": [
+                1181.9,
+                18592.4
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "花焰瞭望角",
+            "position": [
+                1226.6,
+                18210.5
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "聆风高地山腰",
+            "position": [
+                1171.2,
+                18371.5
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "幽暗洞窟前",
+            "position": [
+                1578.3,
+                17931.3
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "月角浅滩",
+            "position": [
+                1972.4,
+                18202.3
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "造型热气球群中部",
+            "position": [
+                1721.4,
+                18658.2
+            ]
+        },
+        {
+            "region": "花焰群岛",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "造型热气球群顶端",
+            "position": [
+                1658.6,
+                18303.5
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "行宫旧苑",
+            "position": [
+                3416.0,
+                5546.6
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "菲洛米亚女王行宫遗迹高塔",
+            "position": [
+                7905.1,
+                7784.7
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "菲洛米亚女王行宫遗迹前庭",
+            "position": [
+                7995.0,
+                7611.9
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "筑心王国边境哨所",
+            "position": [
+                7464.8,
+                8409.3
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "菲洛米亚女王行宫遗迹前",
+            "position": [
+                7619.0,
+                7081.7
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "菲洛米亚女王行宫遗迹西侧树林",
+            "position": [
+                7254.3,
+                7444.6
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "菲洛米亚女王行宫遗迹地下入口",
+            "position": [
+                7690.8,
+                7576.7
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "玩偶陈列馆",
+            "position": [
+                2983.7,
+                5567.0
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "遗迹地宫出口",
+            "position": [
+                3057.4,
+                5545.2
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "壁画小屋",
+            "position": [
+                7399.1,
+                4231.6
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨蛇遗迹",
+            "position": [
+                8058.1,
+                5832.7
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "破碎长廊",
+            "position": [
+                3826.6,
+                5554.9
+            ]
+        },
+        {
+            "region": "密林安全区",
+            "province": "巨木之森",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "斗兽场地下一层",
+            "position": [
+                6799.1,
+                5421.7
+            ]
+        },
+        {
+            "region": "密林安全区",
+            "province": "巨木之森",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨人储藏室",
+            "position": [
+                6801.5,
+                5846.1
+            ]
+        },
+        {
+            "region": "密林安全区",
+            "province": "巨木之森",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "斗兽场电梯井",
+            "position": [
+                6630.8,
+                5516.2
+            ]
+        },
+        {
+            "region": "巨木之森",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "蘑菇洞底部",
+            "position": [
+                6858.7,
+                5648.0
+            ]
+        },
+        {
+            "region": "巨木之森",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "蘑菇洞上部",
+            "position": [
+                7454.2,
+                5785.8
+            ]
+        },
+        {
+            "region": "巨木之森",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "蘑菇洞深处",
+            "position": [
+                7525.7,
+                5571.1
+            ]
+        },
+        {
+            "region": "巨木之森",
+            "province": "信念森林",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "蘑菇洞核心",
+            "position": [
+                7024.3,
+                5333.4
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "溶洞中部",
+            "position": [
+                6680.5,
+                4023.1
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "巨蛇遗迹",
+            "position": [
+                4731.1,
+                7932.1
+            ]
+        },
+        {
+            "region": "微风绿野",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "悬壁栈道",
+            "position": [
+                7400.7,
+                3997.8
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "搭配师协会前",
+            "position": [
+                6425.3,
+                4381.0
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "愿望梦境仓库旋廊",
+            "position": [
+                6418.9,
+                3996.8
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "愿望梦境仓库天台",
+            "position": [
+                6543.2,
+                3856.9
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "心愿花街",
+            "position": [
+                6420.8,
+                4659.8
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "织裙街",
+            "position": [
+                7356.4,
+                4593.9
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "福鸣之井",
+            "position": [
+                7002.2,
+                3875.3
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "秘密基地",
+            "position": [
+                6781.0,
+                3911.2
+            ]
+        },
+        {
+            "region": "花愿镇",
+            "province": "心愿原野",
+            "map": "miraland",
+            "type": "teleporter",
+            "name": "镇长宅邸前",
+            "position": [
+                6988.2,
+                4436.9
+            ]
+        }
+    ],
+    "starsea": [
+        {
+            "region": "星海",
+            "province": "星海",
+            "map": "starsea",
+            "type": "teleporter",
+            "name": "无界枢纽",
+            "position": [
+                1691.6,
+                2014.4
+            ]
+        },
+        {
+            "region": "星海",
+            "province": "星海",
+            "map": "starsea",
+            "type": "teleporter",
+            "name": "晶簇之谷",
+            "position": [
+                2030.8,
+                1394.4
+            ]
+        },
+        {
+            "region": "星海",
+            "province": "星海",
+            "map": "starsea",
+            "type": "teleporter",
+            "name": "繁星之滨",
+            "position": [
+                2629.6,
+                1460.8
+            ]
+        },
+        {
+            "region": "星海",
+            "province": "星海",
+            "map": "starsea",
+            "type": "teleporter",
+            "name": "星梦群屿·主岛",
+            "position": [
+                2863.6,
+                1982.0 
+            ]
+        },
+        {
+            "region": "星海",
+            "province": "星海",
+            "map": "starsea",
+            "type": "teleporter",
+            "name": "星梦群屿·海滩",
+            "position": [
+                3087.6,
+                2260.0
+            ]
+        }
+    ]
+}

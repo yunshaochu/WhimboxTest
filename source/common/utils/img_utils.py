@@ -465,3 +465,6 @@ def png2jpg(png, bgcolor='black', channel='bg', alpha_num=50):
     jpg[:, :, 1][over_item_list] = bgcol
     jpg[:, :, 2][over_item_list] = bgcol
     return jpg
+
+def add_padding(image, padding):
+    return cv2.copyMakeBorder(image, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=(0, 0, 0))

@@ -37,11 +37,30 @@ RotationRemapTable = create_rotation_remap_table()
 ArrowRotateMap = MapAsset("ArrowRotateMap")
 ArrowRotateMapAll = MapAsset("ArrowRotateMapAll")
 
+
 # 奇迹大陆地图，用于小地图位置匹配
 MiraLandMap = MapAsset("w01_v8_luma_05x")
 # 奇迹大陆地图，用于大地图匹配
-MiralandBigMap = MapAsset("w01_v8_luma_0125x")
+MiraLandBigMap = MapAsset("w01_v8_luma_0125x")
 # 奇迹大陆地图，可匹配位置遮罩
-MiralandBigMapMask = MapAsset("w01_v8_mask_0125x")
+MiraLandBigMapMask = MapAsset("w01_v8_mask_0125x")
 
+# 星海地图，用于小地图位置匹配
+StarSeaMap = MapAsset("w14000000_v2_luma_05x")
+# 星海地图，用于大地图匹配
+StarSeaBigMap = MapAsset("w14000000_v2_luma_0125x")
+# 星海地图，可匹配位置遮罩
+StarSeaBigMapMask = MapAsset("w14000000_v2_mask_0125x")
 
+MAP_ASSETS_DICT = {
+    MAP_NAME_MIRALAND: {
+        "luma_05x": MiraLandMap,
+        "luma_0125x": MiraLandBigMap,
+        "mask_0125x": MiraLandBigMapMask
+    },
+    MAP_NAME_STARSEA: {
+        "luma_05x": StarSeaMap,
+        "luma_0125x": StarSeaBigMap,
+        "mask_0125x": StarSeaBigMapMask
+    }
+}

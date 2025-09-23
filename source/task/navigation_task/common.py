@@ -15,7 +15,8 @@ class PathInfo(BaseModel):
     name: str   # 路径名，也是导出的json文件名
     type: Optional[str] = None   # 类型：采集、捕虫、清洁、战斗、综合
     target: Optional[str] = None # 目标：素材名
-    region: str
+    region: Optional[str] = None
+    map: Optional[str] = None
 
 class PathPoint(BaseModel):
     id: int
