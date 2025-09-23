@@ -53,11 +53,9 @@ def save_json(x, json_name, default_path, sort_keys=True):
 def is_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
+    except Exception as e:
+        logger.error(f"检查管理员权限失败: {e}")
         return False
-if not is_admin():
-    logger.error("请用管理员权限运行")
-# verify administration over
 
 
 def get_active_window_process_name():

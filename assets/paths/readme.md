@@ -1,3 +1,5 @@
+## 视频介绍
+[大致流程](https://www.bilibili.com/video/BV1zcWGzCESR)
 ## 如何录制跑图路线
 1. 打开游戏，传送到流转之柱附近（路线的起点必须是流转之柱附近）
 2. 运行`source\task\navigation_task\record_path_task.py`，等待出现“自动记录路线中……”的日志后，就可以开始跑图了，程序会自动记录你的路线

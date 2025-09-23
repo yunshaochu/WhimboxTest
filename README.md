@@ -5,11 +5,16 @@ Whimbox，一个基于大语言模型和图像识别技术的游戏AI智能体�
 
 ## 运行
 ⚠️目前项目仍在开发阶段，只建议有python开发能力的用户使用。
-1. 安装依赖(python3.12)
-```
-python -m pip install paddlepaddle-gpu==3.2.0 -i https://www.paddlepaddle.org.cn/packages/stable/cu126/
+1. 安装依赖（需要python3.12）
+* 开发者建议手动安装依赖
+```shell
 pip install -r requirements.txt
+# 安装paddleocr运行环境（可选，目前默认使用rapidocr，也可以不装）
+python -m pip install paddlepaddle-gpu==3.2.0 -i https://www.paddlepaddle.org.cn/packages/stable/cu126/
 ```
+* 其他用户可运行自动安装脚本`setup_env.bat`
+
+
 2. 创建配置文件
 ```
 将config目录下的config_example.ini重命名为config.ini
@@ -20,11 +25,11 @@ pip install -r requirements.txt
 将config目录下的prompt_example.txt重命名为prompt.txt
 按自己喜好添加提示词，也可以不修改
 ```
-4. 打开游戏，将游戏设置为窗口模式，分辨率1920*1080，并用管理员权限运行Whimbox：
-```
-python whimbox.py
-```
-5. 程序启动后，可以在游戏界面的右侧看到📦图标，按`/`打开对话框，按`esc`关闭对话框
+4. 打开游戏，将游戏设置为窗口模式，分辨率1920*1080
+* 开发者请用管理员权限运行ide，并运行`whimbox.py`
+* 其他用户可用管理员权限运行一键启动脚本`run.bat`
+
+5. 程序启动后请稍等片刻。在游戏界面的左侧看到📦图标后，按`/`打开对话框，按`esc`关闭对话框
 
 ## 已有功能
 * 每日任务

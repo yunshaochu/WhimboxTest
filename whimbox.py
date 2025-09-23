@@ -1,6 +1,13 @@
+from source.common.utils.utils import is_admin
+from source.common.logger import logger
+if not is_admin():
+    logger.error("请用管理员权限运行")
+    exit()
+
 from source.mcp_server import start_mcp_server
 from source.mcp_agent import start_agent
 from source.ingame_ui.ingame_ui import run_ingame_ui
+
 import asyncio
 import threading
 
