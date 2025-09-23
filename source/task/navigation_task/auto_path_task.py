@@ -153,7 +153,7 @@ class AutoPathTask(TaskTemplate):
                 self.log_to_gui(f"传送到附近的流转之柱")
                 self.stop_move()
                 self.stop_jump()
-                nikki_map.bigmap_tp(self.target_point.position)
+                nikki_map.bigmap_tp(self.target_point.position, self.path_info.map)
                 self.curr_position = nikki_map.get_position()
         return is_end
 
@@ -213,5 +213,5 @@ class AutoPathTask(TaskTemplate):
 
 
 if __name__ == "__main__":
-    task = AutoPathTask("example1.json")
+    task = AutoPathTask("example2.json")
     task.task_run()

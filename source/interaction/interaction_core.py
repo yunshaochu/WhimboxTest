@@ -244,7 +244,7 @@ class InteractionBGD:
             return False
                 
 
-    def wait_until_stable(self, threshold = 0.9995, timeout = 10, additional_break_func=lambda x: False):
+    def wait_until_stable(self, threshold = 0.9995, timeout = 10):
         timeout_timer = TimeoutTimer(timeout)
         last_cap = self.capture()
 
@@ -265,9 +265,6 @@ class InteractionBGD:
                 if DEBUG_MODE: print('wait time: ', time.time()-pt)
                 break
             last_cap = curr_img.copy()
-            if additional_break_func():
-                logger.debug(f"wait_until_stable break: addi func succ")
-                break
 
 
     def delay(self, x, randtime=False, is_log=True, comment=''):

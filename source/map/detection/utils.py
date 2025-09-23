@@ -1,7 +1,15 @@
 from scipy import signal
 from source.common.utils.img_utils import *
 from source.common.utils.asset_utils import *
+from source.map.detection.cvars import REGION_NAME_TO_MAP_NAME_DICT, MAP_NAME_HOME
 import traceback
+
+def trans_region_name_to_map_name(region_name):
+    for map_name, region_names in REGION_NAME_TO_MAP_NAME_DICT.items():
+        if region_name in region_names:
+            return map_name
+    return MAP_NAME_HOME
+
 
 class MapAsset(AssetBase):
     def __init__(self, name=None):
