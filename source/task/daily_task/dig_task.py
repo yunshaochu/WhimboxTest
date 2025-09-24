@@ -51,6 +51,8 @@ class DigTask(TaskTemplate):
             except:
                 raise Exception(f"挖掘数量识别异常:{dig_num_str}")
             if diging_num > 0:
+                self.log_to_gui(f"当前正在挖掘{dig_num_str}")
+                self.update_task_result(message=f"已在挖掘，不进行任何操作")
                 return "step5" # 有东西正在挖掘，退出
             else:
                 return "step4" # 没东西在挖掘，进入挖掘步骤
@@ -101,7 +103,7 @@ class DigTask(TaskTemplate):
             select_dig_item(item_name)
             time.sleep(0.5)
         
-        self.update_task_result(message=f"已出发去挖掘{",".join(self.target_item_list)}")
+        self.update_task_result(message=f"已开始挖掘{",".join(self.target_item_list)}")
 
     @register_step("退出美鸭梨挖掘")
     def step5(self):

@@ -9,7 +9,8 @@ IconUICollection = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 AreaUITime = Area()
 
 # loading界面
-IconUILoading = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+IconUILoading1 = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+IconUILoading2 = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 
 # 大地图相关
 IconUIBigmap = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)

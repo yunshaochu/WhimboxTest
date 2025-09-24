@@ -1,7 +1,7 @@
 from source.ui.page import UIPage
 from source.ui.ui_assets import *
 
-page_loading = UIPage(check_icon=[IconUILoading])
+page_loading = UIPage(check_icon=[IconUILoading1, IconUILoading2])
 page_main = UIPage(check_icon=IconUIMeiyali)
 page_bigmap = UIPage(check_icon=IconUIBigmap)
 page_esc = UIPage(check_icon=IconUICollection)
