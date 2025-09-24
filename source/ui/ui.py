@@ -13,18 +13,6 @@ class UI():
     def __init__(self) -> None:
         self.switch_ui_lock = Lock()
 
-    ui_pages = [
-        page_bigmap,
-        page_main,
-        page_esc,
-        page_daily_task,
-        page_huanjing,
-        page_jihua,
-        page_dig,
-        page_zxxy,
-        page_xhsy,
-    ]
-
     def ui_additional(self):
         """
         Handle all annoying popups during UI switching.
@@ -33,7 +21,7 @@ class UI():
             itt.delay(1, comment='game is loading...')
 
     def is_valid_page(self):
-        for i in self.ui_pages:
+        for i in ui_pages:
             if i.is_current_page(itt):
                 return True
         return False
@@ -46,7 +34,7 @@ class UI():
             logger.info(f"Unknown page, try pressing esc")
             itt.key_press('esc')
 
-        for page in self.ui_pages:
+        for page in ui_pages:
             if page.is_current_page(itt):
                 if ret_page is None:
                     ret_page = page
@@ -71,7 +59,7 @@ class UI():
         retry_timer = AdvanceTimer(1)
         self.switch_ui_lock.acquire()
         # Reset connection
-        for page in self.ui_pages:
+        for page in ui_pages:
             page.parent = None
 
         # Create connection
@@ -80,7 +68,7 @@ class UI():
         while 1:
             new = visited.copy()
             for page in visited:
-                for link in self.ui_pages:
+                for link in ui_pages:
                     if link in visited:
                         continue
                     if page in link.links:
@@ -115,6 +103,8 @@ class UI():
                             retry_timer.reset()
                     elif isinstance(button, Button):
                         itt.appear_then_click(button)
+                    elif isinstance(button, Text):
+                        itt.appear_then_click(button)
                     clicked = True
                     confirm_timer.reset()
             if clicked:
@@ -125,7 +115,7 @@ class UI():
                 continue
 
         # Reset connection
-        for page in self.ui_pages:
+        for page in ui_pages:
             page.parent = None
         self.switch_ui_lock.release()
         itt.delay(0.5, comment="ui goto is waiting game animation")
@@ -145,5 +135,6 @@ class UI():
 ui_control = UI()
 
 if __name__ == '__main__':
-    ui_control.ui_goto(page_zxxy)
+    ui_control.ui_goto(page_ability)
+    # print(page_dress.is_current_page(itt))
     # print(itt.get_img_existence(IconUIZxxy, ret_mode=IMG_RATE, show_res=True))

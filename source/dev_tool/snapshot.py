@@ -10,5 +10,3 @@ while 1:
     # time.sleep(0.2)
     cap = itt.capture()
     cv2.imwrite(ROOT_PATH + '\\' + "tools\\snapshot\\" + str(time.time()) + ".png", cap) # type: ignore
-
-

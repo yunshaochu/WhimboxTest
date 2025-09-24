@@ -12,15 +12,10 @@ from enum import Enum
 
 def get_move_mode_in_game(ret_rate=False) -> str:
     """判断当前的移动模式（目前只支持步行和跳跃）"""
-    def preprocessing(img):
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        lower_white = np.array([0, 0, 210])
-        upper_white = np.array([180, 50, 255])
-        mask = cv2.inRange(hsv, lower_white, upper_white)
-        return mask
-    
     cap = itt.capture(posi=AreaMovementWalk.position)
-    cap = preprocessing(cap)
+    lower_white = np.array([0, 0, 210])
+    upper_white = np.array([180, 50, 255])
+    cap = process_with_hsv_threshold(cap, lower_white, upper_white)
     r = similar_img(cap, IconMovementWalking.image[:, :, 0])
     if CV_DEBUG_MODE:
         cv2.imshow('cap', cap)

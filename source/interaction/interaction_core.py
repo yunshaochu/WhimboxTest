@@ -193,6 +193,7 @@ class InteractionBGD:
     def get_text_existence(self, textobj: text_manager.TextTemplate, ret_mode=IMG_BOOL, cap=None):
         if cap == None:
             cap = self.capture(posi = textobj.cap_area.position)
+        cap = add_padding(cap, 30)
         res = ocr.get_all_texts(cap)
         is_exist = textobj.match_results(res)
         if textobj.is_print_log(is_exist):

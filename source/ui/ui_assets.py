@@ -84,6 +84,23 @@ IconUIZxxyTaskFinished = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonXhsyEntrance = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 IconUIXhsy = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 
+# 换装界面
+AreaWardrobeTab1 = Area()
+TextWardrobeDressTab = Text("换装", cap_area = AreaWardrobeTab1)
+ButtonWardrobeDressDIY = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+# 能力配置界面
+AreaWardrobeTab3 = Area()
+TextWardrobeAbilityTab = Text("能力配置", cap_area = AreaWardrobeTab3)
+AreaWardrobeAbilityBleach = Area()
+TextWardrobeAbilityBleach = Text("净化", cap_area = AreaWardrobeAbilityBleach)
+IconAbilityClear = ImgIcon()    # 清洁
+IconAbilityBug = ImgIcon()      # 捕虫
+IconAbilityFish = ImgIcon()     # 钓鱼
+IconAbilityFly = ImgIcon()      # 滑翔
+IconAbilitySmall = ImgIcon()    # 变小
+AreaAbilityChange = Area()
+ButtonAbilitySave = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+
 # 游戏自己的美术素材
 T_Icon_item_AN0068R2 = GameImg() # 玉簪蚂蚱
 T_Icon_item_AN0080 = GameImg() # 插梳鱼

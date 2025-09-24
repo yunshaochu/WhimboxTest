@@ -275,10 +275,9 @@ class Map(MiniMap, BigMap):
     def _switch_to_area(self, tp_province, tp_region):
 
         def click_box(box, parent_area):
-            center = [
-                parent_area.position[0] + (box[0] + box[2]) / 2,
-                parent_area.position[1] + (box[1] + box[3]) / 2
-            ]
+            offset = (parent_area.position[0], parent_area.position[1])
+            center = area_center(box)
+            center = (center[0] + offset[0], center[1] + offset[1])
             itt.move_and_click(center)
 
         # 判断当前区域是否是目标区域
@@ -376,7 +375,7 @@ if __name__ == '__main__':
     # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([137436.1875, -130633.34375]))
     # nikki_map.bigmap_tp([8582.2,3637.7])
     # 传送到女王行宫遗迹前庭
-    nikki_map.bigmap_tp(convert_GameLoc_to_PngMapPx([57470.0390625, 91131.6953125], MAP_NAME_MIRALAND))
+    nikki_map.bigmap_tp(convert_GameLoc_to_PngMapPx([57470.0390625, 91131.6953125], MAP_NAME_MIRALAND), MAP_NAME_MIRALAND)
     # 传送到星海无界枢纽
     # nikki_map.bigmap_tp([1696, 2029], MAP_NAME_STARSEA)
     # 传送到星海海滩

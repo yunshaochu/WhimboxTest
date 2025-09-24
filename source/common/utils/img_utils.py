@@ -318,36 +318,6 @@ def color_mapping(image, max_multiply=2):
     return image.astype(np.uint8)
 
 
-def get_circle_points(x,y,  show_res = False, radius=6):
-    """围绕圆心绘制离散点.
-
-    Args:
-        x (_type_): _description_
-        y (_type_): _description_
-        show_res (bool, optional): _description_. Defaults to False.
-
-    Returns:
-        _type_: _description_
-    """
-    if show_res:
-        import turtle
-        turtle.speed(0)
-    points = []
-    for r in range(5, 5*(radius+1), 5):
-        n = int(2 * math.pi * r / (5))
-        for i in range(n):
-            angle = 2 * math.pi / n * i
-            px = x + r * math.cos(angle)
-            py = y + r * math.sin(angle)
-            if show_res:
-                turtle.penup()
-                turtle.goto(px, py)
-                turtle.pendown()
-                turtle.dot(2)
-            points.append((px, py))
-    return points
-
-
 def similar_img(img, target, is_gray=False, is_show_res: bool = False, ret_mode=IMG_RATE) -> Union[float, Tuple[float,float]]:
     """单个图片匹配
 
@@ -468,3 +438,7 @@ def png2jpg(png, bgcolor='black', channel='bg', alpha_num=50):
 
 def add_padding(image, padding):
     return cv2.copyMakeBorder(image, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=(0, 0, 0))
+
+def process_with_hsv_threshold(image, lower_limit, upper_limit):
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    return cv2.inRange(hsv, lower_limit, upper_limit)

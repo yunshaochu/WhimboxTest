@@ -364,3 +364,33 @@ def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
     """
     return [tuple((((n - index) * p1 + index * p2) / n).astype(int) + random_rectangle_point(random_range))
             for index in range(0, n + 1)]
+
+
+def get_circle_points(x,y,  show_res = False, radius=6):
+    """围绕圆心绘制离散点.
+
+    Args:
+        x (_type_): _description_
+        y (_type_): _description_
+        show_res (bool, optional): _description_. Defaults to False.
+
+    Returns:
+        _type_: _description_
+    """
+    if show_res:
+        import turtle
+        turtle.speed(0)
+    points = []
+    for r in range(5, 5*(radius+1), 5):
+        n = int(2 * math.pi * r / (5))
+        for i in range(n):
+            angle = 2 * math.pi / n * i
+            px = x + r * math.cos(angle)
+            py = y + r * math.sin(angle)
+            if show_res:
+                turtle.penup()
+                turtle.goto(px, py)
+                turtle.pendown()
+                turtle.dot(2)
+            points.append((px, py))
+    return points
