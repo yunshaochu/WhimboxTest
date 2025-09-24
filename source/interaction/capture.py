@@ -3,7 +3,7 @@ import time
 
 from source.common import timer_module
 import numpy as np
-from source.common import handle_lib
+from source.common.handle_lib import HANDLE_OBJ
 from numpy import ndarray
 import mss
 import win32ui
@@ -116,8 +116,8 @@ class BitbltCapture(Capture):
         if img.shape == (1080,1920,4):
             return True
         else:
-            handle_lib.HANDLEOBJ.refresh_handle()
-            logger.info("research handle: "+str(handle_lib.HANDLEOBJ.get_handle()))
+            HANDLE_OBJ.refresh_handle()
+            logger.info("research handle: "+str(HANDLE_OBJ.get_handle()))
             if self.monitor_num>1:
                 if self.monitor_id==(self.monitor_num-1):
                     self.monitor_id=0
@@ -143,7 +143,7 @@ class BitbltCapture(Capture):
     
     def _get_capture(self):
         r = RECT()
-        self.GetClientRect(handle_lib.HANDLEOBJ.get_handle(), ctypes.byref(r))
+        self.GetClientRect(HANDLE_OBJ.get_handle(), ctypes.byref(r))
         width, height = r.right, r.bottom
         # left, top, right, bottom = win32gui.GetWindowRect(handle_lib.HANDLEOBJ.get_handle())
         # 获取桌面缩放比例
@@ -161,7 +161,7 @@ class BitbltCapture(Capture):
             # height = int(int(height)*self.scale_factor)
         
         # 开始截图
-        dc = self.GetDC(handle_lib.HANDLEOBJ.get_handle())
+        dc = self.GetDC(HANDLE_OBJ.get_handle())
         cdc = self.CreateCompatibleDC(dc)
         bitmap = self.CreateCompatibleBitmap(dc, width, height)
         self.SelectObject(cdc, bitmap)
@@ -175,7 +175,7 @@ class BitbltCapture(Capture):
         self.GetBitmapBits(bitmap, total_bytes, byte_array.from_buffer(buffer))
         self.DeleteObject(bitmap)
         self.DeleteObject(cdc)
-        self.ReleaseDC(handle_lib.HANDLEOBJ.get_handle(), dc)
+        self.ReleaseDC(HANDLE_OBJ.get_handle(), dc)
         # 返回截图数据为numpy.ndarray
         ret = np.frombuffer(buffer, dtype=np.uint8).reshape(height, width, 4)
         return ret
@@ -198,7 +198,7 @@ class MssCapture(Capture):
             return False
 
     def _get_capture(self):
-        hwnd = handle_lib.HANDLEOBJ.get_handle()
+        hwnd = HANDLE_OBJ.get_handle()
         rect = win32gui.GetClientRect(hwnd)
         point1 = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
         point2 = win32gui.ClientToScreen(hwnd, (rect[2], rect[3]))
@@ -232,7 +232,7 @@ class PrintWindowCapture(Capture):
             return False
 
     def _get_capture(self):
-        hwnd = handle_lib.HANDLEOBJ.get_handle()
+        hwnd = HANDLE_OBJ.get_handle()
         left, top, right, bottom = win32gui.GetClientRect(hwnd)
         width = right - left
         height = bottom - top

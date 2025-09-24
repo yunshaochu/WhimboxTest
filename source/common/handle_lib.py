@@ -1,8 +1,6 @@
 import psutil
 import win32gui, win32process
-from source.common.cvars import *
-
-global HANDLE
+from source.common.cvars import PROCESS_NAME
 
 def get_handle():
     """获得游戏窗口句柄"""
@@ -27,21 +25,21 @@ def get_handle():
                 return hwnds[0]
     return 0
 
-HANDLE = get_handle()
-
 class handle_obj():
     def __init__(self) -> None:
         self.handle = get_handle()
+
     def get_handle(self):
         return self.handle
+
     def refresh_handle(self):
         self.handle = get_handle()
+        
+    def set_foreground(self):
+        if self.handle:
+            win32gui.SetForegroundWindow(self.handle)
 
-HANDLEOBJ = handle_obj()
-
-def search_handle():
-    global HANDLE
-    HANDLE = get_handle()
+HANDLE_OBJ = handle_obj()
 
 if __name__ == '__main__':
     pass

@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import keyboard
 
-from source.common import handle_lib
+from source.common.handle_lib import HANDLE_OBJ
 from source.common.logger import logger
 from source.common.utils.utils import get_active_window_process_name
 from source.common.cvars import PROCESS_NAME
@@ -402,14 +402,13 @@ class IngameUI(QWidget):
         win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE,
                                win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_TRANSPARENT)
         # 将焦点返回给游戏
-        if handle_lib.HANDLE:
-            win32gui.SetForegroundWindow(handle_lib.HANDLE)
+        HANDLE_OBJ.set_foreground()
 
     def position_window(self):
         """根据游戏窗口位置调整聊天窗口位置"""
-        if handle_lib.HANDLE:
+        if HANDLE_OBJ.get_handle():
             try:
-                win_bbox = win32gui.GetWindowRect(handle_lib.HANDLE)
+                win_bbox = win32gui.GetWindowRect(HANDLE_OBJ.get_handle())
                 
                 if self.is_expanded:
                     # 展开状态：显示在游戏窗口左下角
@@ -431,7 +430,7 @@ class IngameUI(QWidget):
 
     def on_slash_pressed(self):
         """处理斜杠键按下事件"""
-        if win32gui.GetForegroundWindow() != handle_lib.HANDLE:
+        if win32gui.GetForegroundWindow() != HANDLE_OBJ.get_handle():
             return
         logger.info("Slash pressed - expanding chat")
         self.expand_chat()
@@ -478,8 +477,8 @@ class IngameUI(QWidget):
         
         if self.isVisible():
             # 获取游戏窗口位置
-            if handle_lib.HANDLE:
-                win_bbox = win32gui.GetWindowRect(handle_lib.HANDLE)
+            if HANDLE_OBJ.get_handle():
+                win_bbox = win32gui.GetWindowRect(HANDLE_OBJ.get_handle())
                 if self.last_bbox != win_bbox:
                     self.position_window()
                     self.last_bbox = win_bbox

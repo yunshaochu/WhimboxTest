@@ -1,7 +1,7 @@
 """一种更高效的d3d截图方式，不过需要手动维护缓冲池，暂时不使用"""
 
 from source.interaction.capture import Capture
-from source.common import handle_lib
+from source.common.handle_lib import HANDLE_OBJ
 import asyncio
 from winsdk.windows.ai.machinelearning import LearningModelDevice, LearningModelDeviceKind
 from winsdk.windows.media.capture import MediaCapture
@@ -54,7 +54,7 @@ class WindowsGraphicsCapture(Capture):
         super().__init__()
         self.max_fps = 30
         self.device = get_direct3d_device()
-        self.item = create_for_window(handle_lib.HANDLEOBJ.get_handle())
+        self.item = create_for_window(HANDLE_OBJ.get_handle())
         self.frame_pool = None
         self.session = None
         self.last_frame = None

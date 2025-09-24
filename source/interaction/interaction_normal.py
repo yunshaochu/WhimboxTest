@@ -4,7 +4,7 @@ import win32api, win32con, win32gui
 
 from source.interaction.interaction_template import InteractionTemplate
 from source.interaction.vkcode import VK_CODE
-from source.common import handle_lib
+from source.common.handle_lib import HANDLE_OBJ
 from source.common.logger import logger
 from source.common.base_threading import ProcessThreading
 
@@ -94,7 +94,7 @@ class InteractionNormal(InteractionTemplate):
         if relative:
             win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, x, y)
         else:
-            wx, wy, w, h = win32gui.GetWindowRect(handle_lib.HANDLEOBJ.get_handle())
+            wx, wy, w, h = win32gui.GetWindowRect(HANDLE_OBJ.get_handle())
             if isBorderlessWindow:
                 x += wx
                 y += wy
