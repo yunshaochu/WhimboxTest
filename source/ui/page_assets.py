@@ -13,7 +13,7 @@ page_dig = UIPage(check_icon=IconUIDig)
 page_zxxy = UIPage(check_icon=IconUIZxxy)
 page_xhsy = UIPage(check_icon=IconUIXhsy)
 page_dress = UIPage(check_icon=ButtonWardrobeDressDIY)
-page_ability = UIPage(check_icon=TextWardrobeAbilityBleach)
+page_ability = UIPage(check_icon=TextWardrobeAbilityBattle)
 
 ui_pages = [
     page_bigmap,

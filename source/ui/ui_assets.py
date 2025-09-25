@@ -91,8 +91,10 @@ ButtonWardrobeDressDIY = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 # 能力配置界面
 AreaWardrobeTab3 = Area()
 TextWardrobeAbilityTab = Text("能力配置", cap_area = AreaWardrobeTab3)
-AreaWardrobeAbilityBleach = Area()
-TextWardrobeAbilityBleach = Text("净化", cap_area = AreaWardrobeAbilityBleach)
+AreaWardrobeAbilityBattleText = Area()
+TextWardrobeAbilityBattle = Text("净化", cap_area = AreaWardrobeAbilityBattleText)
+IconAbilityFloat = ImgIcon()    # 泡泡套跳跃
+IconAbilityWing = ImgIcon()    # 飞鸟套跳跃
 IconAbilityClear = ImgIcon()    # 清洁
 IconAbilityBug = ImgIcon()      # 捕虫
 IconAbilityFish = ImgIcon()     # 钓鱼

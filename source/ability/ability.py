@@ -25,24 +25,38 @@ class AbilityManager:
             return
 
         self.ability_keymap = None
+        self.jump_ability = None
+        self.battle_ability = None
         self._initialized = True
-    
-
-    def reinit_ability_keymap(self):
-        ui_control.ui_goto(page_ability)
-        self.ability_keymap = self.get_current_ability_keymap()
-        ui_control.ui_goto(page_main)
 
 
-    def get_current_ability_keymap(self):
+    def _get_ability_hsv_icon(self, center, cap):
+        area = area_offset((-ability_icon_radius, -ability_icon_radius, ability_icon_radius, ability_icon_radius), offset=center)
+        img = crop(cap, area)
+        lower_white = np.array([0, 0, 230])
+        upper_white = np.array([180, 60, 255])
+        img = process_with_hsv_threshold(img, lower_white, upper_white)
+        return img
+
+
+    def _get_jump_ability(self):
+        cap = itt.capture()
+        img = self._get_ability_hsv_icon(jump_ability_center, cap)
+        for icon in jump_ability_hsv_icons:
+            rate = similar_img(img, icon.image[:, :, 0], ret_mode=IMG_RATE)
+            if rate > 0.92:
+                ability_name = icon_name_to_ability_name.get(icon.name, None)
+                if ability_name is not None:
+                    return ability_name
+        logger.error(f'unknown jump ability icon')
+        return None
+
+
+    def _get_ability_keymap(self):
         ability_keymap = {}
         cap = itt.capture()
         for i, center in enumerate(ability_icon_centers):
-            area = area_offset((-ability_icon_radius, -ability_icon_radius, ability_icon_radius, ability_icon_radius), offset=center)
-            img = crop(cap, area)
-            lower_white = np.array([0, 0, 230])
-            upper_white = np.array([180, 60, 255])
-            img = process_with_hsv_threshold(img, lower_white, upper_white)
+            img = self._get_ability_hsv_icon(center, cap)
             for icon in ability_hsv_icons:
                 rate = similar_img(img, icon.image[:, :, 0], ret_mode=IMG_RATE)
                 if rate > 0.92:
@@ -57,13 +71,45 @@ class AbilityManager:
 
     
     def change_ability(self, ability_name: str, ability_key: str):
-        if not is_int(ability_key):
-            raise(f'ability_key is not a int: {ability_key}')
-        ability_index = int(ability_key) - 1
-        if ability_index < 0 or ability_index >= len(ability_icon_centers):
-            raise(f'ability_key can only 1~8, but got {ability_key}')
+        '''
+        切换能力
+        
+        Args:
+            ability_name: 能力名称，只能使用cvar中的ABILITY_NAME_XXX
+            ability_key: 能力键位，只支持1~8和jump
+        '''
 
-        target_ability_icon_center = ability_icon_centers[ability_index]
+        # 参数校验
+        if ability_key != 'jump':
+            if not is_int(ability_key):
+                raise(f'ability_key is not a int: {ability_key}')
+            ability_index = int(ability_key) - 1
+            if ability_index < 0 or ability_index >= len(ability_icon_centers):
+                raise(f'ability_key can only 1~8, but got {ability_key}')
+
+        # 获取当前能力配置
+        if self.jump_ability is None:
+            ui_control.ui_goto(page_ability)
+            self.jump_ability = self._get_jump_ability()
+        if self.ability_keymap is None:
+            ui_control.ui_goto(page_ability)
+            self.ability_keymap = self._get_ability_keymap()
+
+        # 检查当前能力配置是否已经满足要求
+        if ability_key == 'jump':
+            if self.jump_ability == ability_name:
+                ui_control.ui_goto(page_main)
+                return True
+        else:
+            if self.ability_keymap.get(ability_name, None) == ability_key:
+                ui_control.ui_goto(page_main)
+                return True
+
+        # 开始配置能力
+        if ability_key == 'jump':
+            target_ability_icon_center = jump_ability_center
+        else:
+            target_ability_icon_center = ability_icon_centers[ability_index]
         itt.move_and_click(target_ability_icon_center)
         time.sleep(0.2)
         itt.move_to(AreaAbilityChange.center_position())
@@ -104,11 +150,17 @@ class AbilityManager:
 
         if change_success:
             itt.appear_then_click(ButtonAbilitySave)
-            return True
-        else:
-            return False
-        
+            if ability_key == 'jump':
+                self.jump_ability = ability_name
+            else:
+                self.ability_keymap[ability_name] = ability_key
+
+        ui_control.ui_goto(page_main)
+        return change_success
+
+
+ability_manager = AbilityManager()
+
 
 if __name__ == "__main__":
-    ability_manager = AbilityManager()
-    ability_manager.change_ability(ABILITY_NAME_CLEAR, '8')
+    ability_manager.change_ability(ABILITY_NAME_BUG, '8')

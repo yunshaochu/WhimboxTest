@@ -7,8 +7,15 @@ ability_icon_centers = [
     (1099, 277), (1192, 437), (1193, 627), (1099, 789),
     (587, 788), (493, 625), (493, 438), (587, 276)
 ]
+# 净化能力配置图标中心点
+battle_ability_centers = (228, 450)
+# 跳跃能力配置图标中心点
+jump_ability_center = (228, 625)
+
+
 # hsv处理后的能力图标，用于匹配
 ability_hsv_icons = [IconAbilityClear, IconAbilityBug, IconAbilityFish, IconAbilityFly, IconAbilitySmall]
+jump_ability_hsv_icons = [IconAbilityFloat, IconAbilityWing]
 
 ABILITY_NAME_CLEAR = '动物清洁'
 ABILITY_NAME_BUG = '捕虫'
@@ -16,10 +23,15 @@ ABILITY_NAME_FISH = '钓鱼'
 ABILITY_NAME_FLY = '滑翔'
 ABILITY_NAME_SMALL = '变小'
 
+ABILITY_NAME_FLOAT = '漂浮'
+ABILITY_NAME_WING = '悬羽'
+
 icon_name_to_ability_name = {
     'IconAbilityClear': ABILITY_NAME_CLEAR,
     'IconAbilityBug': ABILITY_NAME_BUG,
     'IconAbilityFish': ABILITY_NAME_FISH,
     'IconAbilityFly': ABILITY_NAME_FLY,
     'IconAbilitySmall': ABILITY_NAME_SMALL,
+    'IconAbilityFloat': ABILITY_NAME_FLOAT,
+    'IconAbilityWing': ABILITY_NAME_WING,
 }

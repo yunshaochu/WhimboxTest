@@ -54,8 +54,31 @@ if __name__ == "__main__" and False:
         cv2.imshow("Result", imgResult)  
         cv2.waitKey(1)
 
-
 if __name__ == "__main__" and True:
+    from source.interaction.interaction_core import itt
+    from source.common.utils.posi_utils import *
+    ability_icon_radius = 40
+    jump_ability_center = (228, 625)
+    while True:
+        cap = itt.capture()
+        img = crop(cap, area_offset((-ability_icon_radius, -ability_icon_radius, ability_icon_radius, ability_icon_radius), offset=jump_ability_center))
+        imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
+        # 调用回调函数，获取滑动条的值  
+        h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
+        lower = np.array([h_min, s_min, v_min])  
+        upper = np.array([h_max, s_max, v_max])  
+        mask = cv2.inRange(imgHSV, lower, upper)  
+        imgResult = cv2.bitwise_and(img, img, mask=mask)
+        cv2.imshow("Mask", mask)  
+        cv2.imshow("Result", imgResult)  
+        key =cv2.waitKey(1)
+        if key == 27:  # ESC键退出
+            img = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+            save_image(img, f'D:\\workspaces\\python\\Whimbox\\tools\\hsv_tool\\jump2.png')
+            break
+
+
+if __name__ == "__main__" and False:
     from source.interaction.interaction_core import itt
     from source.common.utils.posi_utils import *
     ability_icon_radius = 40
