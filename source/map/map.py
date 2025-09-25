@@ -366,16 +366,8 @@ nikki_map = Map()
 logger.info(f"nikki map object created")
 
 if __name__ == '__main__':
-    # nikki_map.maximize_bigmap_scale()
-    # 传送到边境哨所
-    # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([33491.849362637, 127357.9562273]))
-    # 传送到绿野活动支援中心
-    # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([-39458.51171875, 7906.2314453125]))
-    # 传送到心愿圣殿
-    # nikki_map.bigmap_tp(convert_gameLoc_to_mapPx([137436.1875, -130633.34375]))
-    # nikki_map.bigmap_tp([8582.2,3637.7])
-    # 传送到女王行宫遗迹前庭
-    nikki_map.bigmap_tp(convert_GameLoc_to_PngMapPx([57470.0390625, 91131.6953125], MAP_NAME_MIRALAND), MAP_NAME_MIRALAND)
+    # 花愿镇
+    nikki_map.bigmap_tp([ 6425.3,4381.0], MAP_NAME_MIRALAND)
     # 传送到星海无界枢纽
     # nikki_map.bigmap_tp([1696, 2029], MAP_NAME_STARSEA)
     # 传送到星海海滩
