@@ -360,6 +360,9 @@ class Map(MiniMap, BigMap):
         self.init_position(tp_posi)
 
         return tp_posi
+    
+    def material_track(self, target_material: str):
+        pass
 
 
 nikki_map = Map()

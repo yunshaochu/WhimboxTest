@@ -33,28 +33,27 @@ cv2.createTrackbar("Sat Max", "TrackBars", init_data["s_max"], 255, empty)
 cv2.createTrackbar("Val Min", "TrackBars", init_data['v_min'], 255, empty)  
 cv2.createTrackbar("Val Max", "TrackBars", init_data['v_max'], 255, empty)  
 
-if __name__ == "__main__" and False:
+if __name__ == "__main__" and True:
     while True:
-        # path = "D:\\workspaces\\python\\Whimbox\\tools\\snapshot\\1758692132.3897588.png"
-        # img = cv2.imread(path)
-        # img = crop(img, AreaWardrobeAbility1.position)
-        from source.interaction.interaction_core import itt
-        img = itt.capture(posi = AreaWardrobeAbility1.position)
+        path = "D:\\workspaces\\python\\Whimbox\\assets\\imgs\\Windows\\BigMap\\common\\IconBigMapMaterialTrackTypePlant_bk.png"
+        # path = "D:\\workspaces\\python\\Whimbox\\assets\\imgs\\Windows\\BigMap\\common\\AreaBigMapMaterialTypeSelect.png"
+        img = cv2.imread(path)
+        # from source.interaction.interaction_core import itt
+        # img = itt.capture(posi = AreaWardrobeAbility1.position)
         imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
         # 调用回调函数，获取滑动条的值  
         h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
         lower = np.array([h_min, s_min, v_min])  
         upper = np.array([h_max, s_max, v_max])  
         # 获得指定颜色范围内的掩码  
-        mask = cv2.inRange(imgHSV, lower, upper)  
-        # 对原图图像进行按位与的操作，掩码区域保留  
-        imgResult = cv2.bitwise_and(img, img, mask=mask)  
-        # cv2.imwrite("D:\\workspaces\\python\\auto_test\\tools\\snapshot\\jump\\mask.png", mask)
-        cv2.imshow("Mask", mask)  
-        cv2.imshow("Result", imgResult)  
+        mask = cv2.inRange(imgHSV, lower, upper)
+        img = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+        save_image(img, f'D:\\workspaces\\python\\Whimbox\\tools\\hsv_tool\\IconBigMapMaterialTrackTypePlant.png')
+        cv2.imshow("Mask", mask)
         cv2.waitKey(1)
+        
 
-if __name__ == "__main__" and True:
+if __name__ == "__main__" and False:
     from source.interaction.interaction_core import itt
     from source.common.utils.posi_utils import *
     ability_icon_radius = 40

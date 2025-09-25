@@ -20,6 +20,14 @@ IconBigMapCheckPointSelect = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonBigMapTeleport = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 AreaBigMapRegionName = Area()
 AreaBigMapRegionSelect = Area()
+# 大地图材料追踪
+AreaBigMapMaterialTypeSelect = Area()
+IconBigMapMaterialTrackTypePlant = ImgIcon()
+IconBigMapMaterialTrackTypeBug = ImgIcon()
+IconBigMapMaterialTrackTypeClear = ImgIcon()
+IconBigMapMaterialTrackTypeFish = ImgIcon()
+IconBigMapMaterialTrackTypeBattle = ImgIcon()
+AreaBigMapMaterialSelect = Area()
 
 # 大世界采集、跳跃、移动相关的UI
 AreaFPickup = Area()
@@ -103,8 +111,8 @@ IconAbilitySmall = ImgIcon()    # 变小
 AreaAbilityChange = Area()
 ButtonAbilitySave = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 
-# 游戏自己的美术素材
-T_Icon_item_AN0068R2 = GameImg() # 玉簪蚂蚱
-T_Icon_item_AN0080 = GameImg() # 插梳鱼
-T_UI_icon_004 = GameImg() # 纯真丝线
-T_UI_icon_006 = GameImg() # 闪光粒子
+# # 游戏自己的美术素材
+# T_Icon_item_AN0068R2 = GameImg() # 玉簪蚂蚱
+# T_Icon_item_AN0080 = GameImg() # 插梳鱼
+# T_UI_icon_004 = GameImg() # 纯真丝线
+# T_UI_icon_006 = GameImg() # 闪光粒子

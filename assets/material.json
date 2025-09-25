@@ -1,0 +1,18 @@
+{
+    "插梳鱼": {
+        "game_img": "T_Icon_item_AN0080",
+        "type": "fish"
+    },
+    "玉簪蚂蚱": {
+        "game_img": "T_Icon_item_AN0068R2",
+        "type": "bug"
+    },
+    "纯真丝线": {
+        "game_img": "T_UI_icon_004",
+        "type": "other"
+    },
+    "闪光粒子": {
+        "game_img": "T_UI_icon_006",
+        "type": "other"
+    }
+}
