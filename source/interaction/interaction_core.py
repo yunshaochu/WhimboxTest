@@ -89,8 +89,8 @@ class InteractionBGD:
             posi ( [x1,y1,x2,y2] ): 截图区域的坐标, y2>y1,x2>x1. 全屏截图时为None。
             jpgmode(int): 
                 0:return jpg (3 channels, delete the alpha channel)
-                1:return genshin background channel, background color is black
-                2:return genshin ui channel, background color is black
+                1:return nikki background channel, background color is black
+                2:return nikki ui channel, background color is black
 
         Returns:
             numpy.ndarray: 图片数组
