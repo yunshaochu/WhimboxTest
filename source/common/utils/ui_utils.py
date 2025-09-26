@@ -23,7 +23,7 @@ def find_game_img(game_img: GameImg, cap, threshold, scale=0.5):
         mask = None
 
     if scale:
-        template_rgb = cv2.resize(template_rgb, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
+        template_rgb = cv2.resize(template_rgb, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
         if mask is not None:
             mask = cv2.resize(mask, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
 
@@ -147,6 +147,9 @@ def wait_until_appear_then_click(obj, retry_time=3):
         if isinstance(obj, Button):
             if itt.appear_then_click(obj):
                 return True
+        elif isinstance(obj, Text):
+            if itt.appear_then_click(obj):
+                return True
         else:
             return False
         retry_time -= 1
@@ -174,10 +177,13 @@ if __name__ == "__main__":
     CV_DEBUG_MODE = True
     from source.ui.ui_assets import *
     from source.ui.material_icon_assets import material_icon_dict
-    # target = material_icon_dict["玉簪蚂蚱"]["icon"]
-    # cap = itt.capture(posi=AreaBigMapMaterialSelect.position)
-    # find_game_img(target, cap, threshold=0.7, scale=0.41)
+    # material_name = "发卡蚂蚱"
+    material_name = "玉簪蚂蚱"
+    target = material_icon_dict[material_name]["icon"]
+    # scroll_find_click(AreaBigMapMaterialSelect, target, threshold=0.7, scale=0.41)
+    cap = itt.capture(posi=AreaBigMapMaterialSelect.position)
+    find_game_img(target, cap, threshold=0.7, scale=0.45)
 
-    hsv_limit = [np.array([0, 0, 100]), np.array([180, 60, 255])]
-    # scroll_find_click(AreaDigMainTypeSelect, IconMaterialTypeMonster, threshold=0.85, hsv_limit=hsv_limit, scale=1.233)
-    scroll_find_click(AreaDigSubTypeSelect, IconMaterialTypeInsect, threshold=0.85, hsv_limit=hsv_limit, scale=0.83)
+    # hsv_limit = [np.array([0, 0, 100]), np.array([180, 60, 255])]
+    # # scroll_find_click(AreaDigMainTypeSelect, IconMaterialTypeMonster, threshold=0.85, hsv_limit=hsv_limit, scale=1.233)
+    # scroll_find_click(AreaDigSubTypeSelect, IconMaterialTypeInsect, threshold=0.85, hsv_limit=hsv_limit, scale=0.83)

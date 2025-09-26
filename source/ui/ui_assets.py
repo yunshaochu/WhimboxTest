@@ -23,6 +23,7 @@ AreaBigMapRegionSelect = Area()
 # 大地图材料追踪
 AreaBigMapMaterialTypeSelect = Area()
 AreaBigMapMaterialSelect = Area()
+AreaBigMapMaterialTrackConfirm = Area()
 
 # 大世界采集、跳跃、移动相关的UI
 AreaFPickup = Area()

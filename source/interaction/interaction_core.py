@@ -199,7 +199,10 @@ class InteractionBGD:
         if textobj.is_print_log(is_exist):
             logger.trace(f"get_text_existence: text: {textobj.text} {'Found' if is_exist else 'Not Found'}")
         if ret_mode==IMG_POSI:
-            return textobj.cap_area.center_position()
+            if is_exist:
+                return textobj.cap_area.center_position()
+            else:
+                return None
         else:
             return is_exist
 
