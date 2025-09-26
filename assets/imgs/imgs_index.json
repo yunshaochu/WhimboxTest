@@ -2,12 +2,6 @@
     "AreaFPickup":{
         "common": "assets\\imgs\\Windows\\General\\common\\AreaFPickup.jpg"
     },
-    "AreaUIJihuaSelect":{
-        "common": "assets\\imgs\\Windows\\UI\\common\\AreaUIJihuaSelect.jpg"
-    },
-    "AreaUIDigItemSelect": {
-        "common": "assets\\imgs\\Windows\\UI\\common\\AreaUIDigItemSelect.jpg"
-    },
     "AreaBigMapRegionSelect": {
         "common": "assets\\imgs\\Windows\\BigMap\\common\\AreaBigMapRegionSelect.jpg"
     }

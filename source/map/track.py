@@ -9,11 +9,11 @@ from source.common.utils.ui_utils import scroll_find_click
 import time
 
 material_type_icon_dict = {
-    "plant": IconBigMapMaterialTrackTypePlant,
-    "clear": IconBigMapMaterialTrackTypeClear,
-    "bug": IconBigMapMaterialTrackTypeBug,
-    "fish": IconBigMapMaterialTrackTypeFish,
-    "battle": IconBigMapMaterialTrackTypeBattle,
+    "plant": IconMaterialTypePlant,
+    "animal": IconMaterialTypeAnimal,
+    "insect": IconMaterialTypeInsect,
+    "fish": IconMaterialTypeFish,
+    "monster": IconMaterialTypeMonster,
 }
 
 class Track:

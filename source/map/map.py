@@ -12,6 +12,7 @@ from source.map.convert import *
 from source.common.logger import logger
 from source.common.utils.posi_utils import *
 from source.common.errors import BigMapTPError
+from source.common.utils.ui_utils import *
 
 import threading
 import time
@@ -105,7 +106,7 @@ class Map(MiniMap, BigMap):
         if use_cache and self.region_name is not None and self.map_name is not None:
             return self.region_name, self.map_name
         else:
-            self.region_name= itt.ocr_single_line(AreaBigMapRegionName, padding=30)
+            self.region_name= itt.ocr_single_line(AreaBigMapRegionName, padding=50)
             self.map_name = trans_region_name_to_map_name(self.region_name)
             return self.region_name, self.map_name
 
@@ -299,18 +300,22 @@ class Map(MiniMap, BigMap):
                     box = text_box_dict["心愿原野"]
                     click_box(box, AreaBigMapRegionSelect)
                     time.sleep(0.5)
-                scroll_times = 2
-                while scroll_times > 0:
-                    text_box_dict = itt.ocr_and_detect_posi(AreaBigMapRegionSelect)
-                    if tp_region in text_box_dict:
-                        click_box(text_box_dict[tp_region], AreaBigMapRegionSelect)
-                        itt.wait_until_stable()
-                        self.update_region_and_map_name()
-                        return True
-                    itt.move_to(AreaBigMapRegionSelect.center_position())
-                    itt.middle_scroll(-15)
-                    scroll_times -= 1
-                    time.sleep(0.5)
+                if scroll_find_click(AreaBigMapRegionSelect, tp_region):
+                    itt.wait_until_stable()
+                    self.update_region_and_map_name()
+                    return True
+                # scroll_times = 2
+                # while scroll_times > 0:
+                #     text_box_dict = itt.ocr_and_detect_posi(AreaBigMapRegionSelect)
+                #     if tp_region in text_box_dict:
+                #         click_box(text_box_dict[tp_region], AreaBigMapRegionSelect)
+                #         itt.wait_until_stable()
+                #         self.update_region_and_map_name()
+                #         return True
+                #     itt.move_to(AreaBigMapRegionSelect.center_position())
+                #     itt.middle_scroll(-15)
+                #     scroll_times -= 1
+                #     time.sleep(0.5)
             return False
         else:
             return True

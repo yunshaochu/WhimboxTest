@@ -35,11 +35,10 @@ cv2.createTrackbar("Val Max", "TrackBars", init_data['v_max'], 255, empty)
 
 if __name__ == "__main__" and True:
     while True:
-        path = "D:\\workspaces\\python\\Whimbox\\assets\\imgs\\Windows\\BigMap\\common\\IconBigMapMaterialTrackTypePlant_bk.png"
-        # path = "D:\\workspaces\\python\\Whimbox\\assets\\imgs\\Windows\\BigMap\\common\\AreaBigMapMaterialTypeSelect.png"
-        img = cv2.imread(path)
-        # from source.interaction.interaction_core import itt
-        # img = itt.capture(posi = AreaWardrobeAbility1.position)
+        # path = "D:\\workspaces\\python\\Whimbox\\assets\\imgs\\Windows\\BigMap\\common\\IconBigMapMaterialTrackTypePlant_bk.png"
+        # img = cv2.imread(path)
+        from source.interaction.interaction_core import itt
+        img = itt.capture(posi = AreaDigMainTypeSelect.position)
         imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
         # 调用回调函数，获取滑动条的值  
         h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
@@ -48,9 +47,11 @@ if __name__ == "__main__" and True:
         # 获得指定颜色范围内的掩码  
         mask = cv2.inRange(imgHSV, lower, upper)
         img = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
-        save_image(img, f'D:\\workspaces\\python\\Whimbox\\tools\\hsv_tool\\IconBigMapMaterialTrackTypePlant.png')
         cv2.imshow("Mask", mask)
-        cv2.waitKey(1)
+        key = cv2.waitKey(0)
+        if key == 27:
+            save_image(img, f'D:\\workspaces\\python\\Whimbox\\tools\\hsv_tool\\AreaDigMainTypeSelect.png')
+            break
         
 
 if __name__ == "__main__" and False:

@@ -108,14 +108,14 @@ class InteractionBGD:
         return ret
 
 
-    def ocr_single_line(self, area: posi_manager.Area, padding=0) -> str:
+    def ocr_single_line(self, area: posi_manager.Area, padding=50) -> str:
         cap = self.capture(posi = area.position)
         if padding:
             cap = add_padding(cap, padding)
         res = ocr.get_all_texts(cap, mode=1)
         return res
 
-    def ocr_multiple_lines(self, area: posi_manager.Area, padding=0) -> list:
+    def ocr_multiple_lines(self, area: posi_manager.Area, padding=50) -> list:
         cap = self.capture(posi = area.position)
         if padding:
             cap = add_padding(cap, padding)
@@ -193,7 +193,7 @@ class InteractionBGD:
     def get_text_existence(self, textobj: text_manager.TextTemplate, ret_mode=IMG_BOOL, cap=None):
         if cap == None:
             cap = self.capture(posi = textobj.cap_area.position)
-        cap = add_padding(cap, 30)
+        cap = add_padding(cap, 50)
         res = ocr.get_all_texts(cap)
         is_exist = textobj.match_results(res)
         if textobj.is_print_log(is_exist):

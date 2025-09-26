@@ -75,7 +75,7 @@ class ZhaoxiTask(TaskTemplate):
     def step2(self):
         try:
             time.sleep(2) # 等待分数变化
-            score_str = itt.ocr_single_line(AreaZxxyScore, padding=30)
+            score_str = itt.ocr_single_line(AreaZxxyScore, padding=50)
             score = int(score_str.strip())
             if score % 100 != 0:
                 raise Exception(f"朝夕心愿分数识别异常:{score_str}")

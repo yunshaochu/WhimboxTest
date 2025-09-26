@@ -12,5 +12,8 @@ with open(material_json_filepath, 'r', encoding='utf-8') as f:
     for material_name, value in material_json.items():
         material_icon_dict[material_name] = {
             "icon": GameImg(name=value['game_img']),
-            "type": value['type']
+            "type": value['type'],
+            "dig": value['dig'],
+            "track": value['track'],
+            "jihua": value['jihua']
         }

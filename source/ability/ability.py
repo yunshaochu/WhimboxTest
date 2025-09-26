@@ -6,6 +6,7 @@ from source.common.logger import logger
 from source.ability.cvar import *
 from source.ui.ui import ui_control
 from source.ui.page_assets import *
+from source.common.utils.ui_utils import *
 
 import time
 
@@ -129,29 +130,8 @@ class AbilityManager:
             last_cap = new_cap
         
         # 向下滚动，寻找指定的ability_name
-        change_success = False
-        offset = (AreaAbilityChange.position[0], AreaAbilityChange.position[1])
-        last_cap = itt.capture(posi=AreaAbilityChange.position)
-        while True:
-            text_box_dict = itt.ocr_and_detect_posi(AreaAbilityChange)
-            if ability_name in text_box_dict:
-                text_center = area_center(text_box_dict[ability_name])
-                text_center = (text_center[0] + offset[0], text_center[1] + offset[1])
-                click_posi = (text_center[0] + 80, text_center[1] + 80)
-                itt.move_and_click(click_posi)
-                change_success = True
-                break
-            itt.middle_scroll(-15)
-            time.sleep(0.2)
-
-            # 如果画面不再变化，说明滚到底了，也结束循环
-            new_cap = itt.capture(posi=AreaAbilityChange.position)
-            rate = similar_img(last_cap, new_cap)
-            if rate > 0.99:
-                break
-            last_cap = new_cap
-
-        if change_success:
+        res = scroll_find_click(AreaAbilityChange, ability_name, click_offset=(80, 80))
+        if res:
             itt.appear_then_click(ButtonAbilitySave)
             if ability_key == 'jump':
                 self.jump_ability = ability_name
@@ -159,7 +139,7 @@ class AbilityManager:
                 self.ability_keymap[ability_name] = ability_key
 
         ui_control.ui_goto(page_main)
-        return change_success
+        return res
 
     def change_ability(self, ability_name: str):
         # 如果当前能力已经符合，就直接返回
@@ -189,4 +169,4 @@ ability_manager = AbilityManager()
 
 
 if __name__ == "__main__":
-    ability_manager.change_ability(ABILITY_NAME_BUG)
+    ability_manager.change_ability(ABILITY_NAME_INSECT)

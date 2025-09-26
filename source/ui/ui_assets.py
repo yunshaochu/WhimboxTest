@@ -22,11 +22,6 @@ AreaBigMapRegionName = Area()
 AreaBigMapRegionSelect = Area()
 # 大地图材料追踪
 AreaBigMapMaterialTypeSelect = Area()
-IconBigMapMaterialTrackTypePlant = ImgIcon()
-IconBigMapMaterialTrackTypeBug = ImgIcon()
-IconBigMapMaterialTrackTypeClear = ImgIcon()
-IconBigMapMaterialTrackTypeFish = ImgIcon()
-IconBigMapMaterialTrackTypeBattle = ImgIcon()
 AreaBigMapMaterialSelect = Area()
 
 # 大世界采集、跳跃、移动相关的UI
@@ -50,11 +45,8 @@ IconUIJihuaInner = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonJihuaInnerGo = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 AreaTextJihuatai = Area()
 TextJihuatai = Text("打开素材激化台", cap_area = AreaTextJihuatai)
-ButtonJihuaPaopao = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
-ButtonJihuaPuling = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
-ButtonJihuaSixian = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
-IconUIJihuaSelect = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
-AreaUIJihuaSelect = Area()
+AreaJihuaTargetSelect = Area()
+AreaJihuaCostSelect = Area()
 ButtonJihuaNumMax = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 ButtonJihuaNumConfirm = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 ButtonJihuaFinallyConfirm = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
@@ -64,14 +56,10 @@ ButtonDigGo = Button(print_log=LOG_WHEN_TRUE, threshold=0.9)
 IconUIDig = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGather = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGatherConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-AreaTextDigingNum = Area()
-ButtonDigType1 = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-ButtonDigType1Fish = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-ButtonDigType1Insect = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-ButtonDigType1Plant = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-ButtonDigType1Animal = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-ButtonDigType2 = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-AreaUIDigItemSelect = Area()
+AreaDigingNumText = Area()
+AreaDigMainTypeSelect = Area()
+AreaDigSubTypeSelect = Area()
+AreaDigItemSelect = Area()
 ButtonDigConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigTime20h = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 
@@ -103,16 +91,19 @@ AreaWardrobeAbilityBattleText = Area()
 TextWardrobeAbilityBattle = Text("净化", cap_area = AreaWardrobeAbilityBattleText)
 IconAbilityFloat = ImgIcon()    # 泡泡套跳跃
 IconAbilityWing = ImgIcon()    # 飞鸟套跳跃
-IconAbilityClear = ImgIcon()    # 清洁
-IconAbilityBug = ImgIcon()      # 捕虫
+IconAbilityAnimal = ImgIcon()    # 清洁
+IconAbilityInsect = ImgIcon()      # 捕虫
 IconAbilityFish = ImgIcon()     # 钓鱼
 IconAbilityFly = ImgIcon()      # 滑翔
 IconAbilitySmall = ImgIcon()    # 变小
 AreaAbilityChange = Area()
 ButtonAbilitySave = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 
-# # 游戏自己的美术素材
-# T_Icon_item_AN0068R2 = GameImg() # 玉簪蚂蚱
-# T_Icon_item_AN0080 = GameImg() # 插梳鱼
-# T_UI_icon_004 = GameImg() # 纯真丝线
-# T_UI_icon_006 = GameImg() # 闪光粒子
+# 素材相关
+IconMaterialTypeAnimal = ImgIcon()
+IconMaterialTypePlant = ImgIcon()
+IconMaterialTypeInsect = ImgIcon()
+IconMaterialTypeFish = ImgIcon()
+IconMaterialTypeMonster = ImgIcon()
+IconMaterialTypeOther = ImgIcon()
+IconMaterialTypeDig1 = ImgIcon()

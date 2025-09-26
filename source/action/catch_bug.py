@@ -11,7 +11,7 @@ class CatchBugTask(TaskTemplate):
 
     @register_step("切换捕虫能力")
     def step1(self):
-       ability_manager.change_ability(ABILITY_NAME_BUG)
+       ability_manager.change_ability(ABILITY_NAME_INSECT)
 
     @ register_step("开启地图追踪")
     def step2(self):
