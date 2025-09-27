@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import yaml
 import win32gui
+from pynput import keyboard
 
 
 from source.common.utils.img_utils import similar_img
@@ -31,6 +32,22 @@ class GameLauncher:
             config = yaml.safe_load(f)
         self.exe_path = config.get('exe_path')
         self.capture_obj = None
+        self.interrupted = False
+        # 设置键盘监听器
+        self.listener = keyboard.Listener(on_press=self.on_press)
+        self.listener.start()
+
+    def on_press(self, key):
+        """处理键盘按键事件"""
+        try:
+            # 检查是否按下了引号键
+            if key.char == "'":
+                print("检测到引号键按下，中断启动流程")
+                self.interrupted = True
+                return False  # 停止监听器
+        except AttributeError:
+            # 特殊键（如ctrl, alt等）会触发这个异常，我们不处理
+            pass
 
     def is_game_running(self):
         """
@@ -109,6 +126,11 @@ class GameLauncher:
         attempts = 0
         
         while attempts < max_attempts:
+            # 检查是否被中断
+            if self.interrupted:
+                print("启动流程已被中断")
+                return False
+                
             # 截图
             if img_icon.is_bbg:
                 screenshot = self.capture_screen(img_icon.bbg_posi)
@@ -135,7 +157,6 @@ class GameLauncher:
         print(f"未能找到图像 {img_icon.name}")
         return False
 
-
     def find_any_image(self, img_icons, max_attempts=30):
         """
         查找任意一个图像
@@ -145,6 +166,11 @@ class GameLauncher:
         attempts = 0
         
         while attempts < max_attempts:
+            # 检查是否被中断
+            if self.interrupted:
+                print("启动流程已被中断")
+                return None
+                
             # 截图（为所有图像使用同一张截图以提高效率）
             screenshots = {}
             for img_icon in img_icons:
@@ -199,7 +225,7 @@ class GameLauncher:
         启动游戏程序并开始检测图片。
         :param exe_path: 游戏启动器路径
         """
-        print("开始启动游戏")
+        print("开始启动游戏，按引号键(')可中断启动流程")
         if self.is_game_running():
             print("检测到游戏窗口已存在，跳过启动")
             return
@@ -220,18 +246,19 @@ class GameLauncher:
 
         time.sleep(5)
 
-
-
         # 等待游戏启动完成
         start_time = time.time()
 
         wait = True
         while True:
+            # 检查是否被中断
+            if self.interrupted:
+                print("启动流程已被中断")
+                break
+                
             # 检查是否超时（20分钟）
             if time.time() - start_time > 1200:
                 raise TimeoutError("启动游戏超时，超过20分钟未进入主菜单")
-
-
 
             # 查找并处理可能出现的对话框
             # found_img = self.find_any_image([ launch_img, launching_img, update_img, yes3_img, yes_img, update2_img], max_attempts=1)
@@ -241,6 +268,10 @@ class GameLauncher:
             
             time.sleep(0.3)
 
+            if self.interrupted:
+                print("启动流程已被中断")
+                break
+
             if found_img and found_img is not launching_img:
                 self.find_image_and_click(found_img)
 
@@ -248,14 +279,11 @@ class GameLauncher:
                 wait = False
                 self.click_coordinate(900, 800)
 
-
             if found_img is update_img or found_img is update2_img:
                 wait = True
 
-
             if wait:
                 continue
-
 
             if self.is_main_menu():
                 print("成功进入主菜单")
@@ -264,8 +292,6 @@ class GameLauncher:
 
             self.click_coordinate(900, 800)
 
-
-                
         print("游戏启动完成")
 
 if __name__ == "__main__":
