@@ -34,6 +34,7 @@ AreaClickSkip = Area()
 TextClickSkip = Text("空白区域继续", cap_area = AreaClickSkip)
 AreaMovementWalk = Area()
 IconMovementWalking = ImgIcon()
+AreaMaterialTrackNear = Area()
 
 # 每日任务相关
 IconUIDailyTask = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)

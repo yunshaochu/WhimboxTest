@@ -106,7 +106,9 @@ class Map(MiniMap, BigMap):
         if use_cache and self.region_name is not None and self.map_name is not None:
             return self.region_name, self.map_name
         else:
-            self.region_name= itt.ocr_single_line(AreaBigMapRegionName, padding=50)
+            hsv_lower = np.array([0, 0, 0])  
+            hsv_upper = np.array([180, 255, 180])   # hsv阈值处理，排除地图背景图案和文字的干扰
+            self.region_name= itt.ocr_single_line(AreaBigMapRegionName, padding=50, hsv_limit=(hsv_lower, hsv_upper))
             self.map_name = trans_region_name_to_map_name(self.region_name)
             return self.region_name, self.map_name
 
@@ -365,17 +367,13 @@ class Map(MiniMap, BigMap):
         self.init_position(tp_posi)
 
         return tp_posi
-    
-    def material_track(self, target_material: str):
-        pass
-
 
 nikki_map = Map()
 logger.info(f"nikki map object created")
 
 if __name__ == '__main__':
     # 花愿镇
-    nikki_map.bigmap_tp([ 6425.3,4381.0], MAP_NAME_MIRALAND)
+    # nikki_map.bigmap_tp([ 6425.3,4381.0], MAP_NAME_MIRALAND)
     # 传送到星海无界枢纽
     # nikki_map.bigmap_tp([1696, 2029], MAP_NAME_STARSEA)
     # 传送到星海海滩
@@ -384,3 +382,6 @@ if __name__ == '__main__':
     # res = itt.ocr_and_detect_posi(AreaBigMapRegionSelect)
     # print(res)
     
+    CV_DEBUG_MODE = True
+    nikki_map.update_region_and_map_name()
+    print(nikki_map.region_name)

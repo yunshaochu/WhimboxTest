@@ -5,6 +5,8 @@ from source.interaction.interaction_core import itt
 from source.common.utils.img_utils import *
 from source.ui.material_icon_assets import material_icon_dict
 from source.common.utils.ui_utils import *
+from source.map.map import nikki_map, MINIMAP_RADIUS
+from source.view_and_move.utils import *
 
 import time
 
@@ -24,6 +26,10 @@ class Track:
         '''
         大地图追踪指定材料，用于在小地图上显示附近的材料点位，后续自动寻路去获取
         '''
+
+        if self.tracking_material == material_name:
+            return
+        
         if material_name not in material_icon_dict:
             raise Exception(f"不支持追踪{material_name}")
         material_info = material_icon_dict[material_name]
@@ -71,8 +77,76 @@ class Track:
         else:
             raise Exception("该材料未开启精确追踪")
 
+    def get_material_track_degree(self):
+        '''根据小地图，计算材料与玩家之间的角度'''
+        cap = itt.capture()
+        minimap_img = nikki_map._get_minimap(cap, MINIMAP_RADIUS)
+        lower = np.array([13, 90, 160])
+        upper = np.array([15, 200, 255])
+        minimap_hsv = process_with_hsv_limit(minimap_img, lower, upper)
+        minimap_blur = cv2.GaussianBlur(minimap_hsv, (5, 5), 1)
+        circles = cv2.HoughCircles(
+            minimap_blur,
+            cv2.HOUGH_GRADIENT,
+            dp=1.2,          # 累加器分辨率（可调 1.0~1.5）
+            minDist=22,      # 圆心最小间距，建议≈ 2*minRadius - 些许
+            param1=120,      # Canny高阈值
+            param2=10,       # 累加器阈值，越小越容易出圆（可调 8~18）
+            minRadius=14,
+            maxRadius=16
+        )
+        
+        if circles is not None:
+            minimap_center = (MINIMAP_RADIUS, MINIMAP_RADIUS)
+            min_dist = 99999
+            for x, y, r in circles[0, :]:
+                dist = euclidean_distance(minimap_center, (x, y))
+                if dist < min_dist:
+                    min_dist = dist
+                    closest_circle = (x, y, r)
+
+            if CV_DEBUG_MODE:
+                x, y, r = np.uint16(np.around(closest_circle))
+                cv2.circle(minimap_img, (x, y), r, (0, 0, 255), 2)
+                cv2.circle(minimap_img, (x, y), 2, (0, 0, 255), 3)
+                cv2.imshow("minimap_img", minimap_img)
+                cv2.waitKey(1)
+
+            degree = calculate_posi2degree(minimap_center, closest_circle[0:2])
+            return degree
+        return None
+
+    def check_tracking_near(self):
+        '''判断是否已经靠近材料'''
+        img = itt.capture(AreaMaterialTrackNear.position)
+        if CV_DEBUG_MODE:
+            img_copy = img.copy()
+        lower = np.array([17, 140, 130])
+        upper = np.array([20, 180, 200])
+        mask = process_with_hsv_limit(img, lower, upper)
+        circles = cv2.HoughCircles(
+            mask,
+            cv2.HOUGH_GRADIENT,
+            dp=1.2,          # 累加器分辨率（可调 1.0~1.5）
+            minDist=22,      # 圆心最小间距，建议≈ 2*minRadius - 些许
+            param1=120,      # Canny高阈值
+            param2=10,       # 累加器阈值，越小越容易出圆（可调 8~18）
+            minRadius=14,
+            maxRadius=18
+        )
+        if circles is not None:
+            if CV_DEBUG_MODE:
+                for circle in circles[0, :]:
+                    x, y, r = np.uint16(np.around(circle))
+                    cv2.circle(img_copy, (x, y), r, (0, 0, 255), 2)
+                    cv2.circle(img_copy, (x, y), 2, (0, 0, 255), 3)
+                cv2.imshow("track_near_img", img_copy)
+                cv2.waitKey(1)
+            return True
+        return False
+
+CV_DEBUG_MODE = True
+material_track = Track()
 
 if __name__ == "__main__":
-    track = Track()
-    track.change_tracking_material("玉簪蚂蚱")
-    # track.change_tracking_material("插梳鱼")
+    material_track.change_tracking_material("玉簪蚂蚱")

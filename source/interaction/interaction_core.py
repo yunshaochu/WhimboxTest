@@ -13,7 +13,7 @@ from source.common.cvars import *
 from source.common.path_lib import ROOT_PATH
 from source.common.logger import logger, get_logger_format_date
 from source.common.utils.utils import get_active_window_process_name
-from source.common.utils.img_utils import crop, similar_img, add_padding
+from source.common.utils.img_utils import crop, process_with_hsv_limit, similar_img, add_padding
 from source.config.config import global_config
 
 ocr_type = global_config.get('General', 'ocr')
@@ -33,12 +33,12 @@ def before_operation(print_log=False):
                 logger.trace(f" operation: {func.__name__} | args: {args[1:]} | {kwargs} | function name: {func_name} & {func_name_2}")
                     
             winname = get_active_window_process_name()
-            if winname not in PROCESS_NAME:
+            if winname != PROCESS_NAME:
                 while 1:
-                    if get_active_window_process_name() in PROCESS_NAME:
+                    if get_active_window_process_name() == PROCESS_NAME:
                         logger.info("恢复操作")
                         break
-                    logger.info(f"当前窗口焦点为{winname}不是游戏窗口{PROCESS_NAME}，操作暂停 {str(5 - (time.time()%5))} 秒")
+                    logger.info(f"当前窗口焦点为{winname}不是游戏窗口，操作暂停 {str(5 - (time.time()%5))} 秒")
                     time.sleep(5 - (time.time()%5))
             return func(*args, **kwargs)
         return wrapper
@@ -108,15 +108,19 @@ class InteractionBGD:
         return ret
 
 
-    def ocr_single_line(self, area: posi_manager.Area, padding=50) -> str:
+    def ocr_single_line(self, area: posi_manager.Area, padding=50, hsv_limit=None) -> str:
         cap = self.capture(posi = area.position)
+        if hsv_limit:
+            cap = process_with_hsv_limit(cap, hsv_limit[0], hsv_limit[1])
         if padding:
             cap = add_padding(cap, padding)
         res = ocr.get_all_texts(cap, mode=1)
         return res
 
-    def ocr_multiple_lines(self, area: posi_manager.Area, padding=50) -> list:
+    def ocr_multiple_lines(self, area: posi_manager.Area, padding=50, hsv_limit=None) -> list:
         cap = self.capture(posi = area.position)
+        if hsv_limit:
+            cap = process_with_hsv_limit(cap, hsv_limit[0], hsv_limit[1])
         if padding:
             cap = add_padding(cap, padding)
         res = ocr.get_all_texts(cap, mode=0)
@@ -330,6 +334,20 @@ class InteractionBGD:
         """
         self.operation_lock.acquire()
         self.itt_exec.left_double_click(dt=dt)
+        self.operation_lock.release()
+
+    @before_operation()
+    def right_down(self):
+        """右键按下"""
+        self.operation_lock.acquire()
+        self.itt_exec.right_down()
+        self.operation_lock.release()
+
+    @before_operation()
+    def right_up(self):
+        """右键抬起"""
+        self.operation_lock.acquire()
+        self.itt_exec.right_up()
         self.operation_lock.release()
 
     @before_operation()

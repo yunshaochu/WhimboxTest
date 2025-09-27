@@ -37,7 +37,7 @@ class AbilityManager:
         img = crop(cap, area)
         lower_white = np.array([0, 0, 230])
         upper_white = np.array([180, 60, 255])
-        img = process_with_hsv_threshold(img, lower_white, upper_white)
+        img = process_with_hsv_limit(img, lower_white, upper_white)
         return img
 
 
