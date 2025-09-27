@@ -4,6 +4,7 @@ import time
 import cv2
 import numpy as np
 import yaml
+import win32gui
 
 
 from source.common.utils.img_utils import similar_img
@@ -30,7 +31,21 @@ class GameLauncher:
             config = yaml.safe_load(f)
         self.exe_path = config.get('exe_path')
         self.capture_obj = None
-        print(IconUIMeiyali.bbg_posi)
+
+    def is_game_running(self):
+        """
+        检查是否存在名为"无限暖暖"的窗口
+        """
+        def enum_window_callback(hwnd, windows):
+            if win32gui.IsWindowVisible(hwnd):
+                window_title = win32gui.GetWindowText(hwnd)
+                if "无限暖暖" in window_title:
+                    windows.append(hwnd)
+            return True
+        
+        windows = []
+        win32gui.EnumWindows(enum_window_callback, windows)
+        return len(windows) > 0
 
     def is_main_menu(self):
         """
@@ -216,6 +231,10 @@ class GameLauncher:
         :param exe_path: 游戏启动器路径
         """
         print("开始启动游戏")
+        if self.is_game_running():
+            print("检测到游戏窗口已存在，跳过启动")
+            return
+            
         if exe_path == '':
             exe_path = self.exe_path
 
