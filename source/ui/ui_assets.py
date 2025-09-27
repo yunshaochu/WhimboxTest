@@ -32,13 +32,13 @@ AreaMovementWalk = Area()
 IconMovementWalking = ImgIcon()
 
 # 钓鱼相关
+AreaFishingDetection = ImgIcon(print_log=LOG_NONE, threshold=0.8)  # B区域（鱼进度检测区域）
+IconFishingReelIn = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 收竿图标
+IconFishingStrike = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8) # 提竿图标
 IconFishingPullLine = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 拉扯鱼线图标1
 IconFishingPullLineAlt = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 拉扯鱼线图标2-采星
-IconFishingReelIn = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 收竿图标
 IconFishingReelLine = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 收线图标
-IconFishingStrike = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8) # 提竿图标
-AreaFishingDetection = ImgIcon(print_log=LOG_NONE, threshold=0.8)  # B区域（鱼线检测区域）
-
+IconFishingSkip = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8) # 跳过
 # 每日任务相关
 IconUIDailyTask = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonHuanjingGo = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
