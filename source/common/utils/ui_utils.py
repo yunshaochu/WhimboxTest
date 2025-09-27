@@ -108,7 +108,7 @@ def scroll_find_click(area: Area, target, threshold=0, hsv_limit=None, scale=0, 
                 break
         
         elif isinstance(target, str):
-            text_box_dict = itt.ocr_and_detect_posi(area)
+            text_box_dict = itt.ocr_and_detect_posi(area, hsv_limit=hsv_limit)
             if target in text_box_dict:
                 box = text_box_dict[target]
                 break

@@ -73,6 +73,7 @@ class RapidOcr():
                     right_bottom_x = max(x_coords)
                     right_bottom_y = max(y_coords)
                     simplified_box = [left_top_x, left_top_y, right_bottom_x, right_bottom_y]
+                    # todo: 可能识别出多个相同的文本，需要优化
                     ret[self._replace_texts(txt)] = simplified_box
 
         if show_res:

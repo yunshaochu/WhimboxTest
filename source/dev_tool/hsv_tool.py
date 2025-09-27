@@ -34,12 +34,12 @@ cv2.createTrackbar("Val Min", "TrackBars", init_data['v_min'], 255, empty)
 cv2.createTrackbar("Val Max", "TrackBars", init_data['v_max'], 255, empty)  
         
 
-if __name__ == "__main__":
+if __name__ == "__main__" and True:
     from source.interaction.interaction_core import itt
     from source.ui.ui_assets import *
     from source.common.utils.posi_utils import *
     while True:
-        img = itt.capture(AreaBigMapRegionName.position)
+        img = itt.capture(AreaBigMapTeleporterSelect.position)
         # 调用回调函数，获取滑动条的值  
         h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
         lower = np.array([h_min, s_min, v_min])  
@@ -73,7 +73,7 @@ if __name__ == "__main__" and False:
             minDist=22,      # 圆心最小间距，建议≈ 2*minRadius - 些许
             param1=120,      # Canny高阈值
             param2=10,       # 累加器阈值，越小越容易出圆（可调 8~18）
-            minRadius=14,
+            minRadius=16,
             maxRadius=18
         )
 

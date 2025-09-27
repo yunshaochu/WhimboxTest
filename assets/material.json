@@ -20,7 +20,7 @@
         "track": true,
         "jihua": true
     },
-    "发卡蚂蚱":{
+    "发卡蚱蜢":{
         "game_img": "T_Icon_item_AN0068",
         "type": "insect",
         "dig": true,
@@ -41,7 +41,7 @@
         "track": true,
         "jihua": true
     },
-    "玉簪蚂蚱": {
+    "玉簪蚱蜢": {
         "game_img": "T_Icon_item_AN0068R2",
         "type": "insect",
         "dig": true,

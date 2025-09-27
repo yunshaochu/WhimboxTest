@@ -131,7 +131,7 @@ class Track:
             minDist=22,      # 圆心最小间距，建议≈ 2*minRadius - 些许
             param1=120,      # Canny高阈值
             param2=10,       # 累加器阈值，越小越容易出圆（可调 8~18）
-            minRadius=14,
+            minRadius=16,
             maxRadius=18
         )
         if circles is not None:
@@ -145,7 +145,6 @@ class Track:
             return True
         return False
 
-CV_DEBUG_MODE = True
 material_track = Track()
 
 if __name__ == "__main__":

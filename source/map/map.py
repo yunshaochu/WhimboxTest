@@ -347,18 +347,18 @@ class Map(MiniMap, BigMap):
             raise Exception(f"switch to {tp_province} {tp_region} failed")
 
         click_posi = self._move_bigmap(tp_posi, csf=csf)
-        retry_time = 0
-        while retry_time < 2:
-            itt.move_and_click(click_posi)
-            time.sleep(0.5)
+        itt.move_and_click(click_posi)
+        itt.wait_until_stable()
+        if not itt.appear_then_click(ButtonBigMapTeleport):
             # 传送点和其他图标重合的情况下，如果点击传送点，会弹出选择菜单
-            if itt.appear_then_click(IconBigMapCheckPointSelect):
-                time.sleep(1)
-            if itt.appear_then_click(ButtonBigMapTeleport):
-                break
-            retry_time += 1
-        else:
-            raise BigMapTPError("bigmap tp failed")
+            hsv_lower = np.array([0, 0, 220])  
+            hsv_upper = np.array([180, 15, 255])   # hsv阈值处理，排除地图背景图案和文字的干扰
+            if scroll_find_click(AreaBigMapTeleporterSelect, target_teleporter.name, hsv_limit=(hsv_lower, hsv_upper)):
+                itt.wait_until_stable()
+                if not itt.appear_then_click(ButtonBigMapTeleport):
+                    raise BigMapTPError("bigmap tp failed")
+            else:
+                raise BigMapTPError("bigmap tp failed")
 
         # 等待传送完成
         while not (ui_control.get_page() == page_main):
@@ -383,5 +383,4 @@ if __name__ == '__main__':
     # print(res)
     
     CV_DEBUG_MODE = True
-    nikki_map.update_region_and_map_name()
-    print(nikki_map.region_name)
+    nikki_map.bigmap_tp([6188, 5446.5], MAP_NAME_MIRALAND)

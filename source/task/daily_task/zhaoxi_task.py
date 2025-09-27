@@ -7,7 +7,7 @@ from source.ui.ui import ui_control
 from source.ui.page_assets import *
 from source.interaction.interaction_core import itt
 import time
-from source.task.utils import *
+from source.common.utils.ui_utils import wait_until_appear
 
 
 zxxy_task_dict = {
@@ -156,4 +156,4 @@ class ZhaoxiTask(TaskTemplate):
 if __name__ == "__main__":
     zhaoxi_task = ZhaoxiTask()
     zhaoxi_task.task_run()
-    print(zhaoxi_task.ret)
+    print(zhaoxi_task.task_result)
