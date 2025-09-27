@@ -12,12 +12,13 @@ from source.ui.template.img_manager import LOG_NONE, ImgIcon
 
 
 
-launch_img = ImgIcon(name="launch", path="assets/imgs/Launch/launch.png", threshold=0.999)
+launch_img = ImgIcon(name="launch", path="assets/imgs/Launch/launch.png", is_bbg=True, threshold=0.999)
 launching_img = ImgIcon(name="launching", path="assets/imgs/Launch/launching.png", is_bbg=True,threshold=0.999)
 update_img = ImgIcon(name="update", path="assets/imgs/Launch/update.png", threshold=0.999)
 update2_img = ImgIcon(name="update2", path="assets/imgs/Launch/update2.png", threshold=0.999)
-yes_img = ImgIcon(name="yes", path="assets/imgs/Launch/yes.png", threshold=0.999)
-yes3_img = ImgIcon(name="yes3", path="assets/imgs/Launch/yes3.png", threshold=0.999)
+# yes_img = ImgIcon(name="yes", path="assets/imgs/Launch/yes.png", threshold=0.999)
+# yes3_img = ImgIcon(name="yes3", path="assets/imgs/Launch/yes3.png", threshold=0.999)
+yes_mask_img = ImgIcon(name="yes_mask", path="assets/imgs/Launch/yes_mask.png", is_bbg=True, threshold=0.999)
 IconUIMeiyali = ImgIcon(name="IconUIMeiyali", path="assets/imgs/Windows/UI/common/IconUIMeiyali.png",print_log=LOG_NONE, is_bbg=True,threshold=0.999)
 
 
@@ -246,7 +247,10 @@ class GameLauncher:
 
 
             # 查找并处理可能出现的对话框
-            found_img = self.find_any_image([ launch_img, launching_img, update_img, yes3_img, yes_img, update2_img], max_attempts=1)
+            # found_img = self.find_any_image([ launch_img, launching_img, update_img, yes3_img, yes_img, update2_img], max_attempts=1)
+
+            found_img = self.find_any_image([ launch_img, launching_img, update_img, yes_mask_img, update2_img], max_attempts=1)
+
             
             time.sleep(0.3)
 
@@ -256,6 +260,11 @@ class GameLauncher:
             if found_img is launching_img:
                 wait = False
                 self.click_coordinate(900, 800)
+
+
+            if found_img is update_img or found_img is update2_img:
+                wait = True
+
 
             if wait:
                 continue
