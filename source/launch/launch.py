@@ -24,7 +24,7 @@ IconUIMeiyali = ImgIcon(name="IconUIMeiyali", path="assets/imgs/Windows/UI/commo
 class GameLauncher:
     def __init__(self):
         # 从YAML配置文件中读取exe_path
-        config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'launch.yml')
+        config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'config', 'launch.yml')
         with open(config_path, 'r', encoding='utf-8') as f:
             config = yaml.safe_load(f)
         self.exe_path = config.get('exe_path')
