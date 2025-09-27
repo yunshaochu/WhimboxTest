@@ -135,37 +135,6 @@ class GameLauncher:
         print(f"未能找到图像 {img_icon.name}")
         return False
 
-    def find_image(self, target, img=None, max_attempts=30):
-        """
-        查找图像
-        :param target: ImgIcon对象
-        :param img: 指定图像（可选）
-        :param max_attempts: 最大尝试次数
-        """
-        attempts = 0
-        
-        while attempts < max_attempts:
-            # 截图
-            if target.is_bbg:
-                screenshot = self.capture_screen(target.bbg_posi)
-            else:
-                screenshot = self.capture_screen()
-
-            if img is None:
-                img = screenshot
-            
-            # 在截图中查找图像
-            matching_rate = similar_img(img, target.image)
-            
-            if matching_rate >= target.threshold:
-                print(f"找到图像 {target.name}，匹配度: {matching_rate}")
-                return True
-                
-            time.sleep(0.5)
-            attempts += 1
-            
-        print(f"未能找到图像 {target.name}")
-        return False
 
     def find_any_image(self, img_icons, max_attempts=30):
         """
@@ -225,7 +194,7 @@ class GameLauncher:
         except Exception as e:
             print(f"点击坐标时出错: {e}")
 
-    def launch_game(self, exe_path=r"D:\game\nikki\InfinityNikki Launcher\launcher.exe"):
+    def launch_game(self):
         """
         启动游戏程序并开始检测图片。
         :param exe_path: 游戏启动器路径
@@ -235,8 +204,7 @@ class GameLauncher:
             print("检测到游戏窗口已存在，跳过启动")
             return
             
-        if exe_path == '':
-            exe_path = self.exe_path
+        exe_path = self.exe_path
 
         if os.path.exists(exe_path):
             try:
