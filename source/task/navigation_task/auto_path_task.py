@@ -2,13 +2,14 @@
 from source.task.task_template import TaskTemplate, register_step
 from source.interaction.interaction_core import itt
 import time, os
-from source.task.utils import *
 from source.common.path_lib import *
 from source.task.navigation_task.common import *
 from source.map.map import nikki_map
 from source.view_and_move.view import *
 from source.view_and_move.move import *
 from source.action.pickup import PickupTask
+from source.action.catch_insect import CatchInsectTask
+from source.action.clean_animal import CleanAnimalTask
 
 class AutoPathTask(TaskTemplate):
     def __init__(self, path_file_name):
@@ -27,6 +28,10 @@ class AutoPathTask(TaskTemplate):
         self.need_move_mode = MOVE_MODE_WALK
         self.last_need_move_mode = MOVE_MODE_WALK
 
+        # 各类材料获取任务的结果记录
+        self.material_count_dict = {}
+
+        # 行走跳跃的控制线程
         self.jump_controller = JumpController()
         self.move_controller = MoveController()
 
@@ -35,9 +40,17 @@ class AutoPathTask(TaskTemplate):
         self.jump2walk_stop_time = 0.2
         self.offset = 2 # 当距离必经点offset以内，就视作已经到达
 
+    def merge_material_count_dict(self, material_count_dict):
+        if material_count_dict is None:
+            return
+        for key, value in material_count_dict.items():
+            if key in self.material_count_dict:
+                self.material_count_dict[key] += value
+            else:
+                self.material_count_dict[key] = value
 
     def task_stop(self):
-        if not self.task_stop_flag:
+        if not self.need_stop():
             super().task_stop()
             self.clear_all()
             self.log_to_gui("手动停止跑图", is_error=True)
@@ -85,7 +98,7 @@ class AutoPathTask(TaskTemplate):
     @register_step("自动跑图中……")
     def step1(self):
         last_t = time.time()
-        while not self.task_stop_flag:
+        while not self.need_stop():
             if DEBUG_MODE:
                 t = time.time()
                 print(f"cost {round(t - last_t, 2)}")
@@ -127,8 +140,25 @@ class AutoPathTask(TaskTemplate):
                     self.stop_move()
                     self.stop_jump()
                     if self.target_point.action == ACTION_PICK_UP:
-                        pickup_task = PickupTask()
+                        pickup_task = PickupTask(check_stop_func=self.need_stop)
                         task_result = pickup_task.task_run()
+                        self.merge_material_count_dict(task_result.data)
+                    elif self.target_point.action == ACTION_CATCH_INSECT:
+                        excepted_count = int(self.target_point.action_params)
+                        catch_insect_task = CatchInsectTask(
+                            self.path_info.target, 
+                            expected_count=excepted_count,
+                            check_stop_func=self.need_stop)
+                        task_result = catch_insect_task.task_run()
+                        self.merge_material_count_dict(task_result.data)
+                    elif self.target_point.action == ACTION_CLEAN_ANIMAL:
+                        excepted_count = int(self.target_point.action_params)
+                        clean_animal_task = CleanAnimalTask(
+                            self.path_info.target, 
+                            expected_count=excepted_count,
+                            check_stop_func=self.need_stop)
+                        task_result = clean_animal_task.task_run()
+                        self.merge_material_count_dict(task_result.data)
                     elif self.target_point.action == ACTION_WAIT:
                         wait_time = self.target_point.action_params
                         if wait_time is None:
@@ -205,7 +235,15 @@ class AutoPathTask(TaskTemplate):
     @register_step("结束自动跑图")
     def step2(self):
         self.clear_all()
-        self.update_task_result(message="自动跑图完成")
+        if len(self.material_count_dict) > 0:
+            message = "自动跑图完成，获得材料："
+            res = []
+            for material_name, count in self.material_count_dict.items():
+                res.append(f"{material_name} x {count}")
+            message += ", ".join(res)
+            self.update_task_result(message=message)
+        else:
+            self.update_task_result(message="自动跑图完成")
 
 
     def handle_finally(self):
@@ -213,5 +251,5 @@ class AutoPathTask(TaskTemplate):
 
 
 if __name__ == "__main__":
-    task = AutoPathTask("example2.json")
+    task = AutoPathTask("example4.json")
     task.task_run()
