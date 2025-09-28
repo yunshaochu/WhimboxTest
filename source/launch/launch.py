@@ -75,7 +75,6 @@ class GameLauncher:
             cap = self.capture_screen(IconUIMeiyali.bbg_posi)
             matching_rate = similar_img(cap, IconUIMeiyali.image, is_gray=False)
             result = matching_rate >= IconUIMeiyali.threshold
-            # logger.debug(f"是否找到主菜单: {result}")
             if result:
                 logger.info("游戏启动成功")
             return result
@@ -146,20 +145,19 @@ class GameLauncher:
             matching_rate, max_loc = similar_img(screenshot, img_icon.image, True, ret_mode=3)
             
             if matching_rate >= img_icon.threshold:
-                logger.debug(f"找到图像 {img_icon.name}，匹配度: {matching_rate}")
+                logger.trace(f"找到图像 {img_icon.name}，匹配度: {matching_rate}")
                 # 计算点击位置
                 click_x = max_loc[0] + img_icon.cap_posi[0] + img_icon.image.shape[1] // 2
                 click_y = max_loc[1] + img_icon.cap_posi[1] + img_icon.image.shape[0] // 2
 
                 # 点击位置
                 self.click_coordinate(click_x, click_y)
-                logger.debug(f"点击了 {img_icon.name} 在位置 ({click_x}, {click_y})")
+                logger.trace(f"点击了 {img_icon.name} 在位置 ({click_x}, {click_y})")
                 return True
 
             time.sleep(0.5)
             attempts += 1
 
-        # logger.debug(f"未能找到图像 {img_icon.name}")
         return False
 
     def find_any_image(self, img_icons, max_attempts=30):
@@ -201,13 +199,12 @@ class GameLauncher:
             # 检查是否有匹配的图像
             for img_icon, matching_rate in results.items():
                 if matching_rate >= img_icon.threshold:
-                    logger.debug(f"找到图像 {img_icon.name}，匹配度: {matching_rate}")
+                    logger.trace(f"找到图像 {img_icon.name}，匹配度: {matching_rate}")
                     return img_icon
 
             time.sleep(0.5)
             attempts += 1
 
-        # logger.debug(f"未能找到任何图像")
         return None
 
     def click_coordinate(self, x, y):
@@ -222,7 +219,7 @@ class GameLauncher:
             win32api.SetCursorPos((int(x), int(y)))
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, int(x), int(y), 0, 0)
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, int(x), int(y), 0, 0)
-            # logger.debug(f"点击坐标 ({x}, {y})")
+            logger.trace(f"点击坐标 ({x}, {y})")
         except Exception as e:
             logger.error(f"点击坐标时出错: {e}")
 
@@ -280,7 +277,7 @@ class GameLauncher:
 
         start_time = time.time()
 
-        wait = True # 保险：防止程序在游戏句柄出现之前调用is_main_menu，导致程序卡死
+        wait = True # 防止在游戏窗口出现之前点击到其他东西
         while True:
             # 检查是否被中断
             if self.interrupted:
@@ -305,8 +302,7 @@ class GameLauncher:
                 self.find_image_and_click(found_img)
 
             if found_img is launching_img:
-                wait = False # 一旦出现launching_img, 说明游戏句柄出现，可以调用is_main_menu
-                # logger.debug("点击启动界面")
+                wait = False # 一旦出现launching_img, 说明游戏窗口出现，可以正常进行下一步了
                 self.click_coordinate(900, 800)
 
             if found_img is update_img or found_img is update2_img:
@@ -319,7 +315,7 @@ class GameLauncher:
                 break
             # logger.debug("等待游戏启动...")
 
-            logger.debug("点击屏幕中心位置(900, 800)以进入游戏")
+            logger.trace("点击屏幕中心位置(900, 800)以进入游戏")
             self.click_coordinate(900, 800)
 
         # 游戏启动完成，停止键盘监听器
