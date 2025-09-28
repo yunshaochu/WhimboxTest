@@ -3,7 +3,6 @@ import os
 import time
 import cv2
 import numpy as np
-import yaml
 import win32gui
 from pynput import keyboard
 
@@ -232,8 +231,12 @@ class GameLauncher:
         启动游戏程序并开始检测图片。
         :param exe_path: 游戏启动器路径
         """
+        # 游戏窗口已存在，跳过启动
         if self.is_game_running():
-            # logger.info("检测到游戏窗口已存在，跳过启动")
+            if self.listener and self.listener.is_alive():
+                self.listener.stop()
+                self.listener.join()
+
             return
 
         logger.info("开始启动游戏，按引号键(')可中断启动流程")
@@ -319,7 +322,13 @@ class GameLauncher:
             logger.debug("点击屏幕中心位置(900, 800)以进入游戏")
             self.click_coordinate(900, 800)
 
+        # 游戏启动完成，停止键盘监听器
+        if self.listener and self.listener.is_alive():
+            self.listener.stop()
+            self.listener.join()
+
+        return
+
 
 if __name__ == "__main__":
-    launcher = GameLauncher()
-    launcher.launch_game()
+    GameLauncher().launch_game()
