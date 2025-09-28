@@ -37,7 +37,7 @@ class TaskResult:
     def __init__(self, status="success", message="", data=None):
         self.status = status
         self.message = message
-        self.data = None
+        self.data = data
     
     def to_dict(self):
         return self.__dict__

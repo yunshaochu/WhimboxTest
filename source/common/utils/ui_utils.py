@@ -23,7 +23,8 @@ def find_game_img(game_img: GameImg, cap, threshold, scale=0.5):
         mask = None
 
     if scale:
-        template_rgb = cv2.resize(template_rgb, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
+        # 为什么INTER_LINEAR，因为如果用INTER_NEAREST，有些图片里太细的线条就会被忽略（比如纯真丝线），导致相似度大幅下降
+        template_rgb = cv2.resize(template_rgb, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
         if mask is not None:
             mask = cv2.resize(mask, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
 
@@ -37,15 +38,16 @@ def find_game_img(game_img: GameImg, cap, threshold, scale=0.5):
     # 模板匹配
     res = cv2.matchTemplate(cap, template_rgb, cv2.TM_CCOEFF_NORMED, mask=mask)
 
+
     # 找到最大匹配位置
     _, max_val, _, max_loc = cv2.minMaxLoc(res)
 
-    # 在目标图上绘制矩形
     th, tw = template_rgb.shape[:2]
     top_left = max_loc
     bottom_right = (top_left[0] + tw, top_left[1] + th)
 
     if CV_DEBUG_MODE:
+        # 在目标图上绘制矩形
         print(f"max_val: {max_val}, threshold: {threshold}")
         cap_copy = cap.copy()
         cv2.rectangle(cap_copy, top_left, bottom_right, (0,255,0), 3)
@@ -177,12 +179,14 @@ if __name__ == "__main__":
     CV_DEBUG_MODE = True
     from source.ui.ui_assets import *
     from source.ui.material_icon_assets import material_icon_dict
-    # material_name = "发卡蚂蚱"
-    material_name = "玉簪蚂蚱"
+    material_name = "纯真丝线"
+    # material_name = "玉簪蚱蜢"
     target = material_icon_dict[material_name]["icon"]
-    # scroll_find_click(AreaBigMapMaterialSelect, target, threshold=0.7, scale=0.41)
-    cap = itt.capture(posi=AreaBigMapMaterialSelect.position)
-    find_game_img(target, cap, threshold=0.7, scale=0.45)
+    # scroll_find_click(AreaBigMapMaterialSelect, target, threshold=0.9, scale=0.45)
+    cap = itt.capture(posi=AreaDigItemSelect.position)
+    find_game_img(target, cap, threshold=0.7, scale=0.46)
+    # cap = itt.capture(posi=AreaBigMapMaterialSelect.position)
+    # find_game_img(target, cap, threshold=0.9, scale=0.45)
 
     # hsv_limit = [np.array([0, 0, 100]), np.array([180, 60, 255])]
     # # scroll_find_click(AreaDigMainTypeSelect, IconMaterialTypeMonster, threshold=0.85, hsv_limit=hsv_limit, scale=1.233)

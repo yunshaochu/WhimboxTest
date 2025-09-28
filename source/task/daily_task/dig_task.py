@@ -36,7 +36,7 @@ material_type_dict = {
 }
 
 class DigTask(TaskTemplate):
-    def __init__(self, target_item_list=["玉簪蚂蚱", "闪光粒子", "纯真丝线", "插梳鱼"]):
+    def __init__(self, target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]):
         super().__init__("dig_task")
         self.target_item_list = target_item_list
     

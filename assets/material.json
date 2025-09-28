@@ -6,6 +6,20 @@
         "track": true,
         "jihua": true
     },
+    "雾绡鱼": {
+        "game_img": "T_Icon_item_AN0059R2",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "云尾锦鲤": {
+        "game_img": "T_Icon_item_ANW0051R2",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
     "裙撑萤": {
         "game_img": "T_Icon_item_AN0067",
         "type": "insect",
@@ -50,6 +64,13 @@
     },
     "汪汪毛线": {
         "game_img": "T_Icon_item_ANQ0044",
+        "type": "animal",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "画眉毛团": {
+        "game_img": "T_Icon_item_AN0092R2",
         "type": "animal",
         "dig": true,
         "track": true,

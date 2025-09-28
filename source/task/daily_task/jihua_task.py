@@ -54,7 +54,7 @@ class JihuaTask(TaskTemplate):
         if self.target_material not in target_material_list:
             raise Exception(f"不支持兑换激化产物{self.target_material}")
         itt.wait_until_stable()
-        if not scroll_find_click(AreaJihuaTargetSelect, self.target_material, threshold=0.85, scale=0.5):
+        if not scroll_find_click(AreaJihuaTargetSelect, self.target_material):
             raise Exception(f"未找到激化产物{self.target_material}")
 
 

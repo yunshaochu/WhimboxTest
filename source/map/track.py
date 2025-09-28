@@ -64,7 +64,7 @@ class Track:
         
         # 选择材料
         time.sleep(0.2) # 等待类别切换完成
-        result = scroll_find_click(AreaBigMapMaterialSelect, material_icon, threshold=0.9, scale=0.45)
+        result = scroll_find_click(AreaBigMapMaterialSelect, material_icon, threshold=0.8, scale=0.45)
         if not result:
             raise Exception("材料选择失败")
 
@@ -174,6 +174,7 @@ material_track = Track()
 
 if __name__ == "__main__":
     CV_DEBUG_MODE = True
-    while True:
-        material_track.get_material_track_degree()
-        time.sleep(0.2)
+    material_track.change_tracking_material("发卡蚱蜢")
+    # while True:
+    #     material_track.get_material_track_degree()
+    #     time.sleep(0.2)
