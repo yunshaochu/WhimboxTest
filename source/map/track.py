@@ -7,6 +7,7 @@ from source.ui.material_icon_assets import material_icon_dict
 from source.common.utils.ui_utils import *
 from source.map.map import nikki_map, MINIMAP_RADIUS
 from source.view_and_move.utils import *
+from source.ability.cvar import *
 
 import time
 
@@ -16,6 +17,11 @@ material_type_icon_dict = {
     "insect": IconMaterialTypeInsect,
     "fish": IconMaterialTypeFish,
     "monster": IconMaterialTypeMonster,
+}
+
+material_type_to_ability_name = {
+    "animal": ABILITY_NAME_ANIMAL,
+    "insect": ABILITY_NAME_INSECT,
 }
 
 class Track:

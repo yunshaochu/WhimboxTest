@@ -3,15 +3,22 @@ from source.task.task_template import TaskTemplate, register_step
 from source.interaction.interaction_core import itt
 from source.ability.ability import ability_manager
 from source.ability.cvar import *
-from source.map.track import material_track
+from source.map.track import *
 from source.view_and_move.utils import *
 from source.view_and_move.view import *
+from source.view_and_move.cvars import *
 from source.common.utils.ui_utils import *
 
 class MaterialTrackBaseTask(TaskTemplate):
     def __init__(self, material_name, expected_count=1, check_stop_func=None):
         super().__init__("MaterialTrackBaseTask", check_stop_func)
         self.material_name = material_name
+        if material_name not in material_icon_dict:
+            raise Exception(f"不支持追踪{material_name}")
+        material_info = material_icon_dict[material_name]
+        if not material_info["track"]:
+            raise Exception(f"不支持追踪{material_name}")
+        self.ability_name = material_type_to_ability_name[material_info["type"]]
         self.time_limit = 15 # 一次任务的时间限制，超时就强制结束，单位秒
         self.material_count_dict = {self.material_name: 0}
         self.expected_count = expected_count
@@ -26,7 +33,7 @@ class MaterialTrackBaseTask(TaskTemplate):
 
     @register_step("切换能力")
     def step1(self):
-       ability_manager.change_ability(ABILITY_NAME_ANIMAL)
+        ability_manager.change_ability(self.ability_name)
 
     @register_step("开启材料追踪")
     def step2(self):

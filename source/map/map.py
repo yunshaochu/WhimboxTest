@@ -29,7 +29,7 @@ class Map(MiniMap, BigMap):
         self.MAP_POSI2MOVE_POSI_RATE = 0.5  # 移动距离与力度的比例
         self.BIGMAP_TP_OFFSET = 20  # 距离目标小于该误差则停止
         self.BIGMAP_MOVE_MAX = 130  # 最大移动力度
-        self.TP_RANGE = 500  # 在该像素范围内可tp
+        self.TP_RANGE = 200  # 在该像素范围内可tp
         self.MINIMAP_UPDATE_LIMIT = 0.1  # minimap更新最短时间
         self.MINIMAP_ERROR_BASE_LIMIT = 20  # minimap基本更新误差
 
