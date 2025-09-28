@@ -48,6 +48,13 @@
         "track": true,
         "jihua": true
     },
+    "汪汪毛线": {
+        "game_img": "T_Icon_item_ANQ0044",
+        "type": "animal",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
     "纯真丝线": {
         "game_img": "T_UI_icon_004",
         "type": "other",

@@ -84,7 +84,8 @@ class Track:
         lower = np.array([13, 90, 160])
         upper = np.array([15, 200, 255])
         minimap_hsv = process_with_hsv_limit(minimap_img, lower, upper)
-        minimap_blur = cv2.GaussianBlur(minimap_hsv, (5, 5), 1)
+        minimap_blur = cv2.GaussianBlur(minimap_hsv, (3, 3), 1)
+
         circles = cv2.HoughCircles(
             minimap_blur,
             cv2.HOUGH_GRADIENT,
@@ -104,7 +105,7 @@ class Track:
                 if dist < min_dist:
                     min_dist = dist
                     closest_circle = (x, y, r)
-
+            
             if CV_DEBUG_MODE:
                 print(min_dist)
                 x, y, r = np.uint16(np.around(closest_circle))
@@ -112,13 +113,17 @@ class Track:
                 cv2.circle(minimap_img, (x, y), 2, (0, 0, 255), 3)
                 cv2.imshow("minimap_img", minimap_img)
                 cv2.waitKey(1)
-
-            degree = calculate_posi2degree(minimap_center, closest_circle[0:2])
-            return degree
+            
+            # 如果材料出现在小地图边缘，说明附近已经没有材料了
+            if min_dist > MINIMAP_RADIUS - 20:
+                return None
+            else:
+                degree = calculate_posi2degree(minimap_center, closest_circle[0:2])
+                return degree
         return None
 
     def check_tracking_near(self):
-        '''判断是否已经靠近材料'''
+        '''判断是否已经靠近材料（已废弃，改用is_ability_active判断）'''
         img = itt.capture(AreaMaterialTrackNear.position)
         if CV_DEBUG_MODE:
             img_copy = img.copy()
@@ -143,6 +148,19 @@ class Track:
                     cv2.circle(img_copy, (x, y), 2, (0, 0, 255), 3)
                 cv2.imshow("track_near_img", img_copy)
                 cv2.waitKey(1)
+            return True
+        return False
+    
+    def is_ability_active(self):
+        '''
+        判断能力是否激活，通过判断能力按钮外圈是否发光，来判断是否可以使用能力了
+        '''
+        img = itt.capture(AreaAbilityButton.position)
+        lower = np.array([0, 80, 240])
+        upper = np.array([30, 110, 255])
+        mask = process_with_hsv_limit(img, lower, upper)
+        px_count = cv2.countNonZero(mask)
+        if px_count > 200:
             return True
         return False
 

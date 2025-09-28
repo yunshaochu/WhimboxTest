@@ -19,12 +19,12 @@ def empty(a):
 cv2.namedWindow("TrackBars")  
 cv2.resizeWindow("TrackBars", 640, 300)  
 init_data = {
-    'h_min': 15,
-    'h_max': 22,
-    's_min': 110,
-    's_max': 180,
-    'v_min': 100,
-    'v_max': 210,
+    'h_min': 90,
+    'h_max': 110,
+    's_min': 0,
+    's_max': 130,
+    'v_min': 150,
+    'v_max': 255,
 }
 cv2.createTrackbar("Hue Min", "TrackBars", init_data['h_min'], 179, empty)  
 cv2.createTrackbar("Hue Max", "TrackBars", init_data["h_max"], 179, empty)  
@@ -34,17 +34,24 @@ cv2.createTrackbar("Val Min", "TrackBars", init_data['v_min'], 255, empty)
 cv2.createTrackbar("Val Max", "TrackBars", init_data['v_max'], 255, empty)  
         
 
-if __name__ == "__main__" and False:
+if __name__ == "__main__" and True:
     from source.interaction.interaction_core import itt
     from source.ui.ui_assets import *
     from source.common.utils.posi_utils import *
     while True:
-        img = itt.capture(AreaBigMapTeleporterSelect.position)
+        img = itt.capture(AreaAbilityButton.position)
+        
         # 调用回调函数，获取滑动条的值  
-        h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
-        lower = np.array([h_min, s_min, v_min])  
-        upper = np.array([h_max, s_max, v_max])  
+        # h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
+        # lower = np.array([h_min, s_min, v_min])  
+        # upper = np.array([h_max, s_max, v_max])  
+        lower = np.array([0, 80, 240])
+        upper = np.array([30, 110, 255])
         mask = process_with_hsv_limit(img, lower, upper)
+        px_count = cv2.countNonZero(mask)
+        print(f"px_count: {px_count}")
+        if px_count > 200:
+            print("get!")
         cv2.imshow("mask", mask)
         cv2.waitKey(1)
 
@@ -52,16 +59,19 @@ if __name__ == "__main__" and False:
     from source.interaction.interaction_core import itt
     from source.ui.ui_assets import *
     from source.common.utils.posi_utils import *
+    from source.common.path_lib import *
     while True:
-        img = itt.capture(AreaMaterialTrackNear.position)
+        img = itt.capture(AreaAbilityButton.position)
+        # img = cv2.imread(os.path.join(ROOT_PATH, "tools", "snapshot", "1759020866.2830987.png"))
+        # img = crop(img, AreaMaterialTrackNear.position)
         img_copy = img.copy()
         imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
         # 调用回调函数，获取滑动条的值  
-        # h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
-        # lower = np.array([h_min, s_min, v_min])  
-        # upper = np.array([h_max, s_max, v_max])  
-        lower = np.array([17, 140, 130])
-        upper = np.array([20, 180, 200])
+        h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
+        lower = np.array([h_min, s_min, v_min])  
+        upper = np.array([h_max, s_max, v_max])  
+        # lower = np.array([17, 140, 130])
+        # upper = np.array([20, 180, 200])
         mask = cv2.inRange(imgHSV, lower, upper)
         cv2.imshow("mask", mask)
         cv2.waitKey(1)
@@ -93,7 +103,7 @@ if __name__ == "__main__" and False:
         #     save_image(img, f'D:\\workspaces\\python\\Whimbox\\tools\\hsv_tool\\jump2.png')
         #     break
     
-if __name__ == "__main__" and True:
+if __name__ == "__main__" and False:
     from source.interaction.interaction_core import itt
     from source.ui.ui_assets import *
     from source.common.utils.posi_utils import *
