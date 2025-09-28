@@ -1,0 +1,93 @@
+{
+    "插梳鱼": {
+        "game_img": "T_Icon_item_AN0080",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "雾绡鱼": {
+        "game_img": "T_Icon_item_AN0059R2",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "云尾锦鲤": {
+        "game_img": "T_Icon_item_ANW0051R2",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "裙撑萤": {
+        "game_img": "T_Icon_item_AN0067",
+        "type": "insect",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "围巾蚯蚓": {
+        "game_img": "T_Icon_item_AN0078",
+        "type": "insect",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "发卡蚱蜢":{
+        "game_img": "T_Icon_item_AN0068",
+        "type": "insect",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "面膜草蛉": {
+        "game_img": "T_Icon_item_AN0113",
+        "type": "insect",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "美甲金龟": {
+        "game_img": "T_Icon_item_AN0111",
+        "type": "insect",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "玉簪蚱蜢": {
+        "game_img": "T_Icon_item_AN0068R2",
+        "type": "insect",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "汪汪毛线": {
+        "game_img": "T_Icon_item_ANQ0044",
+        "type": "animal",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "画眉毛团": {
+        "game_img": "T_Icon_item_AN0092R2",
+        "type": "animal",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "纯真丝线": {
+        "game_img": "T_UI_icon_004",
+        "type": "other",
+        "dig": true,
+        "track": false,
+        "jihua": false
+    },
+    "闪光粒子": {
+        "game_img": "T_UI_icon_006",
+        "type": "other",
+        "dig": true,
+        "track": false,
+        "jihua": false
+    }
+}

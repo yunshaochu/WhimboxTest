@@ -78,7 +78,7 @@ class RecordPathTask(TaskTemplate):
     def step2(self):
         while True:
             time.sleep(self.step_sleep)
-            if self.task_stop_flag:
+            if self.need_stop():
                 break
             if not ui_control.verify_page(page_main):
                 continue

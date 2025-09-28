@@ -7,31 +7,36 @@ from source.ui.ui import ui_control
 from source.ui.page_assets import *
 from source.interaction.interaction_core import itt
 import time
-from source.task.utils import *
+from source.ui.material_icon_assets import material_icon_dict
+from source.common.utils.ui_utils import *
 
-dig_item_dict ={
-    "插梳鱼": {
-        "game_img": T_Icon_item_AN0080,
-        "type_button": ButtonDigType1,
-        "sub_type_button": ButtonDigType1Fish,
+material_type_dict = {
+    'plant': {
+        "main_type_icon": IconMaterialTypeDig1,
+        "sub_type_icon": IconMaterialTypePlant,
     },
-    "玉簪蚂蚱": {
-        "game_img": T_Icon_item_AN0068R2,
-        "type_button": ButtonDigType1,
-        "sub_type_button": ButtonDigType1Insect,
+    'animal': {
+        "main_type_icon": IconMaterialTypeDig1,
+        "sub_type_icon": IconMaterialTypeAnimal,
     },
-    "纯真丝线": {
-        "game_img": T_UI_icon_004,
-        "type_button": ButtonDigType2,
+    'insect': {
+        "main_type_icon": IconMaterialTypeDig1,
+        "sub_type_icon": IconMaterialTypeInsect,
     },
-    "闪光粒子": {
-        "game_img": T_UI_icon_006,
-        "type_button": ButtonDigType2,
+    'fish': {
+        "main_type_icon": IconMaterialTypeDig1,
+        "sub_type_icon": IconMaterialTypeFish,
+    },
+    'other': {
+        "main_type_icon": IconMaterialTypeOther,
+    },
+    'monster': {
+        "main_type_icon": IconMaterialTypeMonster,
     },
 }
 
 class DigTask(TaskTemplate):
-    def __init__(self, target_item_list=["玉簪蚂蚱", "闪光粒子", "纯真丝线", "插梳鱼"]):
+    def __init__(self, target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]):
         super().__init__("dig_task")
         self.target_item_list = target_item_list
     
@@ -45,7 +50,7 @@ class DigTask(TaskTemplate):
         if wait_until_appear_then_click(ButtonDigGather):
             return "step3" # 可一键收获，执行收获流程
         else:
-            dig_num_str = itt.ocr_single_line(AreaTextDigingNum, padding=30)
+            dig_num_str = itt.ocr_single_line(AreaDigingNumText, padding=50)
             try:
                 diging_num = int(dig_num_str.split("/")[0])
             except:
@@ -69,25 +74,30 @@ class DigTask(TaskTemplate):
     def step4(self):
 
         def select_dig_item(item_name):
-            if item_name not in dig_item_dict:
+            if item_name not in material_icon_dict:
                 raise Exception(f"暂不支持挖掘{item_name}")
-            item_info = dig_item_dict[item_name]
-            # 选择物品大分类
-            type_button = item_info["type_button"]
-            itt.move_and_click(type_button.click_position())
+            material_info = material_icon_dict[item_name]
+            if not material_info['dig']:
+                raise Exception(f"暂不支持挖掘{item_name}")
+            material_type = material_info['type']
+            if material_type not in material_type_dict:
+                raise Exception(f"暂不支持挖掘{material_type}类型的材料")
+
+            hsv_limit = [np.array([0, 0, 100]), np.array([180, 60, 255])]
+
+             # 选择物品大分类
+            main_type_icon = material_type_dict[material_type]['main_type_icon']
+            scroll_find_click(AreaDigMainTypeSelect, main_type_icon, threshold=0.85, hsv_limit=hsv_limit, scale=1.233)
             time.sleep(0.5)
             # 选择物品小分类
-            if "sub_type_button" in item_info:
-                sub_type_button = item_info["sub_type_button"]
-                itt.move_and_click(sub_type_button.click_position())
+            if "sub_type_icon" in material_type_dict[material_type]:
+                sub_type_icon = material_type_dict[material_type]['sub_type_icon']
+                scroll_find_click(AreaDigSubTypeSelect, sub_type_icon, threshold=0.85, hsv_limit=hsv_limit, scale=0.83)
                 time.sleep(0.5)
-            # 寻找物品图标
-            pos, _ = find_game_img_in_area(item_info["game_img"], AreaUIDigItemSelect, scale=0.46)
-            if pos is None:
-                raise Exception(f"未找到{item_name}，请检查是否在挖掘界面")
-            target_x = (pos[0] + pos[2]) // 2
-            target_y = (pos[1] + pos[3]) // 2
-            itt.move_and_click([target_x, target_y])
+
+            # 寻找材料图标
+            if not scroll_find_click(AreaDigItemSelect, material_info["icon"], threshold=0.7, scale=0.46):
+                raise Exception(f"未找到{item_name}")
             time.sleep(0.5)
             # 选择挖掘时间
             if wait_until_appear(ButtonDigConfirm):

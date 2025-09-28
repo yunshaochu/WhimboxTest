@@ -6,6 +6,7 @@ from source.common.logger import logger
 from source.ability.cvar import *
 from source.ui.ui import ui_control
 from source.ui.page_assets import *
+from source.common.utils.ui_utils import *
 
 import time
 
@@ -24,6 +25,7 @@ class AbilityManager:
         if self._initialized:
             return
 
+        self.current_ability = None
         self.ability_keymap = None
         self.jump_ability = None
         self.battle_ability = None
@@ -35,11 +37,11 @@ class AbilityManager:
         img = crop(cap, area)
         lower_white = np.array([0, 0, 230])
         upper_white = np.array([180, 60, 255])
-        img = process_with_hsv_threshold(img, lower_white, upper_white)
+        img = process_with_hsv_limit(img, lower_white, upper_white)
         return img
 
 
-    def _get_jump_ability(self):
+    def _check_jump_ability(self):
         cap = itt.capture()
         img = self._get_ability_hsv_icon(jump_ability_center, cap)
         for icon in jump_ability_hsv_icons:
@@ -47,12 +49,13 @@ class AbilityManager:
             if rate > 0.92:
                 ability_name = icon_name_to_ability_name.get(icon.name, None)
                 if ability_name is not None:
-                    return ability_name
+                    self.jump_ability = ability_name
+                    return True
         logger.error(f'unknown jump ability icon')
-        return None
+        return False
 
 
-    def _get_ability_keymap(self):
+    def _check_ability_keymap(self):
         ability_keymap = {}
         cap = itt.capture()
         for i, center in enumerate(ability_icon_centers):
@@ -67,10 +70,11 @@ class AbilityManager:
                     else:
                         ability_keymap[ability_name] = str(i+1)
                     break
-        return ability_keymap
+        self.ability_keymap = ability_keymap
+        return True
 
     
-    def change_ability(self, ability_name: str, ability_key: str):
+    def set_ability(self, ability_name: str, ability_key: str):
         '''
         切换能力
         
@@ -90,10 +94,10 @@ class AbilityManager:
         # 获取当前能力配置
         if self.jump_ability is None:
             ui_control.ui_goto(page_ability)
-            self.jump_ability = self._get_jump_ability()
+            self._check_jump_ability()
         if self.ability_keymap is None:
             ui_control.ui_goto(page_ability)
-            self.ability_keymap = self._get_ability_keymap()
+            self._check_ability_keymap()
 
         # 检查当前能力配置是否已经满足要求
         if ability_key == 'jump':
@@ -126,29 +130,8 @@ class AbilityManager:
             last_cap = new_cap
         
         # 向下滚动，寻找指定的ability_name
-        change_success = False
-        offset = (AreaAbilityChange.position[0], AreaAbilityChange.position[1])
-        last_cap = itt.capture(posi=AreaAbilityChange.position)
-        while True:
-            text_box_dict = itt.ocr_and_detect_posi(AreaAbilityChange)
-            if ability_name in text_box_dict:
-                text_center = area_center(text_box_dict[ability_name])
-                text_center = (text_center[0] + offset[0], text_center[1] + offset[1])
-                click_posi = (text_center[0] + 80, text_center[1] + 80)
-                itt.move_and_click(click_posi)
-                change_success = True
-                break
-            itt.middle_scroll(-15)
-            time.sleep(0.2)
-
-            # 如果画面不再变化，说明滚到底了，也结束循环
-            new_cap = itt.capture(posi=AreaAbilityChange.position)
-            rate = similar_img(last_cap, new_cap)
-            if rate > 0.99:
-                break
-            last_cap = new_cap
-
-        if change_success:
+        res = scroll_find_click(AreaAbilityChange, ability_name, click_offset=(80, 80))
+        if res:
             itt.appear_then_click(ButtonAbilitySave)
             if ability_key == 'jump':
                 self.jump_ability = ability_name
@@ -156,11 +139,34 @@ class AbilityManager:
                 self.ability_keymap[ability_name] = ability_key
 
         ui_control.ui_goto(page_main)
-        return change_success
+        return res
 
+    def change_ability(self, ability_name: str):
+        # 如果当前能力已经符合，就直接返回
+        if self.current_ability == ability_name:
+            return True
+        # 检查能力配置是否已初始化
+        if self.ability_keymap is None:
+            ui_control.ui_goto(page_ability)
+            self._check_ability_keymap()
+        # 检查目标能力是否已配置
+        key = self.ability_keymap.get(ability_name, None)
+        if key is None:
+            # 如果没配置，默认配置到键位8
+            if self.set_ability(ability_name, '8'):
+                key = '8'
+
+        ui_control.ui_goto(page_main)
+        if key:
+            itt.key_press(key)
+            self.current_ability = ability_name
+            return True
+        else:
+            return False
+        
 
 ability_manager = AbilityManager()
 
 
 if __name__ == "__main__":
-    ability_manager.change_ability(ABILITY_NAME_BUG, '8')
+    ability_manager.change_ability(ABILITY_NAME_INSECT)

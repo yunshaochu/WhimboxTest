@@ -11,27 +11,34 @@ mcp = FastMCP('whimbox_server')
 
 
 @mcp.tool()
-async def jihua_task() -> dict:
+async def jihua_task(target_material, cost_material) -> dict:
     """
-    素材激化：消耗活跃能量，用大世界材料换取噗灵、丝线、泡泡
+    素材激化：消耗活跃能量，用大世界材料换取噗灵、丝线、闪亮泡泡
+
+    Args:
+        target_material: 用于兑换的材料名，只支持噗灵、丝线、闪亮泡泡
+        cost_material: 用于消耗材料名
 
     Returns:
         dict: 包含操作状态的字典，包含status和message字段
     """
-    jihua_task = daily_task.JihuaTask()
+    jihua_task = daily_task.JihuaTask(target_material, cost_material)
     task_result = jihua_task.task_run()
     return task_result.to_dict()
 
 
 @mcp.tool()
-async def dig_task() -> dict:
+async def dig_task(target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]) -> dict:
     """
     美鸭梨挖掘：获得少量大世界材料
+
+    Args:
+        target_item_list: 要挖掘的材料名列表，如果不输入，默认为["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]
 
     Returns:
         dict: 包含操作状态的字典，包含status和message字段
     """
-    dig_task = daily_task.DigTask()
+    dig_task = daily_task.DigTask(target_item_list)
     task_result = dig_task.task_run()
     return task_result.to_dict()
 

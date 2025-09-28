@@ -26,14 +26,14 @@ class PxPostion(NikkiPosition):
         return self.position
 
     def _get_game_location(self):
-        return convert_mapPx_to_gameLoc(self.position)
+        return convert_PngMapPx_to_GameLoc(self.position)
     
 class GameLocation(NikkiPosition):
     def __init__(self,position) -> None:
         super().__init__(position)
 
     def _get_px_position(self):
-        return convert_gameLoc_to_mapPx(self.position)
+        return convert_GameLoc_to_PngMapPx(self.position)
 
     def _get_game_location(self):
         return self.position

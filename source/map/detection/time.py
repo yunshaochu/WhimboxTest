@@ -32,12 +32,12 @@ class MiralandTime():
 
     def init_time(self):
         ui_control.ensure_page(UIPage.page_esc)
-        time_str = itt.ocr_single_line(AreaUITime, padding=30)
+        time_str = itt.ocr_single_line(AreaUITime, padding=50)
         time_str = time_str.replace(' ', '')
         retry_count = 3
         while not self.is_valid_time(time_str) and retry_count > 0:
             logger.error(f"Invalid Time String:: {time_str}")
-            time_str = itt.ocr_single_line(AreaUITime, padding=30)
+            time_str = itt.ocr_single_line(AreaUITime, padding=50)
             time_str = time_str.replace(' ', '')
             retry_count -= 1
         if retry_count <= 0:

@@ -15,7 +15,7 @@ def get_move_mode_in_game(ret_rate=False) -> str:
     cap = itt.capture(posi=AreaMovementWalk.position)
     lower_white = np.array([0, 0, 210])
     upper_white = np.array([180, 50, 255])
-    cap = process_with_hsv_threshold(cap, lower_white, upper_white)
+    cap = process_with_hsv_limit(cap, lower_white, upper_white)
     r = similar_img(cap, IconMovementWalking.image[:, :, 0])
     if CV_DEBUG_MODE:
         cv2.imshow('cap', cap)

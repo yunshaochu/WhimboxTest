@@ -34,9 +34,10 @@ def register_step(state_msg=""):
     return wrapper
 
 class TaskResult:
-    def __init__(self, status="success", message=""):
+    def __init__(self, status="success", message="", data=None):
         self.status = status
         self.message = message
+        self.data = data
     
     def to_dict(self):
         return self.__dict__
@@ -45,9 +46,10 @@ class TaskResult:
         return f"{{'status': {self.status}, 'message': {self.message}}}"
 
 class TaskTemplate:
-    def __init__(self, name=""):
+    def __init__(self, name="", check_stop_func=None):
         self.name = name
         self.task_stop_flag = False
+        self.check_stop_func = check_stop_func
         self.step_sleep = 0.2   # 步骤执行后等待时间
         self.steps_dict = {}    # {step_name: TaskStep} 步骤字典
         self.step_order = []    # [step_name, ...] 默认执行顺序
@@ -122,7 +124,7 @@ class TaskTemplate:
         current_step_name = self.step_order[0] if self.step_order else None
         
         try:
-            while current_step_name and not self.task_stop_flag:
+            while current_step_name and not self.need_stop():
                 # 获取当前步骤
                 step = self.steps_dict.get(current_step_name)
                 if not step:
@@ -183,9 +185,12 @@ class TaskTemplate:
 
 
     def task_stop(self):
-        '''如果子类有需要在停止时进行的操作，就实现这个方法，并调用父类的这个'''
+        '''如果子类有自己额外的停止代码，就实现这个方法，并调用父类的这个方法'''
         self.task_stop_flag = True
 
+    def need_stop(self):
+        # 综合判断是否需要停止
+        return self.task_stop_flag or (self.check_stop_func and self.check_stop_func())
 
     def get_state_msg(self):
         """获得当前任务的状态信息，供agent显示"""
@@ -202,5 +207,5 @@ class TaskTemplate:
         logger.info(msg)
 
 
-    def update_task_result(self, status="success", message=""):
-        self.task_result = TaskResult(status, message)
+    def update_task_result(self, status="success", message="", data=None):
+        self.task_result = TaskResult(status, message, data)
