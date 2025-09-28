@@ -9,6 +9,7 @@ from source.view_and_move.view import *
 from source.view_and_move.move import *
 from source.action.pickup import PickupTask
 from source.action.catch_insect import CatchInsectTask
+from source.action.clean_animal import CleanAnimalTask
 
 class AutoPathTask(TaskTemplate):
     def __init__(self, path_file_name):
@@ -149,6 +150,14 @@ class AutoPathTask(TaskTemplate):
                             expected_count=excepted_count,
                             check_stop_func=self.need_stop)
                         task_result = catch_insect_task.task_run()
+                        self.merge_material_count_dict(task_result.data)
+                    elif self.target_point.action == ACTION_CLEAN_ANIMAL:
+                        excepted_count = int(self.target_point.action_params)
+                        clean_animal_task = CleanAnimalTask(
+                            self.path_info.target, 
+                            expected_count=excepted_count,
+                            check_stop_func=self.need_stop)
+                        task_result = clean_animal_task.task_run()
                         self.merge_material_count_dict(task_result.data)
                     elif self.target_point.action == ACTION_WAIT:
                         wait_time = self.target_point.action_params
