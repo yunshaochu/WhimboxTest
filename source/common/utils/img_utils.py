@@ -440,5 +440,35 @@ def add_padding(image, padding):
     return cv2.copyMakeBorder(image, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
 def process_with_hsv_limit(image, lower_limit, upper_limit):
+    """
+    根据HSV颜色范围，处理图像。
+
+    Args:
+        image (numpy): 输入图像。
+        lower_limit (list): HSV颜色空间下限。
+        upper_limit (list): HSV颜色空间上限。
+
+    Returns:
+        np.ndarray: 处理后的图像。
+    """
+    lower_limit = np.array(lower_limit)
+    upper_limit = np.array(upper_limit)
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     return cv2.inRange(hsv, lower_limit, upper_limit)
+
+
+def count_px_with_hsv_limit(image, lower_limit, upper_limit):
+    """
+    计算图像中符合指定HSV颜色范围的区域面积。
+
+    Args:
+        image (numpy): 输入图像。
+        lower_limit (list): HSV颜色空间下限。
+        upper_limit (list): HSV颜色空间上限。
+
+    Returns:
+        int: 指定HSV颜色范围的像素数。
+    """
+    hsv_img = process_with_hsv_limit(image, lower_limit, upper_limit)
+    px_count = cv2.countNonZero(hsv_img)
+    return px_count

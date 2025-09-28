@@ -58,7 +58,8 @@ class Track:
             AreaBigMapMaterialTypeSelect, 
             material_type_icon, 
             threshold=0.75, 
-            hsv_limit=[np.array([0, 0, 230]), np.array([180, 60, 255])])
+            hsv_limit=([0, 0, 230], [180, 60, 255])
+        )
         if not result:
             raise Exception("材料类别选择失败")
         
@@ -87,8 +88,8 @@ class Track:
         '''根据小地图，计算材料与玩家之间的角度'''
         cap = itt.capture()
         minimap_img = nikki_map._get_minimap(cap, MINIMAP_RADIUS)
-        lower = np.array([13, 90, 160])
-        upper = np.array([15, 200, 255])
+        lower = [13, 90, 160]
+        upper = [15, 200, 255]
         minimap_hsv = process_with_hsv_limit(minimap_img, lower, upper)
         minimap_blur = cv2.GaussianBlur(minimap_hsv, (3, 3), 1)
 
@@ -133,8 +134,8 @@ class Track:
         img = itt.capture(AreaMaterialTrackNear.position)
         if CV_DEBUG_MODE:
             img_copy = img.copy()
-        lower = np.array([17, 140, 130])
-        upper = np.array([20, 180, 200])
+        lower = [17, 140, 130]
+        upper = [20, 180, 200]
         mask = process_with_hsv_limit(img, lower, upper)
         circles = cv2.HoughCircles(
             mask,
@@ -162,10 +163,9 @@ class Track:
         判断能力是否激活，通过判断能力按钮外圈是否发光，来判断是否可以使用能力了
         '''
         img = itt.capture(AreaAbilityButton.position)
-        lower = np.array([0, 80, 240])
-        upper = np.array([30, 110, 255])
-        mask = process_with_hsv_limit(img, lower, upper)
-        px_count = cv2.countNonZero(mask)
+        lower = [0, 80, 240]
+        upper = [30, 110, 255]
+        px_count = count_px_with_hsv_limit(img, lower, upper)
         if px_count > 200:
             return True
         return False

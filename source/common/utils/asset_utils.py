@@ -18,7 +18,7 @@ def get_name(x):
 
 def asset_get_bbox(image, black_offset=15):
     """
-    A numpy implementation of the getbbox() in pillow.
+    A numpy implementation of the getbbox() in pillow.完全低于阈值返回None
     Args:
         image (np.ndarray): Screenshot.
     Returns:
@@ -28,6 +28,8 @@ def asset_get_bbox(image, black_offset=15):
         image = np.max(image, axis=2)
     x = np.where(np.max(image, axis=0) > black_offset)[0]
     y = np.where(np.max(image, axis=1) > black_offset)[0]
+    if x.size == 0 or y.size == 0:
+        return None
     return (x[0], y[0], x[-1] + 1, y[-1] + 1)
 
 

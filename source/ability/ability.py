@@ -35,8 +35,8 @@ class AbilityManager:
     def _get_ability_hsv_icon(self, center, cap):
         area = area_offset((-ability_icon_radius, -ability_icon_radius, ability_icon_radius, ability_icon_radius), offset=center)
         img = crop(cap, area)
-        lower_white = np.array([0, 0, 230])
-        upper_white = np.array([180, 60, 255])
+        lower_white = [0, 0, 230]
+        upper_white = [180, 60, 255]
         img = process_with_hsv_limit(img, lower_white, upper_white)
         return img
 

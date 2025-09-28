@@ -40,6 +40,7 @@ def points_angle(p1, target_posi, coordinate=ANGLE_NORMAL):
         degree -= 360
     return degree
 
+
 def add_angle(angle, delta):
     if DEBUG_MODE:
         print(f"add angle: {angle}+{delta}", end='=')
@@ -364,6 +365,27 @@ def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
     """
     return [tuple((((n - index) * p1 + index * p2) / n).astype(int) + random_rectangle_point(random_range))
             for index in range(0, n + 1)]
+
+
+def union_bbox(*bboxes):
+    """合并多个边界框，返回包含所有边界框的最小边界框
+    
+    Args:
+        *bboxes: 任意数量的边界框, 每个边界框格式为 (x1, y1, x2, y2)
+        
+    Returns:
+        tuple: 合并后的边界框 (x1, y1, x2, y2)
+    """
+    bboxes = [bbox for bbox in bboxes if bbox is not None]
+    if not bboxes:
+        return None
+        
+    x1 = min(bbox[0] for bbox in bboxes)
+    y1 = min(bbox[1] for bbox in bboxes)
+    x2 = max(bbox[2] for bbox in bboxes)
+    y2 = max(bbox[3] for bbox in bboxes)
+    
+    return (x1, y1, x2, y2)
 
 
 def get_circle_points(x,y,  show_res = False, radius=6):

@@ -83,7 +83,7 @@ class DigTask(TaskTemplate):
             if material_type not in material_type_dict:
                 raise Exception(f"暂不支持挖掘{material_type}类型的材料")
 
-            hsv_limit = [np.array([0, 0, 100]), np.array([180, 60, 255])]
+            hsv_limit = ([0, 0, 100], [180, 60, 255])
 
              # 选择物品大分类
             main_type_icon = material_type_dict[material_type]['main_type_icon']
