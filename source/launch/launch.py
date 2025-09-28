@@ -12,6 +12,7 @@ import mss
 from source.ui.template.img_manager import LOG_NONE, ImgIcon
 from source.common.path_lib import find_game_launcher_folder
 from source.common.logger import logger
+from source.config.config import global_config
 
 
 launch_img = ImgIcon(name="launch", path="assets/imgs/Launch/launch.png", is_bbg=True, threshold=0.999)
@@ -27,10 +28,11 @@ IconUIMeiyali = ImgIcon(name="IconUIMeiyali", path="assets/imgs/Windows/UI/commo
 class GameLauncher:
     def __init__(self):
         # 从YAML配置文件中读取exe_path
-        config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'config', 'launch.yml')
-        with open(config_path, 'r', encoding='utf-8') as f:
-            config = yaml.safe_load(f)
-        self.exe_path = config.get('exe_path')
+        # config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'config', 'launch.yml')
+        # with open(config_path, 'r', encoding='utf-8') as f:
+        #     config = yaml.safe_load(f)
+        # self.exe_path = config.get('exe_path')
+        self.exe_path = self.exe_path = global_config.get('General', 'exe_path', '')
         self.capture_obj = None
         self.interrupted = False
         # 设置键盘监听器
@@ -64,8 +66,6 @@ class GameLauncher:
         windows = []
         win32gui.EnumWindows(enum_window_callback, windows)
         is_running = len(windows) > 0
-        if not is_running:
-            logger.info("开始启动游戏")
         return is_running
 
     def is_main_menu(self):
@@ -232,10 +232,11 @@ class GameLauncher:
         启动游戏程序并开始检测图片。
         :param exe_path: 游戏启动器路径
         """
-        logger.info("开始启动游戏，按引号键(')可中断启动流程")
         if self.is_game_running():
             # logger.info("检测到游戏窗口已存在，跳过启动")
             return
+
+        logger.info("开始启动游戏，按引号键(')可中断启动流程")
 
         # 首先尝试通过注册表查找游戏启动器路径
         launcher_folder = find_game_launcher_folder()
@@ -244,11 +245,21 @@ class GameLauncher:
             if os.path.exists(exe_path):
                 logger.info(f"通过注册表找到启动器路径: {exe_path}")
             else:
-                logger.warning(f"注册表路径不存在，使用配置文件路径: {self.exe_path}")
-                exe_path = self.exe_path
+                # 注册表路径下的launcher.exe不存在，回退到配置文件路径
+                if self.exe_path and os.path.exists(self.exe_path):
+                    logger.warning(f"注册表路径不存在，使用配置文件路径: {self.exe_path}")
+                    exe_path = self.exe_path
+                else:
+                    logger.error("注册表路径不存在，请在config.ini中手动填写游戏启动器的路径后，重新启动本程序")
+                    return  # 添加早期返回避免后续执行
         else:
+            # 完全无法通过注册表找到启动器路径，回退到配置文件路径
             logger.warning("无法通过注册表找到启动器，使用配置文件路径")
-            exe_path = self.exe_path
+            if self.exe_path and os.path.exists(self.exe_path):
+                exe_path = self.exe_path
+            else:
+                logger.error("指定路径的文件不存在，请在config.ini中手动填写游戏启动器的路径后，重新启动本程序")
+                return
 
         if os.path.exists(exe_path):
             try:
@@ -259,7 +270,7 @@ class GameLauncher:
             except Exception as e:
                 logger.error(f"发生未知错误: {e}")
         else:
-            logger.error("指定路径的文件不存在，请检查路径是否正确。")
+            logger.error("指定路径的文件不存在，请在config.ini中手动填写游戏启动器的路径后，重新启动本程序")
             return
 
         time.sleep(5)
