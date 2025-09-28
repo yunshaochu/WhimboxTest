@@ -19,11 +19,11 @@ def empty(a):
 cv2.namedWindow("TrackBars")  
 cv2.resizeWindow("TrackBars", 640, 300)  
 init_data = {
-    'h_min': 90,
-    'h_max': 110,
-    's_min': 0,
-    's_max': 130,
-    'v_min': 150,
+    'h_min': 20,
+    'h_max': 30,
+    's_min': 50,
+    's_max': 90,
+    'v_min': 245,
     'v_max': 255,
 }
 cv2.createTrackbar("Hue Min", "TrackBars", init_data['h_min'], 179, empty)  
@@ -39,19 +39,19 @@ if __name__ == "__main__" and True:
     from source.ui.ui_assets import *
     from source.common.utils.posi_utils import *
     while True:
-        img = itt.capture(AreaAbilityButton.position)
+        img = itt.capture(AreaFishingDetection.position)
         
         # 调用回调函数，获取滑动条的值  
-        # h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
-        # lower = np.array([h_min, s_min, v_min])  
-        # upper = np.array([h_max, s_max, v_max])  
-        lower = np.array([0, 80, 240])
-        upper = np.array([30, 110, 255])
+        h_min, h_max, s_min, s_max, v_min, v_max = empty(0)  
+        lower = np.array([h_min, s_min, v_min])  
+        upper = np.array([h_max, s_max, v_max])  
+        # lower = [0, 80, 240]
+        # upper = [30, 110, 255]
         mask = process_with_hsv_limit(img, lower, upper)
-        px_count = cv2.countNonZero(mask)
-        print(f"px_count: {px_count}")
-        if px_count > 200:
-            print("get!")
+        # px_count = cv2.countNonZero(mask)
+        # print(f"px_count: {px_count}")
+        # if px_count > 200:
+            # print("get!")
         cv2.imshow("mask", mask)
         cv2.waitKey(1)
 
@@ -111,8 +111,8 @@ if __name__ == "__main__" and False:
     while True:
         cap = itt.capture()
         minimap_img = nikki_map._get_minimap(cap, MINIMAP_RADIUS)
-        lower = np.array([13, 90, 160])
-        upper = np.array([15, 200, 255])
+        lower = [13, 90, 160]
+        upper = [15, 200, 255]
         minimap_hsv = process_with_hsv_limit(minimap_img, lower, upper)
         minimap_blur = cv2.GaussianBlur(minimap_hsv, (3, 3), 1)
         cv2.imshow("minimap_blur", minimap_blur)

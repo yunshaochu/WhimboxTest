@@ -106,8 +106,8 @@ class Map(MiniMap, BigMap):
         if use_cache and self.region_name is not None and self.map_name is not None:
             return self.region_name, self.map_name
         else:
-            hsv_lower = np.array([0, 0, 0])  
-            hsv_upper = np.array([180, 255, 180])   # hsv阈值处理，排除地图背景图案和文字的干扰
+            hsv_lower = [0, 0, 0]
+            hsv_upper = [180, 255, 180] # hsv阈值处理，排除地图背景图案和文字的干扰
             self.region_name= itt.ocr_single_line(AreaBigMapRegionName, padding=50, hsv_limit=(hsv_lower, hsv_upper))
             self.map_name = trans_region_name_to_map_name(self.region_name)
             return self.region_name, self.map_name
@@ -351,8 +351,8 @@ class Map(MiniMap, BigMap):
         itt.wait_until_stable()
         if not itt.appear_then_click(ButtonBigMapTeleport):
             # 传送点和其他图标重合的情况下，如果点击传送点，会弹出选择菜单
-            hsv_lower = np.array([0, 0, 220])  
-            hsv_upper = np.array([180, 15, 255])   # hsv阈值处理，排除地图背景图案和文字的干扰
+            hsv_lower = [0, 0, 220]
+            hsv_upper = [180, 15, 255]   # hsv阈值处理，排除地图背景图案和文字的干扰
             if scroll_find_click(AreaBigMapTeleporterSelect, target_teleporter.name, hsv_limit=(hsv_lower, hsv_upper)):
                 itt.wait_until_stable()
                 if not itt.appear_then_click(ButtonBigMapTeleport):

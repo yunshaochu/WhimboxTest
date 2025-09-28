@@ -186,7 +186,7 @@ class InteractionBGD:
 
         if imgicon.is_print_log(matching_rate >= imgicon.threshold):
             logger.trace(
-                'imgname: ' + imgicon.name + 'matching_rate: ' + str(
+                'imgname: ' + imgicon.name + ' matching_rate: ' + str(
                     matching_rate) + ' |function name: ' + upper_func_name)
 
         if ret_mode == IMG_BOOLRATE:

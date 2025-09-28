@@ -68,7 +68,7 @@ def scroll_find_click(area: Area, target, threshold=0, hsv_limit=None, scale=0, 
         area: 目标区域
         target: 寻找的目标，ImgIcon或GameImg或str
         threshold: 相似度阈值, 用于ImgIcon和GameImg
-        hsv_limit: hsv上下限，用于ImgIcon，如[np.array([0, 0, 230]), np.array([180, 60, 255])]
+        hsv_limit: hsv上下限，用于ImgIcon和str，如([0, 0, 230], [180, 60, 255])
         scale: target的缩放比例，用于ImgIcon或GameImg
         click_offset: 点击偏移量，tuple(x, y)
     
