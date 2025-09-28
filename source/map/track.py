@@ -88,10 +88,10 @@ class Track:
         circles = cv2.HoughCircles(
             minimap_blur,
             cv2.HOUGH_GRADIENT,
-            dp=1.2,          # 累加器分辨率（可调 1.0~1.5）
-            minDist=22,      # 圆心最小间距，建议≈ 2*minRadius - 些许
-            param1=120,      # Canny高阈值
-            param2=10,       # 累加器阈值，越小越容易出圆（可调 8~18）
+            dp=1,          # 累加器分辨率（可调 1.0~1.5）
+            minDist=10,      # 圆心最小间距，建议≈ 2*minRadius - 些许
+            param1=100,      # Canny高阈值
+            param2=9,       # 累加器阈值，越小越容易出圆（可调 8~18）
             minRadius=14,
             maxRadius=16
         )
@@ -106,6 +106,7 @@ class Track:
                     closest_circle = (x, y, r)
 
             if CV_DEBUG_MODE:
+                print(min_dist)
                 x, y, r = np.uint16(np.around(closest_circle))
                 cv2.circle(minimap_img, (x, y), r, (0, 0, 255), 2)
                 cv2.circle(minimap_img, (x, y), 2, (0, 0, 255), 3)
@@ -148,4 +149,7 @@ class Track:
 material_track = Track()
 
 if __name__ == "__main__":
-    material_track.change_tracking_material("玉簪蚂蚱")
+    CV_DEBUG_MODE = True
+    while True:
+        material_track.get_material_track_degree()
+        time.sleep(0.2)

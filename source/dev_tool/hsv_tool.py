@@ -34,7 +34,7 @@ cv2.createTrackbar("Val Min", "TrackBars", init_data['v_min'], 255, empty)
 cv2.createTrackbar("Val Max", "TrackBars", init_data['v_max'], 255, empty)  
         
 
-if __name__ == "__main__" and True:
+if __name__ == "__main__" and False:
     from source.interaction.interaction_core import itt
     from source.ui.ui_assets import *
     from source.common.utils.posi_utils import *
@@ -92,3 +92,35 @@ if __name__ == "__main__" and False:
         #     img = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
         #     save_image(img, f'D:\\workspaces\\python\\Whimbox\\tools\\hsv_tool\\jump2.png')
         #     break
+    
+if __name__ == "__main__" and True:
+    from source.interaction.interaction_core import itt
+    from source.ui.ui_assets import *
+    from source.common.utils.posi_utils import *
+    from source.map.map import *
+    while True:
+        cap = itt.capture()
+        minimap_img = nikki_map._get_minimap(cap, MINIMAP_RADIUS)
+        lower = np.array([13, 90, 160])
+        upper = np.array([15, 200, 255])
+        minimap_hsv = process_with_hsv_limit(minimap_img, lower, upper)
+        minimap_blur = cv2.GaussianBlur(minimap_hsv, (3, 3), 1)
+        cv2.imshow("minimap_blur", minimap_blur)
+        cv2.waitKey(1)
+        circles = cv2.HoughCircles(
+            minimap_blur,
+            cv2.HOUGH_GRADIENT,
+            dp=1,          # 累加器分辨率（可调 1.0~1.5）
+            minDist=10,      # 圆心最小间距，建议≈ 2*minRadius - 些许
+            param1=100,      # Canny高阈值
+            param2=9,       # 累加器阈值，越小越容易出圆（可调 8~18）
+            minRadius=14,
+            maxRadius=16
+        )
+        if circles is not None:
+            for circle in circles[0, :]:
+                x, y, r = np.uint16(np.around(circle))
+                cv2.circle(minimap_img, (x, y), r, (0, 0, 255), 2)
+                cv2.circle(minimap_img, (x, y), 2, (0, 0, 255), 3)
+            cv2.imshow("minimap_img", minimap_img)
+            cv2.waitKey(1)
