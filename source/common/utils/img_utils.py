@@ -439,7 +439,7 @@ def png2jpg(png, bgcolor='black', channel='bg', alpha_num=50):
 def add_padding(image, padding):
     return cv2.copyMakeBorder(image, padding, padding, padding, padding, cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
-def process_with_hsv_threshold(image, lower_limit, upper_limit):
+def process_with_hsv_limit(image, lower_limit, upper_limit):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     return cv2.inRange(hsv, lower_limit, upper_limit)
 

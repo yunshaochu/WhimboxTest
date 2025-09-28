@@ -73,6 +73,7 @@ class RapidOcr():
                     right_bottom_x = max(x_coords)
                     right_bottom_y = max(y_coords)
                     simplified_box = [left_top_x, left_top_y, right_bottom_x, right_bottom_y]
+                    # todo: 可能识别出多个相同的文本，需要优化
                     ret[self._replace_texts(txt)] = simplified_box
 
         if show_res:
@@ -87,7 +88,7 @@ if __name__ == '__main__':
     from source.common.utils.img_utils import add_padding
     path = os.path.join(ASSETS_PATH, "imgs", "Windows", "BigMap", "common", "111.png")
     img = cv2.imread(path)
-    img = add_padding(img, 30)
+    img = add_padding(img, 50)
     print(ocr.get_all_texts(img, mode=1, per_monitor=True))
     # path = os.path.join(ASSETS_PATH, "imgs", "Windows", "BigMap", "common", "AreaBigMapRegionSelect.jpg")
     # img = cv2.imread(path)

@@ -93,7 +93,7 @@ class ImgIcon(AssetBase):
 
 
 class GameImg(AssetBase):
-    def __init__(self, path=None, name=None, threshold=0.7):
+    def __init__(self, path=None, name=None):
         if name is None:
             super().__init__(get_name(traceback.extract_stack()[-2]))
         else:
@@ -104,7 +104,6 @@ class GameImg(AssetBase):
     
         self.origin_path = path
         self.raw_image = cv2.imread(self.origin_path, cv2.IMREAD_UNCHANGED)
-        self.threshold = threshold
     
     def copy(self):
         return deepcopy(self)

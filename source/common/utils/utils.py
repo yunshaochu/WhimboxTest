@@ -59,11 +59,13 @@ def is_admin():
 
 
 def get_active_window_process_name():
-    """_summary_
-    """
     try:
         pid = win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())
-        return(psutil.Process(pid[-1]).name())
+        name = psutil.Process(pid[-1]).name()
+        if name:
+            return name
+        else:
+            return "unknown"
     except:
         pass
 
