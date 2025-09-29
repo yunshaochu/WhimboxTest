@@ -2,6 +2,7 @@ import source.task.daily_task as daily_task
 from source.task.navigation_task.common import get_path_json_name
 from source.task.navigation_task.auto_path_task import AutoPathTask
 from source.task.navigation_task.record_path_task import RecordPathTask
+from source.task.photo_task.daily_photo_task import DailyPhotoTask
 from source.common.path_lib import ASSETS_PATH
 
 from fastmcp import FastMCP
@@ -125,6 +126,18 @@ async def edit_path() -> dict:
         "status": "success",
         "message": f"已打开路线编辑网站，请在浏览器中编辑路径文件"
     }
+
+@mcp.tool()
+async def daily_photo_task() -> dict:
+    """
+    简单拍照，用于完成每日任务
+
+    Returns:
+        dict: 包含操作状态的字典，包含status和message字段
+    """
+    daily_photo_task = DailyPhotoTask()
+    task_result = daily_photo_task.task_run()
+    return task_result.to_dict()
 
 def start_mcp_server():
     mcp.run(

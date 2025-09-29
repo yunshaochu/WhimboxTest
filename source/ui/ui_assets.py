@@ -122,3 +122,9 @@ IconMaterialTypeFish = ImgIcon()
 IconMaterialTypeMonster = ImgIcon()
 IconMaterialTypeOther = ImgIcon()
 IconMaterialTypeDig1 = ImgIcon()
+
+# 拍照相关
+IconPhotoFeature = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+IconPhotoEdit = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+IconPhotoDelete = ImgIcon()
+ButtonPhotoDeleteConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

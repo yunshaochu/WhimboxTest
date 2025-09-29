@@ -14,6 +14,7 @@ page_zxxy = UIPage(check_icon=IconUIZxxy)
 page_xhsy = UIPage(check_icon=IconUIXhsy)
 page_dress = UIPage(check_icon=ButtonWardrobeDressDIY)
 page_ability = UIPage(check_icon=TextWardrobeAbilityBattle)
+page_photo = UIPage(check_icon=IconPhotoFeature)
 
 ui_pages = [
     page_bigmap,
@@ -27,12 +28,14 @@ ui_pages = [
     page_xhsy,
     page_dress,
     page_ability,
+    page_photo,
 ]
 
 page_main.link('m', page_bigmap)
 page_main.link('esc', page_esc)
 page_main.link('l', page_daily_task)
 page_main.link('c', page_dress)
+page_main.link('p', page_photo)
 
 page_bigmap.link('m', page_main)
 
@@ -59,3 +62,5 @@ page_dress.link("esc", page_main)
 page_dress.link(TextWardrobeAbilityTab, page_ability)
 
 page_ability.link("esc", page_main)
+
+page_photo.link("esc", page_main)
