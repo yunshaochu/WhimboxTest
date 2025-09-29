@@ -83,7 +83,6 @@ class ZhaoxiTask(TaskTemplate):
             raise Exception(f"朝夕心愿分数识别异常:{score_str}")
         self.current_score = score
         if score == 500:
-            self.log_to_gui("朝夕心愿早已完成")
             return "step4"
         else:
             self.log_to_gui(f"朝夕心愿完成度：{score}/500")
@@ -144,8 +143,9 @@ class ZhaoxiTask(TaskTemplate):
             time.sleep(0.2)
             if wait_until_appear(TextClickSkip):
                 itt.key_press('f')
+            self.update_task_result(message="成功领取朝夕心愿奖励")
         else:
-            self.log_to_gui("奖励已被领取过")
+            self.update_task_result(message="朝夕心愿奖励已被领取过，无需再次领取")
 
 
     @register_step("退出朝夕心愿")

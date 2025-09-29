@@ -49,7 +49,8 @@ IconFishingReelLine = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 收线�
 IconFishingSkip = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8) # 跳过
 
 # 每日任务相关
-IconUIDailyTask = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+AreaDailyTaskTitle = Area()
+TextDailyTaskTitle = Text("每日灵感", cap_area = AreaDailyTaskTitle)
 ButtonHuanjingGo = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 IconUIHuanjing = ImgIcon(is_bbg=True, bbg_posi=[120, 37, 246, 68], print_log=LOG_WHEN_TRUE, threshold=0.99)
 
