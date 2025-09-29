@@ -1,32 +1,27 @@
 import time
 from enum import Enum
 import cv2
+import re
 
 from source.common.cvars import CV_DEBUG_MODE
-from source.common.utils.ui_utils import wait_until_appear
+from source.common.timer_module import AdvanceTimer
 from source.task.task_template import TaskTemplate, register_step
 from source.interaction.interaction_core import itt
 from source.ui.page_assets import page_main
 from source.ui.ui import ui_control
-from source.ui.ui_assets import (
-    IconFishingNoFish,
-    IconFishingPullLine,
-    IconFishingPullLineAlt,
-    IconFishingReelIn,
-    IconFishingReelLine,
-    IconFishingStrike,
-    AreaFishingDetection,
-    IconFishingSkip,
-    TextClickSkip,
-)
+from source.ui.ui_assets import *
 from source.common.utils.img_utils import count_px_with_hsv_limit
-from source.common.utils.asset_utils import asset_get_bbox
 from source.common.utils.posi_utils import union_bbox
 from source.ability.ability import ability_manager
 from source.ability.cvar import ABILITY_NAME_FISH
 from source.common.logger import logger
 
 hsv_limit = ([20, 50, 245], [30, 90, 255])
+
+class FishingResult(Enum):
+    SUCCESS = 0
+    NO_FISH = 1
+    WRONG_POSITION = 2
 
 class FishingState(Enum):
     NOT_FISHING = 0
@@ -37,23 +32,25 @@ class FishingState(Enum):
     SKIP = 5          # 跳过 (F)
     UNKNOWN = 6
 
+FISHING_STATE_MAPPING = [
+    (IconFishingStrike, FishingState.STRIKE),
+    (IconFishingReelIn, FishingState.REEL_IN),
+    (IconFishingPullLine, FishingState.PULL_LINE),
+    (IconFishingPullLineAlt, FishingState.PULL_LINE),
+    (IconFishingReelLine, FishingState.REEL_LINE),
+    (IconFishingSkip, FishingState.SKIP),
+]
+
 class FishingTask(TaskTemplate):
-    STATE_MAPPING = [
-        (IconFishingStrike, FishingState.STRIKE),
-        (IconFishingReelIn, FishingState.REEL_IN),
-        (IconFishingPullLine, FishingState.PULL_LINE),
-        (IconFishingPullLineAlt, FishingState.PULL_LINE),
-        (IconFishingReelLine, FishingState.REEL_LINE),
-        (IconFishingSkip, FishingState.SKIP),
-    ]
-    def __init__(self):
-        super().__init__("fishing_task")
+    def __init__(self, check_stop_func=None):
+        super().__init__("fishing_task", check_stop_func)
         self.state_area = self.get_state_area()
+        self.material_count_dict = {}
 
     def get_state_area(self):
         """获取状态判断区域"""
         bboxes = []
-        for icon, _ in self.STATE_MAPPING:
+        for icon, _ in FISHING_STATE_MAPPING:
             bboxes.append(icon.bbg_posi)
         merged_bbox = union_bbox(*bboxes)
         return merged_bbox
@@ -66,7 +63,7 @@ class FishingTask(TaskTemplate):
             cv2.imshow("cap", cap)
             cv2.waitKey(1)
 
-        for icon, state in self.STATE_MAPPING:
+        for icon, state in FISHING_STATE_MAPPING:
             if itt.get_img_existence(icon, is_gray=True, cap=cap):
                 return state
 
@@ -79,7 +76,7 @@ class FishingTask(TaskTemplate):
         """
         itt.key_down(key)
         while True:
-            time.sleep(0.3)
+            time.sleep(0.5)
             cap = itt.capture(posi=AreaFishingDetection.position)
             current_px_count = count_px_with_hsv_limit(cap, hsv_limit[0], hsv_limit[1])
             if current_px_count < px_count:
@@ -123,33 +120,77 @@ class FishingTask(TaskTemplate):
         while not ui_control.verify_page(page_main):
             itt.key_press('f')
             time.sleep(0.2)
+        self.record_material()
 
-    @register_step("朝向钓鱼点位")
-    def step1(self):
-        pass
+    def record_material(self):
+        # 从“笔刷鱼×1.6kg”文本中提取鱼名和重量
+        texts = itt.ocr_multiple_lines(AreaMaterialGetText)
+        for line in texts:
+            pattern = r"^(.+?)[×xX]([0-9]+(?:\.[0-9]+)?)kg$"
+            match = re.match(pattern, line)
+            if match:
+                fish_name = match.group(1)
+                fish_weight = float(match.group(2))
+                self.log_to_gui(f"获得{fish_name}x{fish_weight}kg")
+                if fish_name in self.material_count_dict:
+                    self.material_count_dict[fish_name] += fish_weight
+                else:
+                    self.material_count_dict[fish_name] = fish_weight
+                break
+
 
     @register_step("切换钓鱼能力")
-    def step2(self):
+    def step1(self):
         ability_manager.change_ability(ABILITY_NAME_FISH)
 
     @register_step("开始钓鱼")
-    def step3(self):
+    def step2(self):
+        fish_time = 0
+        while fish_time < 3 and not self.need_stop():
+            res = self.fishiing_loop()
+            if res == FishingResult.SUCCESS:
+                fish_time += 1
+            elif res == FishingResult.NO_FISH:
+                break
+            elif res == FishingResult.WRONG_POSITION:
+                break
+        
+        if len(self.material_count_dict) == 0:
+            self.update_task_result(message="未钓到鱼")
+            self.log_to_gui("未钓到鱼")
+            return
+        else:
+            res = []
+            for fish_name, fish_weight in self.material_count_dict.items():
+                res.append(f"{fish_name}x{fish_weight}kg")
+            res_str = ", ".join(res)
+            self.update_task_result(message=f"获得{res_str}", data=self.material_count_dict)
+
+
+    def fishiing_loop(self):
         itt.right_click()
+        idle_timer = AdvanceTimer(15) # 15秒如果没有鱼，就说明钓鱼位置错了
+        idle_timer.start()
         time.sleep(3)
         if itt.get_img_existence(IconFishingNoFish):
             itt.right_click()
             while not ui_control.verify_page(page_main):
                 time.sleep(0.2)
-            self.update_task_result(message="鱼已经被钓光了")
-            return
+            return FishingResult.NO_FISH
+        
+        while not self.need_stop():
+            if idle_timer.started() and idle_timer.reached():
+                itt.right_click()
+                while not ui_control.verify_page(page_main):
+                    time.sleep(0.2)
+                return FishingResult.WRONG_POSITION
 
-        while True:
             state = self.get_current_state()
-
             if state in [FishingState.NOT_FISHING, FishingState.UNKNOWN, FishingState.REEL_IN]:
                 time.sleep(0.5)
                 continue
             elif state == FishingState.STRIKE:
+                idle_timer.clear()
                 self.handle_strike()
                 continue
             elif state == FishingState.PULL_LINE:
@@ -161,21 +202,11 @@ class FishingTask(TaskTemplate):
             elif state == FishingState.SKIP:
                 self.handle_skip()
                 break
-        
-        self.update_task_result(message="钓鱼任务完成")
-        self.log_to_gui("钓鱼任务完成")
+
+        return FishingResult.SUCCESS
 
 
 if __name__ == "__main__":
-    # while True:
-    #     time.sleep(5)
-    #     fishing_task = FishingTask()
-    #     fishing_task.task_run()
+    # CV_DEBUG_MODE = True
     task = FishingTask()
-    task.step3()
-
-# todo:
-# 1. 接受朝向参数，自动调整朝向
-# 2. 在该朝向经过一段时间无响应后，自动微调朝向或结束任务
-# 3. 默认连续钓鱼3次
-# 4. 接入自动跑图，钓鱼结果记录
+    task.task_run()

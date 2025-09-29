@@ -20,7 +20,7 @@ class MaterialTrackBaseTask(TaskTemplate):
             raise Exception(f"不支持追踪{material_name}")
         self.ability_name = material_type_to_ability_name[material_info["type"]]
         self.time_limit = 15 # 一次任务的时间限制，超时就强制结束，单位秒
-        self.material_count_dict = {self.material_name: 0}
+        self.material_count_dict = {}
         self.expected_count = expected_count
 
     def pre_play_func(self):
@@ -77,15 +77,23 @@ class MaterialTrackBaseTask(TaskTemplate):
                         text = itt.ocr_single_line(AreaMaterialGetText)
                         print(text)
                         if self.material_name in text:
-                            self.log_to_gui(f"{self.material_name} x 1")
-                            self.material_count_dict[self.material_name] += 1
+                            self.log_to_gui(f"获得{self.material_name}x1")
+                            if self.material_name in self.material_count_dict:
+                                self.material_count_dict[self.material_name] += 1
+                            else:
+                                self.material_count_dict[self.material_name] = 1
                         self.post_play_func()
                         break
             if no_material_near:
                 break
         itt.right_up()
         itt.key_up('w')
-        self.update_task_result(
-            message=f"获得{self.material_name}x{self.material_count_dict[self.material_name]}",
-            data=self.material_count_dict
-        )
+        if len(self.material_count_dict) == 0:
+            self.update_task_result(message="未采集到材料")
+            self.log_to_gui("未采集到材料")
+            return
+        else:
+            self.update_task_result(
+                message=f"获得{self.material_name}x{self.material_count_dict[self.material_name]}",
+                data=self.material_count_dict
+            )

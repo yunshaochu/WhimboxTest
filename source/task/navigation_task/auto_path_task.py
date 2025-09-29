@@ -10,6 +10,7 @@ from source.view_and_move.move import *
 from source.action.pickup import PickupTask
 from source.action.catch_insect import CatchInsectTask
 from source.action.clean_animal import CleanAnimalTask
+from source.action.fishing import FishingTask
 
 class AutoPathTask(TaskTemplate):
     def __init__(self, path_file_name):
@@ -158,6 +159,10 @@ class AutoPathTask(TaskTemplate):
                             expected_count=excepted_count,
                             check_stop_func=self.need_stop)
                         task_result = clean_animal_task.task_run()
+                        self.merge_material_count_dict(task_result.data)
+                    elif self.target_point.action == ACTION_FISHING:
+                        fishing_task = FishingTask(check_stop_func=self.need_stop)
+                        task_result = fishing_task.task_run()
                         self.merge_material_count_dict(task_result.data)
                     elif self.target_point.action == ACTION_WAIT:
                         wait_time = self.target_point.action_params

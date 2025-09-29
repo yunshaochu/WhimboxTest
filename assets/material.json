@@ -1,6 +1,111 @@
 {
+    "笔刷鱼": {
+        "game_img": "T_Icon_item_AN0024",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "蝴蝶结鱼": {
+        "game_img": "T_Icon_item_AN0059",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "大笔刷鱼": {
+        "game_img": "T_Icon_item_ANW0051",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "羽毛笔鱼": {
+        "game_img": "T_Icon_item_AN0069",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "厨师帽鱼": {
+        "game_img": "T_Icon_item_AN0088",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "提包鱼": {
+        "game_img": "T_Icon_item_ANW0050",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "拉夫领鱼": {
+        "game_img": "T_Icon_item_AN0055",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "发卡泥鳅": {
+        "game_img": "T_Icon_item_AN0098",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "提灯鱼": {
+        "game_img": "T_Icon_item_AN0096",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "胡子鲶鱼": {
+        "game_img": "T_Icon_item_ANW0049",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "缎带鱼": {
+        "game_img": "T_Icon_item_ANW0052",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "手绢鱼": {
+        "game_img": "T_Icon_item_AN0083",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "头巾鱼": {
+        "game_img": "T_Icon_item_AN0097",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "纱裙鱼": {
+        "game_img": "T_Icon_item_AN0058",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
     "插梳鱼": {
         "game_img": "T_Icon_item_AN0080",
+        "type": "fish",
+        "dig": true,
+        "track": true,
+        "jihua": true
+    },
+    "眼影鱼": {
+        "game_img": "T_Icon_item_AN0082",
         "type": "fish",
         "dig": true,
         "track": true,
