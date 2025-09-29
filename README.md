@@ -39,7 +39,7 @@ python -m pip install paddlepaddle-gpu==3.2.0 -i https://www.paddlepaddle.org.cn
 * 自动跑图
     * 跑图路线录制、编辑
     * 自动跑图（暂时只支持大世界和星海）
-    * 自动采集
+    * 自动采集、捕虫、清洁、钓鱼
 * AI对话
     * 通过自然语言编排以上所有功能
     * 随时中断任务
@@ -47,7 +47,7 @@ python -m pip install paddlepaddle-gpu==3.2.0 -i https://www.paddlepaddle.org.cn
 ## 未来计划
 1. 框架完善：回退机制、重试机制。
 2. 多地图适配
-3. 自动战斗、钓鱼、捕虫、清洁
+3. 自动战斗
 4. 自动弹琴（我必须立刻演奏春日影！）
 5. 家园适配
 6. 单独的启动器
@@ -75,9 +75,10 @@ Whinbox/
 │   │   ├── Game/                 # 游戏解包素材
 │   │   ├── Maps/                 # 地图相关资源
 │   │   ├── Windows/              # 游戏UI截图
-│   ├── paths/                    # 自动寻路脚本
+│   ├── paths/                    # 自动跑图脚本
 │   └── PPOCRModels/              # OCR模型文件
 ├── source/                        
+│   ├── ability/                  # 能力切换模块
 │   ├── action/                   # 动作模块（拾取、钓鱼、战斗等等）
 │   ├── api/                      # ocr，yolo等第三方模型
 │   ├── common/                   # 公共模块（日志、工具等等）
