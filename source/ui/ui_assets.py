@@ -125,7 +125,8 @@ IconMaterialTypeOther = ImgIcon()
 IconMaterialTypeDig1 = ImgIcon()
 
 # 拍照相关
-IconPhotoFeature = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+AreaPhotoFeature = Area()
+TextPhotoFeature = Text("大喵相机", cap_area = AreaPhotoFeature)
 IconPhotoEdit = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 IconPhotoDelete = ImgIcon()
 ButtonPhotoDeleteConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

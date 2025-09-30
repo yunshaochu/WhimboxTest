@@ -14,7 +14,7 @@ page_zxxy = UIPage(check_icon=IconUIZxxy)
 page_xhsy = UIPage(check_icon=IconUIXhsy)
 page_dress = UIPage(check_icon=ButtonWardrobeDressDIY)
 page_ability = UIPage(check_icon=TextWardrobeAbilityBattle)
-page_photo = UIPage(check_icon=IconPhotoFeature)
+page_photo = UIPage(check_icon=TextPhotoFeature)
 
 ui_pages = [
     page_bigmap,
