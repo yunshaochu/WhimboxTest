@@ -1,5 +1,5 @@
 """自动跑图"""
-from source.task.task_template import TaskTemplate, register_step
+from source.task.task_template import TaskTemplate, register_step, STATE_TYPE_STOP
 from source.interaction.interaction_core import itt
 import time, os
 from source.common.path_lib import *
@@ -55,7 +55,7 @@ class AutoPathTask(TaskTemplate):
             super().task_stop()
             self.clear_all()
             self.log_to_gui("手动停止跑图", is_error=True)
-            self.update_task_result(status="error", message="手动停止跑图")
+            self.update_task_result(status=STATE_TYPE_STOP, message="手动停止跑图")
 
     def _update_next_target_point(self):
         """更新下一个必经点"""

@@ -4,8 +4,9 @@ from source.ui.template.posi_manager import PosiTemplate, Area
 from source.ui.template.text_manager import TextTemplate, Text
 
 # 主界面、esc菜单相关
-IconUIMeiyali = ImgIcon(print_log=LOG_NONE, threshold=0.99)
-IconUICollection = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+IconPageMainFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
+IconDungeonFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
+IconPageEscFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
 AreaUITime = Area()
 
 # loading界面

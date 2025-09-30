@@ -3,12 +3,14 @@
 from source.common.logger import logger
 from source.ingame_ui.ingame_ui import win_ingame_ui
 from source.common.cvars import DEBUG_MODE
+from source.common.utils.ui_utils import back_to_page_main
 
 from pynput import keyboard
 import time
 
 STATE_TYPE_SUCCESS = "success"
 STATE_TYPE_ERROR = "error"
+STATE_TYPE_STOP = "stop"
 
 class state:
     def __init__(self, type="", msg=""):
@@ -34,7 +36,7 @@ def register_step(state_msg=""):
     return wrapper
 
 class TaskResult:
-    def __init__(self, status="success", message="", data=None):
+    def __init__(self, status=STATE_TYPE_SUCCESS, message="", data=None):
         self.status = status
         self.message = message
         self.data = data
@@ -118,8 +120,17 @@ class TaskTemplate:
             return func
         return wrapper
 
-
     def task_run(self):
+        res = self._task_run()
+        if res.status in [STATE_TYPE_SUCCESS, STATE_TYPE_STOP]:
+            return res
+        else:
+            self.log_to_gui(f"自动返回主界面，重试一次")
+            back_to_page_main()
+            res = self._task_run()
+            return res
+
+    def _task_run(self):
         """核心执行逻辑"""
         current_step_name = self.step_order[0] if self.step_order else None
         
@@ -187,6 +198,7 @@ class TaskTemplate:
     def task_stop(self):
         '''如果子类有自己额外的停止代码，就实现这个方法，并调用父类的这个方法'''
         self.task_stop_flag = True
+        self.update_task_result(status=STATE_TYPE_STOP, message="手动停止任务")
 
     def need_stop(self):
         # 综合判断是否需要停止
@@ -207,5 +219,5 @@ class TaskTemplate:
         logger.info(msg)
 
 
-    def update_task_result(self, status="success", message="", data=None):
+    def update_task_result(self, status=STATE_TYPE_SUCCESS, message="", data=None):
         self.task_result = TaskResult(status, message, data)

@@ -44,7 +44,7 @@ class Map(MiniMap, BigMap):
         
 
     def _upd_smallmap(self) -> None:
-        if itt.get_img_existence(IconUIMeiyali):
+        if itt.get_img_existence(IconPageMainFeature):
             self.update_position(itt.capture())
 
 

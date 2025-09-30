@@ -3,6 +3,7 @@ from source.task.navigation_task.common import get_path_json_name
 from source.task.navigation_task.auto_path_task import AutoPathTask
 from source.task.navigation_task.record_path_task import RecordPathTask
 from source.task.photo_task.daily_photo_task import DailyPhotoTask
+from source.task.task_template import STATE_TYPE_SUCCESS, STATE_TYPE_ERROR
 from source.common.path_lib import ASSETS_PATH
 
 from fastmcp import FastMCP
@@ -70,7 +71,7 @@ async def navigation_task(target_item) -> dict:
     path_json_name = get_path_json_name(target_item)
     if path_json_name is None:
         return {
-            "status": "error",
+            "status": STATE_TYPE_ERROR,
             "message": f"暂时没有{target_item}的路线"
         }
     else:
@@ -96,7 +97,7 @@ async def load_path(path_name: str) -> dict:
         return task_result.to_dict()
     else:
         return {
-            "status": "error",
+            "status": STATE_TYPE_ERROR,
             "message": f"路径文件{path_json_name}不存在"
         }
 
@@ -123,7 +124,7 @@ async def edit_path() -> dict:
     import webbrowser
     webbrowser.open(f"https://nikkigallery.vip/autotools/pathcheck")
     return {
-        "status": "success",
+        "status": STATE_TYPE_SUCCESS,
         "message": f"已打开路线编辑网站，请在浏览器中编辑路径文件"
     }
 

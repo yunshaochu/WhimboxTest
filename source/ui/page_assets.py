@@ -3,9 +3,9 @@ from source.ui.ui_assets import *
 
 page_loading = UIPage(check_icon=[IconUILoading1, IconUILoading2])
 
-page_main = UIPage(check_icon=IconUIMeiyali)
+page_main = UIPage(check_icon=IconPageMainFeature)
 page_bigmap = UIPage(check_icon=IconUIBigmap)
-page_esc = UIPage(check_icon=IconUICollection)
+page_esc = UIPage(check_icon=IconPageEscFeature)
 page_daily_task = UIPage(check_icon=TextDailyTaskTitle)
 page_huanjing = UIPage(check_icon=IconUIHuanjing)
 page_jihua = UIPage(check_icon=IconUIJihuaInner)

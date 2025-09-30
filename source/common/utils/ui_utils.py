@@ -1,5 +1,6 @@
 '''通用的游戏UI操作工具'''
 
+from source.ui.page_assets import page_main
 from source.ui.template.img_manager import GameImg, ImgIcon
 from source.ui.template.button_manager import Button
 from source.ui.template.text_manager import Text
@@ -9,6 +10,8 @@ from source.common.utils.img_utils import *
 from source.common.utils.posi_utils import *
 
 import time
+
+from source.ui.ui import ui_control
 
 
 def find_game_img(game_img: GameImg, cap, threshold, scale=0.5):
@@ -173,6 +176,17 @@ def wait_until_appear(obj, retry_time=3):
         time.sleep(1)
     return False
 
+
+def back_to_page_main():
+    while True:
+        if itt.get_img_existence(IconDungeonFeature):
+            itt.key_press('backspace')
+            time.sleep(0.2)
+        elif itt.get_img_existence(IconPageMainFeature):
+            break
+        else:
+            itt.key_press('esc')
+            time.sleep(0.2)
 
             
 if __name__ == "__main__":

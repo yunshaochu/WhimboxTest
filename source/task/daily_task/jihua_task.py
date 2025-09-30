@@ -32,7 +32,7 @@ class JihuaTask(TaskTemplate):
 
     @register_step("正在前往激化台")
     def step3(self):
-        if not wait_until_appear(IconUIMeiyali, retry_time=10):
+        if not wait_until_appear(IconDungeonFeature, retry_time=10):
             raise Exception("未进入素材激化幻境")
         
         retry_time = 3
@@ -106,7 +106,7 @@ class JihuaTask(TaskTemplate):
 
     @register_step("退出激化幻境")
     def step9(self):
-        if wait_until_appear(IconUIMeiyali):
+        if wait_until_appear(IconDungeonFeature):
             itt.key_press('backspace')
             return
         raise Exception("退不出激化幻境了？！")
