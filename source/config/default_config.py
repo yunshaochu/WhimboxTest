@@ -49,6 +49,33 @@ DEFAULT_CONFIG = {
             'type': str,
             'description': '模型API密钥'
         }
+    },
+    'Game': {
+        'energy_cost': {
+            'value': '素材激化幻境',
+            'type': str,
+            'description': '默认消耗体力的幻境'
+        },
+        'meiyali_dig': {
+            'value': '雾绡鱼|玉簪蚱蜢|画眉毛团|纯真丝线',
+            'type': str,
+            'description': '美鸭梨挖掘的默认材料（如果之前已经在挖掘，则沿用之前的）'
+        },
+        'jihua_target': {
+            'value': '泡泡',
+            'type': str,
+            'description': '激化幻境的默认兑换目标'
+        },
+        'jihua_cost': {
+            'value': '星荧草',
+            'type': str,
+            'description': '激化幻境的默认消耗材料'
+        },
+        'bless_target': {
+            'value': '巨蛇遗迹试炼',
+            'type': str,
+            'description': '闪光幻境的默认目标试炼'
+        }
     }
 }
 

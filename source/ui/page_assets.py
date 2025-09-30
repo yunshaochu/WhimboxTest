@@ -6,9 +6,10 @@ page_loading = UIPage(check_icon=[IconUILoading1, IconUILoading2])
 page_main = UIPage(check_icon=IconPageMainFeature)
 page_bigmap = UIPage(check_icon=IconUIBigmap)
 page_esc = UIPage(check_icon=IconPageEscFeature)
-page_daily_task = UIPage(check_icon=TextDailyTaskTitle)
-page_huanjing = UIPage(check_icon=IconUIHuanjing)
-page_jihua = UIPage(check_icon=IconUIJihuaInner)
+page_daily_task = UIPage(check_icon=TextDailyTaskFeature)
+page_huanjing = UIPage(check_icon=TextHuanjingFeature)
+page_huanjing_jihua = UIPage(check_icon=TextHuanjingJihuaFeature)
+page_huanjing_bless = UIPage(check_icon=TextHuanjingBlessFeature)
 page_dig = UIPage(check_icon=IconUIDig)
 page_zxxy = UIPage(check_icon=IconUIZxxy)
 page_xhsy = UIPage(check_icon=IconUIXhsy)
@@ -22,7 +23,8 @@ ui_pages = [
     page_esc,
     page_daily_task,
     page_huanjing,
-    page_jihua,
+    page_huanjing_jihua,
+    page_huanjing_bless,
     page_dig,
     page_zxxy,
     page_xhsy,
@@ -48,9 +50,11 @@ page_daily_task.link(ButtonZxxyEntrance, page_zxxy)
 page_daily_task.link(ButtonXhsyEntrance, page_xhsy)
 
 page_huanjing.link('esc', page_daily_task)
-page_huanjing.link(ButtonJihuaGo, page_jihua)
+page_huanjing.link(TextHuanjingJihuaEntrace, page_huanjing_jihua)
+page_huanjing.link(TextHuanjingBlessEntrace, page_huanjing_bless)
 
-page_jihua.link('esc', page_huanjing)
+page_huanjing_jihua.link('esc', page_huanjing)
+page_huanjing_bless.link('esc', page_huanjing)
 
 page_dig.link("esc", page_esc)
 

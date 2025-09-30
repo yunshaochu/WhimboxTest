@@ -13,13 +13,13 @@ mcp = FastMCP('whimbox_server')
 
 
 @mcp.tool()
-async def jihua_task(target_material, cost_material) -> dict:
+async def jihua_task(target_material=None, cost_material=None) -> dict:
     """
     素材激化：消耗活跃能量，用大世界材料换取噗灵、丝线、闪亮泡泡
 
     Args:
-        target_material: 用于兑换的材料名，只支持噗灵、丝线、闪亮泡泡
-        cost_material: 用于消耗材料名
+        target_material: 可选，用于兑换的材料名，只支持噗灵、丝线、闪亮泡泡。如果不输入，会自动读取配置文件
+        cost_material: 可选，用于消耗材料名。如果不输入，会自动读取配置文件
 
     Returns:
         dict: 包含操作状态的字典，包含status和message字段
@@ -30,12 +30,31 @@ async def jihua_task(target_material, cost_material) -> dict:
 
 
 @mcp.tool()
-async def dig_task(target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]) -> dict:
+async def bless_task(level_name=None) -> dict:
+    """
+    消耗活跃能量，获取祝福闪光
+
+    Args:
+        level_name: 可选，要挑战的祝福闪光幻境的关卡名，如果不输入，会自动读取配置文件
+
+    Returns:
+        dict: 包含操作状态的字典，包含status和message字段
+
+    Example:
+        (level_name=巨蛇遗迹试炼)
+    """
+    bless_task = daily_task.BlessTask(level_name)
+    task_result = bless_task.task_run()
+    return task_result.to_dict()
+
+
+@mcp.tool()
+async def dig_task(target_item_list=None) -> dict:
     """
     美鸭梨挖掘，只有当明确说明“挖掘”或“美鸭梨挖掘”时才能调用这个工具
 
     Args:
-        target_item_list: 要挖掘的材料名列表，如果不输入，默认为["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]
+        target_item_list: 可选，要挖掘的材料名列表，如果不输入，会自动读取配置文件
 
     Returns:
         dict: 包含操作状态的字典，包含status和message字段

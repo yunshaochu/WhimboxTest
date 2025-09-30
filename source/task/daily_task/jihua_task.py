@@ -14,14 +14,20 @@ from source.common.cvars import DEBUG_MODE
 target_material_list = ["噗灵", "丝线", "闪亮泡泡"]
 
 class JihuaTask(TaskTemplate):
-    def __init__(self, target_material, cost_material):
+    def __init__(self, target_material=None, cost_material=None):
         super().__init__("jihua_task")
-        self.target_material = target_material
-        self.cost_material = cost_material
+        if target_material:
+            self.target_material = target_material
+        else:
+            self.target_material = global_config.get("Game", "jihua_target")
+        if cost_material:
+            self.cost_material = cost_material
+        else:
+            self.cost_material = global_config.get("Game", "jihua_cost")
 
     @register_step("正在前往素材激化幻境")
     def step1(self):
-        ui_control.ui_goto(page_jihua)
+        ui_control.ui_goto(page_huanjing_jihua)
 
 
     @register_step("继续前往素材激化幻境")
@@ -73,15 +79,17 @@ class JihuaTask(TaskTemplate):
 
     @register_step("选择激化素材数量")
     def step6(self):
-        if DEBUG_MODE:
-            # debug下，就使用一个素材，为了可以多测几次
-            if wait_until_appear_then_click(ButtonJihuaNumConfirm):
-                return
-        else:
-            if wait_until_appear_then_click(ButtonJihuaNumMax):
+        # 如果当前幻境就是默认消耗体力的幻境，就把次数调到最大
+        default_energy_cost = global_config.get("Game", "energy_cost")
+        if default_energy_cost == "素材激化幻境":
+            self.log_to_gui("已允许消耗所有活跃能量！")
+            if not DEBUG_MODE:
+                wait_until_appear_then_click(ButtonJihuaNumMax)
                 time.sleep(0.2)
-                if wait_until_appear_then_click(ButtonJihuaNumConfirm):
-                    return
+            else:
+                self.log_to_gui("debug下，不消耗所有能量，为了能多测几次")
+        if wait_until_appear_then_click(ButtonJihuaNumConfirm):
+            return
         raise Exception("未弹出素材数量选择框")
 
 
@@ -114,5 +122,5 @@ class JihuaTask(TaskTemplate):
 
 
 if __name__ == "__main__":
-    jihua_task = JihuaTask("闪亮泡泡", "玉簪蚂蚱")
+    jihua_task = JihuaTask()
     jihua_task.task_run()

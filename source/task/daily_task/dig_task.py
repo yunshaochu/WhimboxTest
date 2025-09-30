@@ -2,7 +2,7 @@
 美鸭梨挖掘
 """
 
-from source.task.task_template import STATE_TYPE_ERROR, TaskTemplate, register_step
+from source.task.task_template import *
 from source.ui.ui import ui_control
 from source.ui.page_assets import *
 from source.interaction.interaction_core import itt
@@ -36,9 +36,12 @@ material_type_dict = {
 }
 
 class DigTask(TaskTemplate):
-    def __init__(self, target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]):
+    def __init__(self, target_item_list=None):
         super().__init__("dig_task")
-        self.target_item_list = target_item_list
+        if target_item_list:
+            self.target_item_list = target_item_list
+        else:
+            self.target_item_list = global_config.get("Game", "meiyali_dig").split("|")
         self.is_gather_success = False
     
     @register_step("正在前往美鸭梨挖掘")
@@ -48,8 +51,8 @@ class DigTask(TaskTemplate):
 
     @register_step("判断是否可收获")
     def step2(self):
-        if wait_until_appear_then_click(ButtonDigGather):
-            return "step3" # 可一键收获，执行收获流程
+        if itt.appear_then_click(ButtonDigGather):
+            return "step3" # 可一键收获
         else:
             dig_num_str = itt.ocr_single_line(AreaDigingNumText, padding=50)
             try:
@@ -58,19 +61,19 @@ class DigTask(TaskTemplate):
                 raise Exception(f"挖掘数量识别异常:{dig_num_str}")
             if diging_num > 0:
                 self.log_to_gui(f"当前正在挖掘{dig_num_str}")
-                self.update_task_result(status=STATE_TYPE_ERROR, message=f"正在挖掘，无法收获")
+                self.update_task_result(status=STATE_TYPE_STOP, message=f"正在挖掘，无法收获")
                 return "step5" # 有东西正在挖掘，退出
             else:
                 return "step4" # 没东西在挖掘，进入挖掘步骤
 
 
-    @register_step("确认挖掘产出")
+    @register_step("一键收获并再次挖掘")
     def step3(self):
-        if wait_until_appear_then_click(ButtonDigGatherConfirm):
-            self.update_task_result(message=f"成功收获")
+        if wait_until_appear_then_click(ButtonDigAgain):
+            self.update_task_result(message=f"成功一键收获并再次挖掘")
             self.is_gather_success = True
-            return
-        raise Exception("未弹出挖掘产出窗口")
+            return "step5"
+        raise Exception("未弹出挖掘结果窗口")
 
 
     @register_step("选择挖掘产物")

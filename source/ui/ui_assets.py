@@ -9,6 +9,9 @@ IconDungeonFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
 IconPageEscFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
 AreaUITime = Area()
 
+# 很多界面左上角都有的文字标题区域
+AreaPageTitleFeature = Area()
+
 # loading界面
 IconUILoading1 = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 IconUILoading2 = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
@@ -50,14 +53,34 @@ IconFishingReelLine = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8)  # 收线�
 IconFishingSkip = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.8) # 跳过
 
 # 每日任务相关
-AreaDailyTaskTitle = Area()
-TextDailyTaskTitle = Text("每日灵感", cap_area = AreaDailyTaskTitle)
+AreaDailyTaskFeature = Area()
+TextDailyTaskFeature = Text("每日灵感", cap_area = AreaDailyTaskFeature)
 ButtonHuanjingGo = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
-IconUIHuanjing = ImgIcon(is_bbg=True, bbg_posi=[120, 37, 246, 68], print_log=LOG_WHEN_TRUE, threshold=0.99)
 
-# 素材激化相关
-ButtonJihuaGo = Button(print_log=LOG_WHEN_TRUE,threshold=0.90)
-IconUIJihuaInner = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
+# 幻境挑战页面
+TextHuanjingFeature = Text("幻境挑战", cap_area = AreaPageTitleFeature)
+AreaHuanjingMonsterEntrace = Area()
+TextHuanjingMonsterEntrace = Text("魔物试炼幻境", cap_area = AreaHuanjingMonsterEntrace)
+AreaHuanjingBlessEntrace = Area()
+TextHuanjingBlessEntrace = Text("祝福闪光幻境", cap_area = AreaHuanjingBlessEntrace)
+AreaHuanjingZiyangEntrace = Area()
+TextHuanjingZiyangEntrace = Text("奇想滋养幻境", cap_area = AreaHuanjingZiyangEntrace)
+AreaHuanjingJihuaEntrace = Area()
+TextHuanjingJihuaEntrace = Text("素材激化幻境", cap_area = AreaHuanjingJihuaEntrace)
+AreaHuanjingBossEntrace = Area()
+TextHuanjingBossEntrace = Text("心之突破幻境", cap_area = AreaHuanjingBossEntrace)
+
+# 祝福闪光幻境相关
+TextHuanjingBlessFeature = Text("祝福闪光幻境", cap_area = AreaPageTitleFeature)
+AreaBlessHuanjingLevelsSelect = Area()
+AreaBlessHuanjingDifficulty3 = Area()
+TextBlessHuanjingDifficulty3 = Text("困难", cap_area = AreaBlessHuanjingDifficulty3)
+ButtonBlessHuanjingQuickPlay = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+ButtonBlessHuanjingNumMax = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+ButtonBlessHuanjingConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+
+# 素材激化幻境相关
+TextHuanjingJihuaFeature = Text("素材激化幻境", cap_area = AreaPageTitleFeature)
 ButtonJihuaInnerGo = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 AreaTextJihuatai = Area()
 TextJihuatai = Text("打开素材激化台", cap_area = AreaTextJihuatai)
@@ -72,6 +95,7 @@ ButtonDigGo = Button(print_log=LOG_WHEN_TRUE, threshold=0.9)
 IconUIDig = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGather = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGatherConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+ButtonDigAgain = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 AreaDigingNumText = Area()
 AreaDigMainTypeSelect = Area()
 AreaDigSubTypeSelect = Area()
@@ -125,8 +149,7 @@ IconMaterialTypeOther = ImgIcon()
 IconMaterialTypeDig1 = ImgIcon()
 
 # 拍照相关
-AreaPhotoFeature = Area()
-TextPhotoFeature = Text("大喵相机", cap_area = AreaPhotoFeature)
+TextPhotoFeature = Text("大喵相机", cap_area = AreaPageTitleFeature)
 IconPhotoEdit = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 IconPhotoDelete = ImgIcon()
 ButtonPhotoDeleteConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

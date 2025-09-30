@@ -180,26 +180,28 @@ def back_to_page_main():
     while True:
         if itt.get_img_existence(IconDungeonFeature):
             itt.key_press('backspace')
-            time.sleep(0.2)
         elif itt.get_img_existence(IconPageMainFeature):
             break
         else:
             itt.key_press('esc')
-            time.sleep(0.2)
+        time.sleep(1)
 
             
 if __name__ == "__main__":
-    CV_DEBUG_MODE = True
-    from source.ui.material_icon_assets import material_icon_dict
-    material_name = "纯真丝线"
-    # material_name = "玉簪蚱蜢"
-    target = material_icon_dict[material_name]["icon"]
-    # scroll_find_click(AreaBigMapMaterialSelect, target, threshold=0.9, scale=0.45)
-    cap = itt.capture(posi=AreaDigItemSelect.position)
-    find_game_img(target, cap, threshold=0.7, scale=0.46)
+    back_to_page_main()
+    # CV_DEBUG_MODE = True
+    # from source.ui.material_icon_assets import material_icon_dict
+    # material_name = "纯真丝线"
+    # # material_name = "玉簪蚱蜢"
+    # target = material_icon_dict[material_name]["icon"]
+    # # scroll_find_click(AreaBigMapMaterialSelect, target, threshold=0.9, scale=0.45)
+    # cap = itt.capture(posi=AreaDigItemSelect.position)
+    # find_game_img(target, cap, threshold=0.7, scale=0.46)
     # cap = itt.capture(posi=AreaBigMapMaterialSelect.position)
     # find_game_img(target, cap, threshold=0.9, scale=0.45)
 
     # hsv_limit = [np.array([0, 0, 100]), np.array([180, 60, 255])]
     # # scroll_find_click(AreaDigMainTypeSelect, IconMaterialTypeMonster, threshold=0.85, hsv_limit=hsv_limit, scale=1.233)
     # scroll_find_click(AreaDigSubTypeSelect, IconMaterialTypeInsect, threshold=0.85, hsv_limit=hsv_limit, scale=0.83)
+
+    
