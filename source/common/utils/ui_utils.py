@@ -8,10 +8,9 @@ from source.ui.template.posi_manager import Area
 from source.interaction.interaction_core import itt
 from source.common.utils.img_utils import *
 from source.common.utils.posi_utils import *
+from source.ui.ui_assets import *
 
 import time
-
-from source.ui.ui import ui_control
 
 
 def find_game_img(game_img: GameImg, cap, threshold, scale=0.5):
@@ -191,7 +190,6 @@ def back_to_page_main():
             
 if __name__ == "__main__":
     CV_DEBUG_MODE = True
-    from source.ui.ui_assets import *
     from source.ui.material_icon_assets import material_icon_dict
     material_name = "纯真丝线"
     # material_name = "玉簪蚱蜢"

@@ -10,54 +10,68 @@ import time
 from source.common.utils.ui_utils import wait_until_appear
 
 
-zxxy_task_dict = {
-    "植物":{
+zxxy_task_info_list = [
+    {
+        "key_words": ["植物"],
         "score": 200,
         "priority": 5,
-        "task_name": "采集"
+        "task_name": "采集植物"
     },
-    "昆虫":{
+    {
+        "key_words": ["昆虫"],
         "score": 200,
-        "priority": 4,
+        "priority": 5,
         "task_name": "捕虫"
     },
-    "小游戏":{
+    {
+        "key_words": ["小游戏"],
         "score": 200,
         "priority": 0,
         "task_name": "玩小游戏"
     },
-    "活跃能量":{
+    {
+        "key_words": ["幻境", "祝福闪光"],
+        "score": 200,
+        "priority": 5,
+        "task_name": "获取祝福闪光"
+    },
+    {
+        "key_words": ["活跃能量"],
         "score": 150,
         "priority": 5,
         "task_name": "消耗活跃能量"
     },
-    "照片":{
+    {
+        "key_words": ["照片"],
         "score": 100,
         "priority": 5,
         "task_name": "拍照"
     },
-    "挖掘":{
+    {
+        "key_words": ["挖掘"],
         "score": 100,
         "priority": 5,
         "task_name": "美鸭梨挖掘"
     },
-    "升级":{
+    {
+        "key_words": ["升级", "祝福闪光"],
         "score": 100,
         "priority": 5,
         "task_name": "升级祝福闪光"
     },
-    "魔气怪":{
+    {
+        "key_words": ["魔气怪"],
         "score": 100,
-        "priority": 3,
+        "priority": 0,
         "task_name": "打怪"
     },
-    "制作":{
+    {
+        "key_words": ["制作"],
         "score": 100,
         "priority": 0,
         "task_name": "制作服装"
-    }
-
-}
+    },
+]
 
 
 class ZhaoxiTask(TaskTemplate):
@@ -94,12 +108,18 @@ class ZhaoxiTask(TaskTemplate):
 
         def check_task(task_btn: Button):
             itt.move_and_click(task_btn.click_position())
-            time.sleep(0.5)
+            time.sleep(0.3)
             if not itt.get_img_existence(IconUIZxxyTaskFinished):
                 task_text = itt.ocr_single_line(AreaZxxyTaskText)
-                for key, value in zxxy_task_dict.items():
-                    if key in task_text:
-                        return value
+                for task_info in zxxy_task_info_list:
+                    is_match = True
+                    for key_word in task_info["key_words"]:
+                        if key_word not in task_text:
+                            is_match = False
+                            break
+                    if is_match:
+                        return task_info
+                return None
             else:
                 return None
 

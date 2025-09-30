@@ -2,7 +2,7 @@
 美鸭梨挖掘
 """
 
-from source.task.task_template import TaskTemplate, register_step
+from source.task.task_template import STATE_TYPE_ERROR, TaskTemplate, register_step
 from source.ui.ui import ui_control
 from source.ui.page_assets import *
 from source.interaction.interaction_core import itt
@@ -39,6 +39,7 @@ class DigTask(TaskTemplate):
     def __init__(self, target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]):
         super().__init__("dig_task")
         self.target_item_list = target_item_list
+        self.is_gather_success = False
     
     @register_step("正在前往美鸭梨挖掘")
     def step1(self):
@@ -57,7 +58,7 @@ class DigTask(TaskTemplate):
                 raise Exception(f"挖掘数量识别异常:{dig_num_str}")
             if diging_num > 0:
                 self.log_to_gui(f"当前正在挖掘{dig_num_str}")
-                self.update_task_result(message=f"已在挖掘，不进行任何操作")
+                self.update_task_result(status=STATE_TYPE_ERROR, message=f"正在挖掘，无法收获")
                 return "step5" # 有东西正在挖掘，退出
             else:
                 return "step4" # 没东西在挖掘，进入挖掘步骤
@@ -66,6 +67,8 @@ class DigTask(TaskTemplate):
     @register_step("确认挖掘产出")
     def step3(self):
         if wait_until_appear_then_click(ButtonDigGatherConfirm):
+            self.update_task_result(message=f"成功收获")
+            self.is_gather_success = True
             return
         raise Exception("未弹出挖掘产出窗口")
 
@@ -113,7 +116,10 @@ class DigTask(TaskTemplate):
             select_dig_item(item_name)
             time.sleep(0.5)
         
-        self.update_task_result(message=f"已开始挖掘{",".join(self.target_item_list)}")
+        if self.is_gather_success:
+            self.update_task_result(message=f"成功收获，并已开始挖掘{",".join(self.target_item_list)}")
+        else:
+            self.update_task_result(message=f"已开始挖掘{",".join(self.target_item_list)}")
 
     @register_step("退出美鸭梨挖掘")
     def step5(self):

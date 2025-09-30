@@ -32,7 +32,7 @@ async def jihua_task(target_material, cost_material) -> dict:
 @mcp.tool()
 async def dig_task(target_item_list=["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]) -> dict:
     """
-    美鸭梨挖掘：获得少量大世界材料
+    美鸭梨挖掘，只有当明确说明“挖掘”或“美鸭梨挖掘”时才能调用这个工具
 
     Args:
         target_item_list: 要挖掘的材料名列表，如果不输入，默认为["云尾锦鲤", "玉簪蚱蜢", "画眉毛团", "纯真丝线"]
@@ -58,21 +58,29 @@ async def zhaoxi_task() -> dict:
 
 
 @mcp.tool()
-async def navigation_task(target_item) -> dict:
+async def navigation_task(target=None, type=None, count=None) -> dict:
     """
-    自动跑图，自动寻路并进行采集、捕虫、钓鱼、战斗等操作
+    指定素材名，或素材获取方法，进行获取。可以同时指定最少要获取的数量
 
     Args:
-        target_item: 要获取的素材名
+        target: 可选，要获取的素材名
+        type: 可选，素材获取方法，只能输入“采集”、“捕虫”、“钓鱼”、“清洁”
+        count: 可选，最少要获取的素材数量
 
     Returns:
         dict: 包含操作状态的字典，包含status和message字段
+
+    Example:
+        (target=星荧草),
+        (type=采集)
+        (target=发卡蚱蜢, count=1)
+        (type=钓鱼, count=3)
     """
-    path_json_name = get_path_json_name(target_item)
+    path_json_name = get_path_json_name(target, type, count)
     if path_json_name is None:
         return {
             "status": STATE_TYPE_ERROR,
-            "message": f"暂时没有{target_item}的路线"
+            "message": f"没有符合要求的跑图路线"
         }
     else:
         task = AutoPathTask(path_json_name)

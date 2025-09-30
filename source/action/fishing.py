@@ -123,19 +123,25 @@ class FishingTask(TaskTemplate):
         self.record_material()
 
     def record_material(self):
-        # 从“笔刷鱼×1.6kg”文本中提取鱼名和重量
+        # 从“笔刷鱼×1.6kg”文本中提取鱼名，并记录数量
+        # 为了和其他采集任务统一，这里不记录重量，而是个数
         texts = itt.ocr_multiple_lines(AreaMaterialGetText)
         for line in texts:
             pattern = r"^(.+?)[×xX]([0-9]+(?:\.[0-9]+)?)kg$"
             match = re.match(pattern, line)
             if match:
                 fish_name = match.group(1)
-                fish_weight = float(match.group(2))
-                self.log_to_gui(f"获得{fish_name}x{fish_weight}kg")
+                # fish_weight = float(match.group(2))
+                # self.log_to_gui(f"获得{fish_name}x{fish_weight}kg")
+                # if fish_name in self.material_count_dict:
+                #     self.material_count_dict[fish_name] += fish_weight
+                # else:
+                #     self.material_count_dict[fish_name] = fish_weight
+                self.log_to_gui(f"获得{fish_name}")
                 if fish_name in self.material_count_dict:
-                    self.material_count_dict[fish_name] += fish_weight
+                    self.material_count_dict[fish_name] += 1
                 else:
-                    self.material_count_dict[fish_name] = fish_weight
+                    self.material_count_dict[fish_name] = 1
                 break
 
 
