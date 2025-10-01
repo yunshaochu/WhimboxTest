@@ -9,7 +9,6 @@ AreaPageTitleFeature = Area()
 # 主界面、esc菜单相关
 IconPageMainFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
 IconDungeonFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
-# IconPageEscFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
 TextPageEscFeature = Text("美鸭梨", cap_area = AreaPageTitleFeature)
 AreaUITime = Area()
 AreaEscEntrances = Area()
@@ -93,8 +92,6 @@ ButtonJihuaNumConfirm = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 ButtonJihuaFinallyConfirm = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 
 # 美鸭梨挖掘相关
-ButtonDigGo = Button(print_log=LOG_WHEN_TRUE, threshold=0.9)
-IconUIDig = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGather = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGatherConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigAgain = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

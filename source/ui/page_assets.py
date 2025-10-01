@@ -7,7 +7,6 @@ page_main = UIPage(check_icon=IconPageMainFeature)
 page_bigmap = UIPage(check_icon=IconUIBigmap)
 page_esc = UIPage(check_icon=TextPageEscFeature)
 page_daily_task = UIPage(check_icon=TextDailyTaskFeature)
-page_dig = UIPage(check_icon=IconUIDig)
 page_zxxy = UIPage(check_icon=IconUIZxxy)
 page_xhsy = UIPage(check_icon=IconUIXhsy)
 page_dress = UIPage(check_icon=ButtonWardrobeDressDIY)
@@ -22,7 +21,6 @@ ui_pages = [
     page_main,
     page_bigmap,
     page_daily_task,
-    page_dig,
     page_zxxy,
     page_xhsy,
     page_dress,
@@ -47,7 +45,6 @@ page_main.link('j', page_monthly_pass)
 page_bigmap.link('m', page_main)
 
 page_esc.link('esc', page_main)
-page_esc.link(ButtonDigGo, page_dig)
 
 page_daily_task.link('esc', page_main)
 page_daily_task.link(ButtonHuanjingGo, page_huanjing)
@@ -60,8 +57,6 @@ page_huanjing.link(TextHuanjingBlessEntrace, page_huanjing_bless)
 
 page_huanjing_jihua.link('esc', page_huanjing)
 page_huanjing_bless.link('esc', page_huanjing)
-
-page_dig.link("esc", page_esc)
 
 page_zxxy.link("esc", page_daily_task)
 
