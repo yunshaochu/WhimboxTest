@@ -66,6 +66,12 @@ class AllInOneTask(TaskTemplate):
         else:
             self.update_task_result(message=f"仍需手动完成以下任务：{", ".join(todo_list)}")
 
+    @register_step("领取奇迹之旅奖励")
+    def step6(self):
+        monthly_pass_task = daily_task.MonthlyPassTask()
+        monthly_pass_task.task_run()
+
+
 if __name__ == "__main__":
     task = AllInOneTask()
     result = task.task_run()

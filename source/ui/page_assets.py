@@ -16,6 +16,7 @@ page_xhsy = UIPage(check_icon=IconUIXhsy)
 page_dress = UIPage(check_icon=ButtonWardrobeDressDIY)
 page_ability = UIPage(check_icon=TextWardrobeAbilityBattle)
 page_photo = UIPage(check_icon=TextPhotoFeature)
+page_monthly_pass = UIPage(check_icon=TextMonthlyPassFeature)
 
 ui_pages = [
     page_bigmap,
@@ -31,6 +32,7 @@ ui_pages = [
     page_dress,
     page_ability,
     page_photo,
+    page_monthly_pass,
 ]
 
 page_main.link('m', page_bigmap)
@@ -38,6 +40,7 @@ page_main.link('esc', page_esc)
 page_main.link('l', page_daily_task)
 page_main.link('c', page_dress)
 page_main.link('p', page_photo)
+page_main.link('j', page_monthly_pass)
 
 page_bigmap.link('m', page_main)
 
@@ -68,3 +71,5 @@ page_dress.link(TextWardrobeAbilityTab, page_ability)
 page_ability.link("esc", page_main)
 
 page_photo.link("esc", page_main)
+
+page_monthly_pass.link("esc", page_main)

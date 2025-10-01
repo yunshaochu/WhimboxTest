@@ -176,6 +176,15 @@ async def all_in_one_task() -> dict:
     task_result = all_in_one_task.task_run()
     return task_result.to_dict()
 
+@mcp.tool()
+async def monthly_pass_task() -> dict:
+    """
+    领取奇迹之旅（大月卡）奖励
+    """
+    monthly_pass_task = daily_task.MonthlyPassTask()
+    task_result = monthly_pass_task.task_run()
+    return task_result.to_dict()
+
 def start_mcp_server():
     mcp.run(
         transport="streamable-http",

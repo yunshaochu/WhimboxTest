@@ -153,3 +153,9 @@ TextPhotoFeature = Text("大喵相机", cap_area = AreaPageTitleFeature)
 IconPhotoEdit = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 IconPhotoDelete = ImgIcon()
 ButtonPhotoDeleteConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+
+# 大月卡，奇迹之旅
+TextMonthlyPassFeature = Text("奇迹之旅", cap_area = AreaPageTitleFeature)
+ButtonMonthlyPassAward = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+ButtonMonthlyPassTab1 = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+ButtonMonthlyPassTab2 = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

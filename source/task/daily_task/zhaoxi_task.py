@@ -1,5 +1,5 @@
 """
-朝夕心愿
+检查并领取朝夕心愿
 """
 
 from source.task.task_template import TaskTemplate, register_step
