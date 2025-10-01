@@ -8,6 +8,7 @@ from source.ui.page_assets import *
 from source.interaction.interaction_core import itt
 import time
 from source.common.utils.ui_utils import wait_until_appear
+from source.task.daily_task.cvar import *
 
 
 zxxy_task_info_list = [
@@ -15,61 +16,61 @@ zxxy_task_info_list = [
         "key_words": ["植物"],
         "score": 200,
         "priority": 5,
-        "task_name": "采集植物"
+        "task_name": DAILY_TASK_PICKUP
     },
     {
         "key_words": ["昆虫"],
         "score": 200,
         "priority": 5,
-        "task_name": "捕虫"
+        "task_name": DAILY_TASK_CATCH_INSECT
     },
     {
         "key_words": ["小游戏"],
         "score": 200,
         "priority": 0,
-        "task_name": "玩小游戏"
+        "task_name": DAILY_TASK_MINI_GAME
     },
     {
         "key_words": ["幻境", "祝福闪光"],
         "score": 200,
         "priority": 5,
-        "task_name": "获取祝福闪光"
+        "task_name": DAILY_TASK_GET_BLESS
     },
     {
         "key_words": ["活跃能量"],
         "score": 150,
         "priority": 5,
-        "task_name": "消耗活跃能量"
+        "task_name": DAILY_TASK_COST_ENERGY
     },
     {
         "key_words": ["照片"],
         "score": 100,
         "priority": 5,
-        "task_name": "拍照"
+        "task_name": DAILY_TASK_TAKE_PHOTO
     },
     {
         "key_words": ["挖掘"],
         "score": 100,
         "priority": 5,
-        "task_name": "美鸭梨挖掘"
+        "task_name": DAILY_TASK_DIG
     },
     {
         "key_words": ["升级", "祝福闪光"],
         "score": 100,
-        "priority": 5,
-        "task_name": "升级祝福闪光"
+        "priority": 0,
+        "task_name": DAILY_TASK_UPGRADE_BLESSED
     },
     {
         "key_words": ["魔气怪"],
         "score": 100,
         "priority": 0,
-        "task_name": "打怪"
+        "task_name": DAILY_TASK_FIGHT
     },
     {
         "key_words": ["制作"],
         "score": 100,
         "priority": 0,
-        "task_name": "制作服装"
+        "task_name": DAILY_TASK_MAKE_CLOTHES
     },
 ]
 
@@ -150,7 +151,9 @@ class ZhaoxiTask(TaskTemplate):
             temp_score += task['score']
         
         if len(todo_list) > 0:
-            self.update_task_result(message=f"需要继续完成以下任务：{", ".join(todo_list)}")
+            self.update_task_result(
+                message=f"需要继续完成以下任务：{", ".join(todo_list)}",
+                data=todo_list)
             return "step5"
         else:
             raise Exception("没办法凑齐分数了")

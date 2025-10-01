@@ -167,6 +167,15 @@ async def daily_photo_task() -> dict:
     task_result = daily_photo_task.task_run()
     return task_result.to_dict()
 
+@mcp.tool()
+async def all_in_one_task() -> dict:
+    """
+    一条龙，一键完成朝夕心愿每日任务
+    """
+    all_in_one_task = daily_task.AllInOneTask()
+    task_result = all_in_one_task.task_run()
+    return task_result.to_dict()
+
 def start_mcp_server():
     mcp.run(
         transport="streamable-http",

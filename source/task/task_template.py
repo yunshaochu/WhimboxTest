@@ -169,7 +169,7 @@ class TaskTemplate:
             self.error_step.state.msg = str(e)
             self.current_step = self.error_step
             self.log_to_gui(self.error_step.state.msg, is_error=True)
-            self.task_result = TaskResult('error', self.error_step.state.msg)
+            self.task_result = TaskResult(STATE_TYPE_ERROR, self.error_step.state.msg)
             if DEBUG_MODE:
                 import traceback
                 logger.error(traceback.format_exc())
@@ -198,7 +198,7 @@ class TaskTemplate:
     def task_stop(self):
         '''如果子类有自己额外的停止代码，就实现这个方法，并调用父类的这个方法'''
         self.task_stop_flag = True
-        self.update_task_result(status=STATE_TYPE_STOP, message="手动停止任务")
+        self.update_task_result(status=STATE_TYPE_STOP, message="停止任务")
 
     def need_stop(self):
         # 综合判断是否需要停止
