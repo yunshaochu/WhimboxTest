@@ -17,7 +17,7 @@ from source.common.cvars import DEBUG_MODE
 class Capture():
     def __init__(self):
         self.capture_cache = np.zeros_like((1080,1920,3), dtype="uint8")
-        self.max_fps = 60
+        self.max_fps = 30
         self.fps_timer = timer_module.Timer(diff_start_time=1)
         self.capture_cache_lock = threading.Lock()
         self.capture_times = 0

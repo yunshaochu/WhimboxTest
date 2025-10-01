@@ -3,14 +3,16 @@ from source.ui.template.button_manager import Button
 from source.ui.template.posi_manager import PosiTemplate, Area
 from source.ui.template.text_manager import TextTemplate, Text
 
+# 很多界面左上角都有的文字标题区域
+AreaPageTitleFeature = Area()
+
 # 主界面、esc菜单相关
 IconPageMainFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
 IconDungeonFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
-IconPageEscFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
+# IconPageEscFeature = ImgIcon(print_log=LOG_NONE, threshold=0.99)
+TextPageEscFeature = Text("美鸭梨", cap_area = AreaPageTitleFeature)
 AreaUITime = Area()
-
-# 很多界面左上角都有的文字标题区域
-AreaPageTitleFeature = Area()
+AreaEscEntrances = Area()
 
 # loading界面
 IconUILoading1 = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)

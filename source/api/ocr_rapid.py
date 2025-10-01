@@ -3,6 +3,8 @@ import os
 import threading
 import time
 import cv2
+import numpy as np
+from source.common.utils.img_utils import similar_img
 from source.common.logger import logger
 from source.common.path_lib import CONFIG_PATH
 
@@ -17,6 +19,8 @@ class RapidOcr():
         self.ocr = RapidOCR(config_path=config_path)
         logger.info(f"created RapidOCR. cost {round(time.time() - pt, 2)}")
         self._lock = threading.Lock()
+        self.last_img: np.ndarray = None
+        self.last_result = None
 
     def _replace_texts(self, text: str):
         for i in REPLACE_DICT:
@@ -27,7 +31,16 @@ class RapidOcr():
     def analyze(self, img):
         """直接调用 RapidOCR 的接口"""
         with self._lock:
+            # 如果上一次ocr的图片和这次的图片完全相同，则直接返回上一次的ocr结果
+            if self.last_img is not None:
+                if self.last_img.shape == img.shape:
+                    similar = similar_img(self.last_img, img, is_gray=True)
+                    if similar > 0.99:
+                        logger.debug(f"ocr_rapid: similar: {similar}, return last result")
+                        return self.last_result
             result = self.ocr(img)
+            self.last_img = img
+            self.last_result = result
             return result
 
     def get_all_texts(self, img, mode=0, per_monitor=False):

@@ -7,7 +7,7 @@ from source.ui.template.text_manager import Text
 class UIPage():
     parent = None
 
-    def __init__(self, check_icon: Union[ImgIcon, List]):
+    def __init__(self, check_icon: Union[ImgIcon, Text, List]):
         self.links = {}
         (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
         self.name = text[:text.find('=')].strip()

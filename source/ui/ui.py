@@ -79,15 +79,11 @@ class UI():
             visited = new
 
         logger.info(f"UI goto {destination}")
-        confirm_timer = AdvanceTimer(confirm_wait, count=1)
         while 1:
             # Destination page
             if destination.is_current_page(itt):
-                if confirm_timer.reached():
-                    logger.debug(f'Page arrive: {destination}')
-                    break
-            else:
-                confirm_timer.reset()
+                logger.debug(f'Page arrive: {destination}')
+                break
 
             # Other pages
             clicked = False
@@ -106,7 +102,8 @@ class UI():
                     elif isinstance(button, Text):
                         itt.appear_then_click(button)
                     clicked = True
-                    confirm_timer.reset()
+                    itt.delay(0.5, comment="ui goto is waiting game animation")
+                    break
             if clicked:
                 continue
 
@@ -135,6 +132,5 @@ class UI():
 ui_control = UI()
 
 if __name__ == '__main__':
-    ui_control.ui_goto(page_ability)
-    # print(page_dress.is_current_page(itt))
-    # print(itt.get_img_existence(IconUIZxxy, ret_mode=IMG_RATE, show_res=True))
+    # ui_control.ui_goto(page_esc)
+    ui_control.ui_goto(page_huanjing_jihua)
