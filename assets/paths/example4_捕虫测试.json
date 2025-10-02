@@ -4,7 +4,7 @@
     "name": "example4_捕虫测试",
     "region": "微风绿野",
     "target": "发卡蚱蜢",
-    "count": 1,
+    "count": 3,
     "type": "捕虫"
   },
   "points": [
@@ -36,7 +36,7 @@
       "point_type": "TARGET",
       "move_mode": "WALK",
       "action": "CATCH_INSECT",
-      "action_params": "1"
+      "action_params": "3"
     },
     {
       "id": 3,

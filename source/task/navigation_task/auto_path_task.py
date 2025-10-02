@@ -7,6 +7,7 @@ from source.task.navigation_task.common import *
 from source.map.map import nikki_map
 from source.view_and_move.view import *
 from source.view_and_move.move import *
+from source.ability.ability import ability_manager
 from source.action.pickup import PickupTask
 from source.action.catch_insect import CatchInsectTask
 from source.action.clean_animal import CleanAnimalTask
@@ -90,6 +91,8 @@ class AutoPathTask(TaskTemplate):
         self.curr_position = nikki_map.get_position(use_cache=True)
         # 校准视角旋转比例
         calibrate_view_rotation_ratio()
+        # 初始化能力盘
+        ability_manager.reinit()
         # 启动动作控制线程
         self.jump_controller.start_threading()
         self.move_controller.start_threading()

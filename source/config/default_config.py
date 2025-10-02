@@ -75,6 +75,16 @@ DEFAULT_CONFIG = {
             'value': '巨蛇遗迹试炼',
             'type': str,
             'description': '闪光幻境的默认目标试炼'
+        },
+        'ability_plan': {
+            'value': 3,
+            'type': int,
+            'description': '允许奇想盒使用第几号能力配置方案'
+        },
+        'ability_key': {
+            'value': 8,
+            'type': int,
+            'description': '允许奇想盒使用第几个能力槽位'
         }
     }
 }

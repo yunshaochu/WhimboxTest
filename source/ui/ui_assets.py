@@ -123,6 +123,7 @@ IconUIXhsy = ImgIcon(print_log=LOG_WHEN_TRUE, threshold=0.99)
 AreaWardrobeTab1 = Area()
 TextWardrobeDressTab = Text("换装", cap_area = AreaWardrobeTab1)
 ButtonWardrobeDressDIY = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+
 # 能力配置界面
 AreaWardrobeTab3 = Area()
 TextWardrobeAbilityTab = Text("能力配置", cap_area = AreaWardrobeTab3)
@@ -137,6 +138,10 @@ IconAbilityFly = ImgIcon()      # 滑翔
 IconAbilitySmall = ImgIcon()    # 变小
 AreaAbilityChange = Area()
 ButtonAbilitySave = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+AreaAbilityPlanChangeButton = Area()
+AreaAbilityPlan1Button = Area()
+AreaAbilityPlan2Button = Area()
+AreaAbilityPlan3Button = Area()
 
 # 素材相关
 IconMaterialTypeAnimal = ImgIcon()

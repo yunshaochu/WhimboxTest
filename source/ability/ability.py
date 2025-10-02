@@ -7,6 +7,7 @@ from source.ability.cvar import *
 from source.ui.ui import ui_control
 from source.ui.page_assets import *
 from source.common.utils.ui_utils import *
+from source.config.config import global_config
 
 import time
 
@@ -31,6 +32,25 @@ class AbilityManager:
         self.battle_ability = None
         self._initialized = True
 
+
+    def reinit(self):
+        # 每次自动跑图开始前，都应该再次初始化一遍，避免用户手动调整了能力
+        self.current_ability = None
+        self.ability_keymap = None
+        self.jump_ability = None
+        self.battle_ability = None
+
+    def get_current_ability(self):
+        cap = itt.capture(posi=AreaAbilityButton.position)
+        lower_white = [0, 0, 230]
+        upper_white = [180, 60, 255]
+        img = process_with_hsv_limit(cap, lower_white, upper_white)
+        for icon in ability_hsv_icons:
+            resize_icon = cv2.resize(icon.image, None, fx=0.63, fy=0.63, interpolation=cv2.INTER_LINEAR)
+            rate = similar_img(img, resize_icon[:, :, 0], ret_mode=IMG_RATE)
+            if rate > 0.85:
+                return icon_name_to_ability_name.get(icon.name, None)
+        return None
 
     def _get_ability_hsv_icon(self, center, cap):
         area = area_offset((-ability_icon_radius, -ability_icon_radius, ability_icon_radius, ability_icon_radius), offset=center)
@@ -73,8 +93,22 @@ class AbilityManager:
         self.ability_keymap = ability_keymap
         return True
 
+
+    def _change_ability_plan(self, ability_plan: int):
+        # 切换能力配置方案，需要已经在能力配置界面
+        itt.move_and_click(AreaAbilityPlanChangeButton.center_position())
+        time.sleep(0.2)
+        if ability_plan == 1:
+            itt.move_and_click(AreaAbilityPlan1Button.center_position())
+        elif ability_plan == 2:
+            itt.move_and_click(AreaAbilityPlan2Button.center_position())
+        elif ability_plan == 3:
+            itt.move_and_click(AreaAbilityPlan3Button.center_position())
+        else:
+            raise(f'能力方案只能是123')
     
-    def set_ability(self, ability_name: str, ability_key: str):
+
+    def _set_ability(self, ability_name: str, ability_key: str):
         '''
         切换能力
         
@@ -93,10 +127,8 @@ class AbilityManager:
 
         # 获取当前能力配置
         if self.jump_ability is None:
-            ui_control.ui_goto(page_ability)
             self._check_jump_ability()
         if self.ability_keymap is None:
-            ui_control.ui_goto(page_ability)
             self._check_ability_keymap()
 
         # 检查当前能力配置是否已经满足要求
@@ -143,6 +175,7 @@ class AbilityManager:
 
     def change_ability(self, ability_name: str):
         # 如果当前能力已经符合，就直接返回
+        self.current_ability = self.get_current_ability()
         if self.current_ability == ability_name:
             return True
         # 检查能力配置是否已初始化
@@ -152,9 +185,16 @@ class AbilityManager:
         # 检查目标能力是否已配置
         key = self.ability_keymap.get(ability_name, None)
         if key is None:
-            # 如果没配置，默认配置到键位8
-            if self.set_ability(ability_name, '8'):
-                key = '8'
+            # 如果没配置，根据配置文件，配置到对应的方案和键位
+            ability_plan = global_config.get_int('Game', 'ability_plan')
+            self._change_ability_plan(ability_plan)
+            itt.wait_until_stable(threshold=0.99)
+            self._check_ability_keymap()
+            key = self.ability_keymap.get(ability_name, None)
+            if key is None:
+                ability_key = str(global_config.get_int('Game', 'ability_key'))
+                if self._set_ability(ability_name, ability_key):
+                    key = ability_key
 
         ui_control.ui_goto(page_main)
         if key:
@@ -169,4 +209,6 @@ ability_manager = AbilityManager()
 
 
 if __name__ == "__main__":
+    CV_DEBUG_MODE = True
     ability_manager.change_ability(ABILITY_NAME_INSECT)
+    # print(ability_manager.get_current_ability())

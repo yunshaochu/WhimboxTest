@@ -13,6 +13,18 @@ from source.task.daily_task.cvar import *
 
 zxxy_task_info_list = [
     {
+        "key_words": ["素材激化幻境"],
+        "score": 200,
+        "priority": 5,
+        "task_name": DAILY_TASK_JIHUA
+    },
+    {
+        "key_words": ["幻境", "祝福闪光"],
+        "score": 200,
+        "priority": 5,
+        "task_name": DAILY_TASK_GET_BLESS
+    },
+    {
         "key_words": ["植物"],
         "score": 200,
         "priority": 5,
@@ -29,18 +41,6 @@ zxxy_task_info_list = [
         "score": 200,
         "priority": 0,
         "task_name": DAILY_TASK_MINI_GAME
-    },
-    {
-        "key_words": ["素材激化幻境"],
-        "score": 200,
-        "priority": 5,
-        "task_name": DAILY_TASK_JIHUA
-    },
-    {
-        "key_words": ["幻境", "祝福闪光"],
-        "score": 200,
-        "priority": 5,
-        "task_name": DAILY_TASK_GET_BLESS
     },
     {
         "key_words": ["活跃能量"],
@@ -148,6 +148,12 @@ class ZhaoxiTask(TaskTemplate):
             key=lambda x: (x['priority'], x['score']),
             reverse=True
         )
+        # 优先完成活跃能量任务
+        if DAILY_TASK_COST_ENERGY in unfinished_task_list:
+            unfinished_task_list.remove(DAILY_TASK_COST_ENERGY)
+            todo_list.append(DAILY_TASK_COST_ENERGY)
+            temp_score += 150
+        # 然后根据分数和优先级完成其他任务
         for task in unfinished_task_list:
             if task['priority'] == 0:
                 continue

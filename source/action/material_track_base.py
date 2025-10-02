@@ -19,8 +19,8 @@ class MaterialTrackBaseTask(TaskTemplate):
         if not material_info["track"]:
             raise Exception(f"不支持追踪{material_name}")
         self.ability_name = material_type_to_ability_name[material_info["type"]]
-        self.time_limit = 15 # 一次任务的时间限制，超时就强制结束，单位秒
-        self.material_count_dict = {}
+        self.time_limit = 60 # 一次任务的时间限制，超时就强制结束，单位秒
+        self.material_count_dict = {self.material_name: 0}
         self.expected_count = expected_count
 
     def pre_play_func(self):
