@@ -158,3 +158,7 @@ TextMonthlyPassFeature = Text("奇迹之旅", cap_area = AreaPageTitleFeature)
 ButtonMonthlyPassAward = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonMonthlyPassTab1 = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonMonthlyPassTab2 = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
+
+# 奇迹之冠
+AreaMiraCrownOverview = Area()
+ButtonMiraCrownQuickPlay = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

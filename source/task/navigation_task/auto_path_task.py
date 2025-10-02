@@ -52,10 +52,9 @@ class AutoPathTask(TaskTemplate):
 
     def task_stop(self):
         if not self.need_stop():
-            super().task_stop()
+            super().task_stop(msg="手动停止跑图")
             self.clear_all()
             self.log_to_gui("手动停止跑图", is_error=True)
-            self.update_task_result(status=STATE_TYPE_STOP, message="手动停止跑图")
 
     def _update_next_target_point(self):
         """更新下一个必经点"""

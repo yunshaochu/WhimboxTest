@@ -23,7 +23,7 @@ class AllInOneTask(TaskTemplate):
         task_result = zhaoxi_task.task_run()
         self.todo_list = task_result.data
         if self.todo_list is None:
-            self.task_stop()
+            self.task_stop(msg="朝夕心愿任务已全部完成")
         self.log_to_gui(task_result.message)
 
     @register_step("开始完成朝夕心愿任务")

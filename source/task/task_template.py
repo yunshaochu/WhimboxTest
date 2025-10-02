@@ -195,10 +195,10 @@ class TaskTemplate:
         pass
 
 
-    def task_stop(self):
+    def task_stop(self, msg=None):
         '''如果子类有自己额外的停止代码，就实现这个方法，并调用父类的这个方法'''
         self.task_stop_flag = True
-        self.update_task_result(status=STATE_TYPE_STOP, message="停止任务")
+        self.update_task_result(status=STATE_TYPE_STOP, message=msg or "停止任务")
 
     def need_stop(self):
         # 综合判断是否需要停止
