@@ -31,6 +31,12 @@ zxxy_task_info_list = [
         "task_name": DAILY_TASK_MINI_GAME
     },
     {
+        "key_words": ["素材激化幻境"],
+        "score": 200,
+        "priority": 5,
+        "task_name": DAILY_TASK_JIHUA
+    },
+    {
         "key_words": ["幻境", "祝福闪光"],
         "score": 200,
         "priority": 5,
