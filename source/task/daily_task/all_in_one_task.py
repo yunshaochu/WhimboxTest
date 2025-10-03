@@ -29,7 +29,7 @@ class AllInOneTask(TaskTemplate):
     @register_step("开始完成朝夕心愿任务")
     def step3(self):
         task_dict = {
-            DAILY_TASK_PICKUP: AutoPathTask("example1_采集测试.json"),
+            DAILY_TASK_PICKUP: AutoPathTask("example1_采集测试.json", 3),
             DAILY_TASK_GET_BLESS: daily_task.BlessTask(),
             DAILY_TASK_TAKE_PHOTO: DailyPhotoTask(),
         }

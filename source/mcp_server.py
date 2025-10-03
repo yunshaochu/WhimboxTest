@@ -79,12 +79,12 @@ async def zhaoxi_task() -> dict:
 @mcp.tool()
 async def navigation_task(target=None, type=None, count=None) -> dict:
     """
-    指定素材名，或素材获取方法，进行获取。可以同时指定最少要获取的数量
+    指定素材名，或素材获取方法，进行获取。还可以指定要获取的数量
 
     Args:
         target: 可选，要获取的素材名
         type: 可选，素材获取方法，只能输入“采集”、“捕虫”、“钓鱼”、“清洁”
-        count: 可选，最少要获取的素材数量
+        count: 可选，要获取的素材数量
 
     Returns:
         dict: 包含操作状态的字典，包含status和message字段
@@ -102,7 +102,7 @@ async def navigation_task(target=None, type=None, count=None) -> dict:
             "message": f"没有符合要求的跑图路线"
         }
     else:
-        task = AutoPathTask(path_json_name)
+        task = AutoPathTask(path_json_name, excepted_num=count)
         task_result = task.task_run()
         return task_result.to_dict()
 

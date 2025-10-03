@@ -14,8 +14,9 @@ from source.action.clean_animal import CleanAnimalTask
 from source.action.fishing import FishingTask
 
 class AutoPathTask(TaskTemplate):
-    def __init__(self, path_file_name):
+    def __init__(self, path_file_name, excepted_num=None):
         super().__init__("auto_path_task")
+        self.excepted_num = excepted_num # 期望的素材数量，获取到该数量后就停止
         self.step_sleep = 0.01
         with open(os.path.join(ASSETS_PATH, "paths", path_file_name), "r", encoding="utf-8") as f:
             path_record = PathRecord.model_validate_json(f.read())
@@ -32,10 +33,6 @@ class AutoPathTask(TaskTemplate):
 
         # 各类材料获取任务的结果记录
         self.material_count_dict = {}
-
-        # 行走跳跃的控制线程
-        self.jump_controller = JumpController()
-        self.move_controller = MoveController()
 
         # 一些常量
         self.walk2jump_stop_time = 0.5
@@ -94,6 +91,8 @@ class AutoPathTask(TaskTemplate):
         # 初始化能力盘
         ability_manager.reinit()
         # 启动动作控制线程
+        self.jump_controller = JumpController()
+        self.move_controller = MoveController()
         self.jump_controller.start_threading()
         self.move_controller.start_threading()
 
@@ -109,6 +108,11 @@ class AutoPathTask(TaskTemplate):
             is_end = self.inner_step_update_target()
             if is_end:
                 break
+            # 采集到预期数量的素材后，也可以停止跑图流程
+            if self.excepted_num is not None:
+                if self.path_info.target and self.path_info.target in self.material_count_dict \
+                and self.material_count_dict[self.path_info.target] >= self.excepted_num:
+                    break
             self.inner_step_change_view()
             self.inner_step_control_move()
             time.sleep(self.step_sleep)
@@ -237,6 +241,8 @@ class AutoPathTask(TaskTemplate):
         self.stop_jump()
         self.jump_controller.stop_threading()
         self.move_controller.stop_threading()
+        self.jump_controller.join()
+        self.move_controller.join()
 
 
     @register_step("结束自动跑图")
@@ -258,5 +264,6 @@ class AutoPathTask(TaskTemplate):
 
 
 if __name__ == "__main__":
-    task = AutoPathTask("example4.json")
-    task.task_run()
+    task = AutoPathTask("example1_采集测试.json", excepted_num=3)
+    result = task.task_run()
+    print(result)
