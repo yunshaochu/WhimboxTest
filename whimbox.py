@@ -5,9 +5,11 @@ if not is_admin():
     exit()
 
 from source.common.handle_lib import HANDLE_OBJ
-if not HANDLE_OBJ.get_handle():
-    logger.error("请先启动游戏")
-    exit()
+import time
+while not HANDLE_OBJ.get_handle():
+    logger.info("等待游戏启动")
+    time.sleep(3)
+    HANDLE_OBJ.refresh_handle()
 
 from source.mcp_server import start_mcp_server
 from source.mcp_agent import start_agent
@@ -19,7 +21,6 @@ import threading
 def main():
     threading.Thread(target=start_mcp_server).start()
     asyncio.run(start_agent())
-    HANDLE_OBJ.set_foreground()
     run_ingame_ui()
 
 

@@ -9,8 +9,6 @@ Whimbox，一个基于大语言模型和图像识别技术的游戏AI智能体�
 * 开发者建议手动安装依赖
 ```shell
 pip install -r requirements.txt
-# 安装paddleocr运行环境（可选，目前默认使用rapidocr，也可以不装）
-python -m pip install paddlepaddle-gpu==3.2.0 -i https://www.paddlepaddle.org.cn/packages/stable/cu126/
 ```
 * 其他用户可运行自动安装脚本`setup_env.bat`
 

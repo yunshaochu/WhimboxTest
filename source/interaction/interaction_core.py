@@ -19,8 +19,6 @@ from source.config.config import global_config
 ocr_type = global_config.get('General', 'ocr')
 if ocr_type == 'rapid':
     from source.api.ocr_rapid import ocr
-elif ocr_type == 'paddle':
-    from source.api.pdocr_new import ocr
 else:
     raise ValueError(f"ocr配置错误：{ocr_type}")
 
