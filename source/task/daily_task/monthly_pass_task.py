@@ -3,7 +3,7 @@ from source.task.task_template import TaskTemplate, register_step
 from source.ui.ui import ui_control
 from source.ui.page_assets import *
 import time
-from source.common.utils.ui_utils import wait_until_appear_then_click
+from source.common.utils.ui_utils import *
 
 class MonthlyPassTask(TaskTemplate):
     def __init__(self):
@@ -19,9 +19,12 @@ class MonthlyPassTask(TaskTemplate):
             wait_until_appear_then_click(ButtonMonthlyPassAward)
             time.sleep(0.5)
             if wait_until_appear_then_click(ButtonMonthlyPassTab1):
-                wait_until_appear_then_click(ButtonMonthlyPassAward)
-                self.update_task_result(message="成功领取奇迹之旅奖励")
-                return
+                if wait_until_appear_then_click(ButtonMonthlyPassAward):
+                    if wait_until_appear(TextClickSkip):
+                        itt.key_press('f')
+                        time.sleep(0.2)
+                        self.update_task_result(message="成功领取奇迹之旅奖励")
+                    return
         self.update_task_result(message="奇迹之旅无奖励可领取")
         
     @register_step("退出奇迹之旅")
