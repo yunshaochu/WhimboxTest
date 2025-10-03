@@ -18,6 +18,6 @@ if __name__ == "__main__":
     from source.view_and_move.view import calibrate_view_rotation_ratio
     nikki_map.reinit_smallmap()
     calibrate_view_rotation_ratio()
-    task = CatchInsectTask("发卡蚱蜢", 2)
+    task = CatchInsectTask("发卡蚱蜢", 3)
     # task.task_run()
     task.step3()

@@ -27,6 +27,7 @@ material_type_to_ability_name = {
 class Track:
     def __init__(self):
         self.tracking_material = None
+        self.last_track_posi = None
 
     def change_tracking_material(self, material_name: str):
         '''
@@ -108,11 +109,16 @@ class Track:
             minimap_center = (MINIMAP_RADIUS, MINIMAP_RADIUS)
             min_dist = 99999
             for x, y, r in circles[0, :]:
-                dist = euclidean_distance(minimap_center, (x, y))
+                # 如果之前没有追踪，就追踪最近的一个，否则追踪之前的点
+                if self.last_track_posi is None:
+                    dist = euclidean_distance(minimap_center, (x, y))
+                else:
+                    dist = euclidean_distance(self.last_track_posi, (x, y))
                 if dist < min_dist:
                     min_dist = dist
                     closest_circle = (x, y, r)
-            
+            self.last_track_posi = closest_circle[0:2]
+
             if CV_DEBUG_MODE:
                 print(min_dist)
                 x, y, r = np.uint16(np.around(closest_circle))
@@ -169,6 +175,9 @@ class Track:
         if px_count > 200:
             return True
         return False
+
+    def clear_last_track_posi(self):
+        self.last_track_posi = None
 
 material_track = Track()
 

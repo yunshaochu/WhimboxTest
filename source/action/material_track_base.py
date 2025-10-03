@@ -82,6 +82,7 @@ class MaterialTrackBaseTask(TaskTemplate):
                                 self.material_count_dict[self.material_name] += 1
                             else:
                                 self.material_count_dict[self.material_name] = 1
+                        material_track.clear_last_track_posi()
                         self.post_play_func()
                         break
             if no_material_near:
