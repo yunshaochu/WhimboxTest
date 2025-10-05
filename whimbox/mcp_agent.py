@@ -28,12 +28,16 @@ async def start_agent():
         raise RuntimeError("MCP server not ready")
     logger.debug("MCP server ready")
 
-    llm = init_chat_model(
-        model=global_config.get("Agent", "model"),
-        model_provider=global_config.get("Agent", "model_provider"),
-        base_url=global_config.get("Agent", "base_url"),
-        api_key=global_config.get("Agent", "api_key")
-    )
+    try:
+        llm = init_chat_model(
+            model=global_config.get("Agent", "model"),
+            model_provider=global_config.get("Agent", "model_provider"),
+            base_url=global_config.get("Agent", "base_url"),
+            api_key=global_config.get("Agent", "api_key")
+        )
+    except Exception as e:
+        logger.error(f"初始化agent失败。请检查agent的相关配置。")
+        raise e
 
     client = MultiServerMCPClient({
         "whimbox": {

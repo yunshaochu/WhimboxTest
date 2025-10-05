@@ -55,7 +55,7 @@ class GlobalConfig:
                     user_config[section_name] = {}
                 for key, config_item in section_data.items():
                     if key not in user_config[section_name]:
-                        user_config[section_name][key] = config_item['value']
+                        user_config[section_name][key] = config_item
             with open(self.config_file, 'w', encoding='utf-8') as f:
                 json.dump(user_config, f, ensure_ascii=False, indent=4)
 
