@@ -11,11 +11,11 @@ Whimbox，一个基于大语言模型和图像识别技术的游戏AI智能体�
 ```shell
 pip install whimbox-x.x.x-py3-none-any.whl
 ```
-2. 运行如下命令，初始化项目，创建configs，scripts目录
+2. 运行如下命令，初始化项目，会自动创建configs，scripts文件夹
 ```
 whimbox init
 ```
-3. 修改'configs/congfig.json'中的Agent配置，为自己的大模型接口
+3. 修改`configs/congfig.json`中的Agent配置，为自己的大模型接口
 ```json
     "Agent": {
         "model": {
@@ -36,13 +36,13 @@ whimbox init
         }
     },
 ```
-4. 打开游戏，将游戏设置为窗口模式，分辨率1920*1080
-5. 用管理员权限运行如下命令，启动奇想盒
+4. 将 [跑图路线仓库](https://github.com/nikkigallery/WhimboxScripts) 中的路线脚本下载下来，放到`scripts`目录里
+5. 打开游戏，将游戏设置为窗口模式，分辨率1920*1080
+6. 用管理员权限运行如下命令，启动奇想盒
 ```shell
 whimbox
 ```
-
-6. 程序运行后请稍等片刻。在游戏界面的左侧看到📦图标后，按`/`打开对话框，按`esc`关闭对话框
+7. 程序运行后请稍等片刻。在游戏界面的左侧看到📦图标后，按`/`打开对话框，按`esc`关闭对话框
 
 ## 已有功能
 * 每日任务
