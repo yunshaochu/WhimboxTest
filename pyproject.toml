@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "whimbox"
-version = "0.0.1"
+version = "0.0.2"
 description = "奇想盒-AI游戏助手"
 readme = "README.md"
 requires-python = "==3.12.8"
@@ -48,7 +48,7 @@ where = ["."]
 include = ["whimbox*"]
 
 [tool.setuptools.package-data]
-"whimbox.assets" = ["*.json", "*.txt", "*.yaml", "imgs/**/*.png", "imgs/**/*.jpg"]
+"whimbox.assets" = ["**/*.json", "**/*.txt", "**/*.yaml", "imgs/**/*.png", "imgs/**/*.jpg"]
 
 [tool.setuptools.exclude-package-data]
 "*" = ["*.pyc", "__pycache__", "*.log"]

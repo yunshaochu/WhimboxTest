@@ -1,9 +1,10 @@
 """Constants."""
 
+from whimbox.common.path_lib import IS_DEV_MODE
 from whimbox.config.config import global_config
 
-DEBUG_MODE = global_config.get_bool('General', 'debug')
-CV_DEBUG_MODE = global_config.get_bool('General', 'cv_debug')
+DEBUG_MODE = global_config.get_bool('General', 'debug') and IS_DEV_MODE
+CV_DEBUG_MODE = global_config.get_bool('General', 'cv_debug') and IS_DEV_MODE
 
 # Angle modes
 ANGLE_NORMAL = 0

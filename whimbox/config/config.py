@@ -166,3 +166,6 @@ class GlobalConfig:
 
 # 创建全局配置实例
 global_config = GlobalConfig()
+
+if __name__ == "__main__":
+    print(global_config.get("Game", "energy_cost"))

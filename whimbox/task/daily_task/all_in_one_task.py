@@ -23,7 +23,7 @@ class AllInOneTask(TaskTemplate):
         task_result = zhaoxi_task.task_run()
         self.todo_list = task_result.data
         if self.todo_list is None:
-            self.task_stop(msg="朝夕心愿任务已全部完成")
+            return "step4"
         self.log_to_gui(task_result.message)
 
     @register_step("开始完成朝夕心愿任务")
@@ -43,19 +43,25 @@ class AllInOneTask(TaskTemplate):
     def step4(self):
         energy_cost = global_config.get("Game", "energy_cost")
         if energy_cost == "素材激化幻境":
-            if DAILY_TASK_JIHUA not in self.todo_list:
+            if not self.todo_list or DAILY_TASK_JIHUA not in self.todo_list:
                 task = daily_task.JihuaTask()
                 task.task_run()
             else:
                 self.log_to_gui("体力之前已被消耗")
         elif energy_cost == "祝福闪光幻境":
-            if DAILY_TASK_GET_BLESS not in self.todo_list:
+            if not self.todo_list or DAILY_TASK_GET_BLESS not in self.todo_list:
                 task = daily_task.BlessTask()
                 task.task_run()
             else:
                 self.log_to_gui("体力之前已被消耗")
         else:
             self.log_to_gui("未配置默认消耗体力方式")
+        
+        # 如果之前朝夕心愿已经都完成了，就直接去奇迹之旅
+        if self.todo_list is None:
+            return "step6"
+        else:
+            return "step5"
     
     @register_step("获取朝夕心愿奖励")
     def step5(self):
