@@ -1,39 +1,57 @@
-![logo](/doc/logo.png)
-~~不会画画，先放个红温星凑合一下~~
-# Whimbox(奇想盒)
+![logo](/docs/logo.png)
+~~不会画画，先放个红温星在这里凑合一下~~
+# Whimbox · 奇想盒
 Whimbox，一个基于大语言模型和图像识别技术的游戏AI智能体，带给你全新的游戏体验！
 
-## 运行
-⚠️目前项目仍在开发阶段，只建议有python开发能力的用户使用。
-1. 安装依赖（需要python3.12）
-* 开发者建议手动安装依赖
+## 如何运行
+（⌛️启动器开发中，马上就可以通过启动器自动安装运行）
+1. 本项目仅支持python3.12，请先自行下载安装
+2. 下载Releases中的最新whl包
+3. 一键安装刚刚下载的whl包
 ```shell
-pip install -r requirements.txt
+pip install whimbox-x.x.x-py3-none-any.whl
 ```
-* 其他用户可运行自动安装脚本`setup_env.bat`
-
-
-2. 创建配置文件
+2. 运行如下命令，初始化项目，创建configs，scripts目录
 ```
-将config目录下的config_example.ini重命名为config.ini
-修改Agent下的配置项修改为自己的大模型api（只要是openai格式的都可以）
+whimbox init
 ```
-3. 创建提示词
-```
-将config目录下的prompt_example.txt重命名为prompt.txt
-按自己喜好添加提示词，也可以不修改
+3. 修改'configs/congfig.json'中的Agent配置，为自己的大模型接口
+```json
+    "Agent": {
+        "model": {
+            "value": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+            "description": "模型名称"
+        },
+        "model_provider": {
+            "value": "openai",
+            "description": "模型提供商"
+        },
+        "base_url": {
+            "value": "https://api.siliconflow.cn/v1/",
+            "description": "模型API地址"
+        },
+        "api_key": {
+            "value": "",
+            "description": "模型API密钥"
+        }
+    },
 ```
 4. 打开游戏，将游戏设置为窗口模式，分辨率1920*1080
-* 开发者请用管理员权限运行ide，并运行`whimbox.py`
-* 其他用户可用管理员权限运行一键启动脚本`run.bat`
+5. 用管理员权限运行如下命令，启动奇想盒
+```shell
+whimbox
+```
 
-5. 程序启动后请稍等片刻。在游戏界面的左侧看到📦图标后，按`/`打开对话框，按`esc`关闭对话框
+6. 程序运行后请稍等片刻。在游戏界面的左侧看到📦图标后，按`/`打开对话框，按`esc`关闭对话框
 
 ## 已有功能
 * 每日任务
-    * 自动美鸭梨挖掘
-    * 自动素材激化幻境
-    * 自动检查朝夕心愿
+    * 美鸭梨挖掘
+    * 素材激化幻境
+    * 闪光祝福幻境
+    * 检查朝夕心愿
+    * 领取大月卡
+    * 朝夕心愿一条龙
 * 自动跑图
     * 跑图路线录制、编辑
     * 自动跑图（暂时只支持大世界和星海）
@@ -43,7 +61,7 @@ pip install -r requirements.txt
     * 随时中断任务
 
 ## 未来计划
-1. 框架完善：回退机制、重试机制。
+1. 框架完善：回退机制。
 2. 多地图适配
 3. 自动战斗
 4. 自动弹琴（我必须立刻演奏春日影！）
@@ -68,17 +86,11 @@ pip install -r requirements.txt
 ### 项目结构
 ```
 Whinbox/
-├── assets/                          
-│   ├── imgs/                     # 图像资源
-│   │   ├── Game/                 # 游戏解包素材
-│   │   ├── Maps/                 # 地图相关资源
-│   │   ├── Windows/              # 游戏UI截图
-│   ├── paths/                    # 自动跑图脚本
-│   └── PPOCRModels/              # OCR模型文件
-├── source/                        
+├── whimbox/                        
 │   ├── ability/                  # 能力切换模块
 │   ├── action/                   # 动作模块（拾取、钓鱼、战斗等等）
 │   ├── api/                      # ocr，yolo等第三方模型
+│   ├── assets/                   # 地图、UI截图、游戏图标、配置文件等资源
 │   ├── common/                   # 公共模块（日志、工具等等）
 │   ├── config/                   # 配置模块
 │   ├── dev_tool/                 # 开发工具
@@ -86,20 +98,20 @@ Whinbox/
 │   ├── interaction/              # 交互核心模块（截图、操作）
 │   ├── map/                      # 地图模块（小地图识别，大地图操作）
 │   ├── task/                     # 任务模块（各种功能脚本，供mcp调用）
-│   │   ├── daily_task/           # 各种日常任务的脚本
-│   │   └── navigation_task/      # 自动寻路脚本
 │   ├── ui/                       # 游戏UI模块（页面、UI）
 │   ├── view_and_move/            # 视角和移动模块
+│   ├── main.py                   # 程序入口
 │   ├── mcp_agent.py              # 大模型agent
 │   └── mcp_server.py             # MCP服务器
-├── config/                       # 配置文件
-│   ├── config.ini                # 程序的配置文件
+├── configs/                      # 配置文件（首次运行会自动生成）
+│   ├── config.json               # 项目的配置文件
 │   └── prompt.txt                # 大模型提示词
-├── Logs/                         # 日志文件
-├── whimbox.py                    # 主程序入口
+├── scripts/                      # 自动跑图的脚本仓库（首次运行会自动生成）
+├── logs/                         # 日志文件
+└── build.bat                     # 一键打包
 ```
 ### MCP工具编写
 可参考`source\task\daily_task`内的几个task，并在`source\mcp_server.py`中注册，就能被大模型调用。
 
-### 自动跑图路线录制
-详情请查看 [如何录制和编辑跑图路线](./assets/paths/readme.md)
+### 跑图路线录制
+详情请查看 [跑图路线仓库](https://github.com/nikkigallery/WhimboxScripts)

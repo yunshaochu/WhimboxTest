@@ -8,7 +8,7 @@ from whimbox.common.path_lib import ASSETS_PATH
 from whimbox.common.cvars import *
 from whimbox.common.utils.img_utils import image_channel
 
-# ASSETS_INDEX_JSON = load_json("imgs_index.json", fr"{ASSETS_PATH}/imgs")
+ASSETS_INDEX_JSON = load_json("imgs_index.json", f"{ASSETS_PATH}/imgs")
 
 def get_name(x):
     (filename, line_number, function_name, text) = x
@@ -41,11 +41,8 @@ class AssetBase():
         self.print_log = print_log
 
     def get_img_path(self):
-        # if self.name in ASSETS_INDEX_JSON:
-        #     if 'common' in ASSETS_INDEX_JSON[self.name]:
-        #         return ASSETS_INDEX_JSON[self.name]['common']
-        #     # elif GLOBAL_LANG in ASSETS_INDEX_JSON[self.name]:
-        #         # return ASSETS_INDEX_JSON[self.name][GLOBAL_LANG]
+        if self.name in ASSETS_INDEX_JSON:
+            return os.path.join(ASSETS_PATH, ASSETS_INDEX_JSON[self.name]['rel_path'])
         r = self.search_path(self.name)
         if r != None:
             return r

@@ -120,11 +120,10 @@ class RecordPathTask(TaskTemplate):
             ),
             points=self.path_point_list
         )
-        save_path = os.path.join(ASSETS_PATH, "paths")
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
-        save_json(path_record.model_dump(), json_name, save_path)
-        logger.info(f"路线保存成功，路径：{os.path.join(save_path, json_name)}")
+        if not os.path.exists(SCRIPT_PATH):
+            os.makedirs(SCRIPT_PATH)
+        save_json(path_record.model_dump(), json_name, SCRIPT_PATH)
+        logger.info(f"路线保存成功，路径：{os.path.join(SCRIPT_PATH, json_name)}")
         self.update_task_result(message=f"录制成功，路线名：{name}")
 
 

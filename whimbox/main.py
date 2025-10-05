@@ -47,3 +47,6 @@ def main():
         init()
     else:
         run_app()
+
+if __name__ == "__main__":
+    main()
