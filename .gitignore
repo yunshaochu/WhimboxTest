@@ -27,6 +27,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# 构建输出目录
+output/
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -126,9 +129,9 @@ venv.bak/
 
 tools/*
 Logs/*
-assets/paths/*
-!assets/paths/readme.md
-!assets/paths/example*.json
+logs/*
+scripts/*
+configs/*
 config/*
-!config/config_example.ini
-!config/prompt_example.txt
+whimbox/assets/imgs/Maps/w01_v8.png
+whimbox/assets/imgs/Maps/w14000000_v2.png

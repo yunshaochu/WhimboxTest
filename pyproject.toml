@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whimbox"
+version = "0.1.0"
+description = "奇想盒-AI游戏助手"
+readme = "README.md"
+requires-python = "==3.12.8"
+license-files = ["LICENSE"]
+authors = [
+    {name = "nikkigallery"}
+]
+keywords = ["game", "ai", "agent", "computer-vision", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: Microsoft :: Windows",
+]
+
+dependencies = [
+    "fastmcp==2.12.4",
+    "pynput==1.8.1",
+    "langgraph==0.6.8",
+    "langchain-mcp-adapters==0.1.11",
+    "langchain-community==0.3.30",
+    "langchain-openai==0.3.34",
+    "loguru==0.7.3",
+    "onnxruntime==1.19.0",
+    "PyQt5==5.15.11",
+    "rapidocr==3.4.1",
+    "psutil==7.1.0",
+    "scipy==1.16.2",
+]
+
+[project.scripts]
+whimbox = "whimbox.main:main"
+
+[project.urls]
+Homepage = "https://github.com/nikkigallery/whimbox"
+Issues = "https://github.com/nikkigallery/whimbox/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["whimbox*"]
+
+[tool.setuptools.package-data]
+"whimbox.assets" = ["*.json", "*.txt", "*.yaml", "imgs/**/*.png", "imgs/**/*.jpg"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyc", "__pycache__", "*.log"]
+# 排除开发测试用的原始地图文件
+"whimbox.assets" = ["imgs/Maps/w01_v8.png", "imgs/Maps/w14000000_v2.png"]
+
+

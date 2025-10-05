@@ -1,8 +1,0 @@
-{
-    "AreaFPickup":{
-        "common": "assets\\imgs\\Windows\\General\\common\\AreaFPickup.jpg"
-    },
-    "AreaBigMapRegionSelect": {
-        "common": "assets\\imgs\\Windows\\BigMap\\common\\AreaBigMapRegionSelect.jpg"
-    }
-}

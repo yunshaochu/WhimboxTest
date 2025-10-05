@@ -1,0 +1,68 @@
+{
+    "General": {
+        "debug": {
+            "value": "false",
+            "description": "是否启用调试模式"
+        },
+        "cv_debug": {
+            "value": "false",
+            "description": "是否启用CV调试模式"
+        },
+        "borderless_window": {
+            "value": "false",
+            "description": "游戏是否为无边框窗口"
+        },
+        "ocr": {
+            "value": "rapid",
+            "description": "OCR引擎，可选：rapid"
+        }
+    },
+    "Agent": {
+        "model":{
+            "value": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+            "description": "模型名称"
+        },
+        "model_provider":{
+            "value": "openai",
+            "description": "模型提供商"
+        },
+        "base_url":{
+            "value": "https://api.siliconflow.cn/v1/",
+            "description": "模型API地址"
+        },
+        "api_key":{
+            "value": "",
+            "description": "模型API密钥"
+        }
+    },
+    "Game": {
+        "energy_cost": {
+            "value": "素材激化幻境",
+            "description": "默认消耗体力的幻境"
+        },
+        "meiyali_dig": {
+            "value": "雾绡鱼|玉簪蚱蜢|画眉毛团|纯真丝线",
+            "description": "美鸭梨挖掘的默认材料（如果之前已经在挖掘，则沿用之前的）"
+        },
+        "jihua_target": {
+            "value": "闪亮泡泡",
+            "description": "激化幻境的默认兑换目标"
+        },
+        "jihua_cost": {
+            "value": "星荧草",
+            "description": "激化幻境的默认消耗材料"
+        },
+        "bless_target": {
+            "value": "巨蛇遗迹试炼",
+            "description": "闪光幻境的默认目标试炼"
+        },
+        "ability_plan": {
+            "value": 3,
+            "description": "允许奇想盒使用第几号能力配置方案"
+        },
+        "ability_key": {
+            "value": 8,
+            "description": "允许奇想盒使用第几个能力槽位"
+        }
+    }
+}
