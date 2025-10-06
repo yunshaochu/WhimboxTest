@@ -85,6 +85,7 @@ class ZhaoxiTask(TaskTemplate):
     def __init__(self):
         super().__init__("zhaoxi_task")
         self.current_score = 0
+        self.todo_list = []
 
 
     @register_step("正在前往朝夕心愿")
@@ -142,7 +143,6 @@ class ZhaoxiTask(TaskTemplate):
                 unfinished_task_list.append(unfinished_task)
         
         # 根据优先级和分数，判断应该做什么任务
-        todo_list = []
         temp_score = self.current_score
         unfinished_task_list.sort(
             key=lambda x: (x['priority'], x['score']),
@@ -151,7 +151,7 @@ class ZhaoxiTask(TaskTemplate):
         # 优先完成活跃能量任务
         if DAILY_TASK_COST_ENERGY in unfinished_task_list:
             unfinished_task_list.remove(DAILY_TASK_COST_ENERGY)
-            todo_list.append(DAILY_TASK_COST_ENERGY)
+            self.todo_list.append(DAILY_TASK_COST_ENERGY)
             temp_score += 150
         # 然后根据分数和优先级完成其他任务
         for task in unfinished_task_list:
@@ -159,13 +159,13 @@ class ZhaoxiTask(TaskTemplate):
                 continue
             if temp_score >= 500:
                 break
-            todo_list.append(task['task_name'])
+            self.todo_list.append(task['task_name'])
             temp_score += task['score']
         
-        if len(todo_list) > 0:
+        if len(self.todo_list) > 0:
             self.update_task_result(
-                message=f"需要继续完成以下任务：{", ".join(todo_list)}",
-                data=todo_list)
+                message=f"需要继续完成以下任务：{", ".join(self.todo_list)}",
+                data=self.todo_list)
             return "step5"
         else:
             raise Exception("没办法凑齐分数了")
@@ -178,9 +178,9 @@ class ZhaoxiTask(TaskTemplate):
             time.sleep(0.2)
             if wait_until_appear(TextClickSkip):
                 itt.key_press('f')
-            self.update_task_result(message="成功领取朝夕心愿奖励")
+            self.update_task_result(message="成功领取朝夕心愿奖励", data=self.todo_list)
         else:
-            self.update_task_result(message="朝夕心愿奖励已被领取过，无需再次领取")
+            self.update_task_result(message="朝夕心愿奖励已被领取过，无需再次领取", data=self.todo_list)
 
 
     @register_step("退出朝夕心愿")

@@ -339,7 +339,6 @@ class Map(MiniMap, BigMap):
         tp_province = target_teleporter.province
         tp_region = target_teleporter.region
 
-        ui_control.ensure_page(page_bigmap)
         self.maximize_bigmap_scale()
         switch_success = self._switch_to_area(tp_province, tp_region)
         if not switch_success:
@@ -382,5 +381,5 @@ if __name__ == '__main__':
     # res = itt.ocr_and_detect_posi(AreaBigMapRegionSelect)
     # print(res)
     
-    CV_DEBUG_MODE = True
+    # CV_DEBUG_MODE = True
     nikki_map.bigmap_tp([6188, 5446.5], MAP_NAME_MIRALAND)

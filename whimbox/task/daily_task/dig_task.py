@@ -2,6 +2,7 @@
 美鸭梨挖掘
 """
 
+import enum
 from whimbox.task.task_template import *
 from whimbox.ui.ui import ui_control
 from whimbox.ui.page_assets import *
@@ -35,6 +36,7 @@ material_type_dict = {
     },
 }
 
+
 class DigTask(TaskTemplate):
     def __init__(self, target_item_list=None):
         super().__init__("dig_task")
@@ -64,7 +66,7 @@ class DigTask(TaskTemplate):
                 raise Exception(f"挖掘数量识别异常:{dig_num_str}")
             if diging_num > 0:
                 self.log_to_gui(f"当前正在挖掘{dig_num_str}")
-                self.update_task_result(status=STATE_TYPE_STOP, message=f"正在挖掘，无法收获")
+                self.update_task_result(status=STATE_TYPE_STOP, message=f"正在挖掘，无法收获", data=False)
                 return "step5" # 有东西正在挖掘，退出
             else:
                 return "step4" # 没东西在挖掘，进入挖掘步骤
@@ -73,7 +75,7 @@ class DigTask(TaskTemplate):
     @register_step("一键收获并再次挖掘")
     def step3(self):
         if wait_until_appear_then_click(ButtonDigAgain):
-            self.update_task_result(message=f"成功一键收获并再次挖掘")
+            self.update_task_result(message=f"成功一键收获并再次挖掘", data=True)
             self.is_gather_success = True
             return "step5"
         raise Exception("未弹出挖掘结果窗口")
@@ -123,9 +125,9 @@ class DigTask(TaskTemplate):
             time.sleep(0.5)
         
         if self.is_gather_success:
-            self.update_task_result(message=f"成功收获，并已开始挖掘{",".join(self.target_item_list)}")
+            self.update_task_result(message=f"成功收获，并已开始挖掘{",".join(self.target_item_list)}", data=True)
         else:
-            self.update_task_result(message=f"已开始挖掘{",".join(self.target_item_list)}")
+            self.update_task_result(message=f"已开始挖掘{",".join(self.target_item_list)}", data=True)
 
     @register_step("退出美鸭梨挖掘")
     def step5(self):
