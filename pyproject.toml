@@ -28,6 +28,7 @@ dependencies = [
     "langchain-mcp-adapters==0.1.11",
     "langchain-community==0.3.30",
     "langchain-openai==0.3.34",
+    "langchain-anthropic==0.3.21",
     "loguru==0.7.3",
     "onnxruntime==1.19.0",
     "PyQt5==5.15.11",
