@@ -39,6 +39,10 @@ class AutoPathTask(TaskTemplate):
         self.jump2walk_stop_time = 0.2
         self.offset = 2 # 当距离必经点offset以内，就视作已经到达
 
+        # 动作控制器
+        self.jump_controller = JumpController()
+        self.move_controller = MoveController()
+
     def merge_material_count_dict(self, material_count_dict):
         if material_count_dict is None:
             return
@@ -83,6 +87,9 @@ class AutoPathTask(TaskTemplate):
 
     @register_step("初始化各种信息")
     def step0(self):
+        # 启动动作控制线程
+        self.jump_controller.start_threading()
+        self.move_controller.start_threading()
         # 初始化地图信息
         nikki_map.reinit_smallmap()
         self.curr_position = nikki_map.get_position(use_cache=True)
@@ -90,11 +97,6 @@ class AutoPathTask(TaskTemplate):
         calibrate_view_rotation_ratio()
         # 初始化能力盘
         ability_manager.reinit()
-        # 启动动作控制线程
-        self.jump_controller = JumpController()
-        self.move_controller = MoveController()
-        self.jump_controller.start_threading()
-        self.move_controller.start_threading()
 
 
     @register_step("自动跑图中……")
@@ -237,12 +239,15 @@ class AutoPathTask(TaskTemplate):
         
 
     def clear_all(self):
-        self.stop_move()
-        self.stop_jump()
-        self.jump_controller.stop_threading()
-        self.move_controller.stop_threading()
-        self.jump_controller.join()
-        self.move_controller.join()
+        if self.jump_controller is not None and self.move_controller is not None:
+            self.stop_move()
+            self.stop_jump()
+            self.jump_controller.stop_threading()
+            self.move_controller.stop_threading()
+            self.jump_controller.join()
+            self.move_controller.join()
+            self.jump_controller = None
+            self.move_controller = None
 
 
     @register_step("结束自动跑图")
