@@ -13,6 +13,7 @@ from whimbox.ingame_ui.main_ui import IngameUI
 
 # 全局应用和UI实例
 ingame_ui_app = QApplication(sys.argv)
+ingame_ui_app.setQuitOnLastWindowClosed(False)
 win_ingame_ui = IngameUI()
 
 # 全局样式表

@@ -1,6 +1,6 @@
 import asyncio
 from PyQt5.QtCore import QThread, pyqtSignal
-import whimbox.mcp_agent as mcp_agent
+from whimbox.mcp_agent import mcp_agent
 from whimbox.common.logger import logger
 
 class QueryWorker(QThread):

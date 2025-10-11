@@ -1,15 +1,14 @@
-import sys
+import sys, os
 from whimbox.common.logger import logger
+from whimbox.common.path_lib import SCRIPT_PATH
 
 def init():
     """初始化应用程序环境"""
     logger.info("正在初始化应用程序环境...")
-    import os
     from whimbox.config.config import GlobalConfig
     GlobalConfig()
-    from whimbox.common.path_lib import SCRIPT_PATH
     if not os.path.exists(SCRIPT_PATH):
-            os.makedirs(SCRIPT_PATH, exist_ok=True)
+        os.makedirs(SCRIPT_PATH, exist_ok=True)
     logger.info("初始化完成")
 
 def run_app():
@@ -18,6 +17,9 @@ def run_app():
     if not is_admin():
         logger.error("请用管理员权限运行")
         exit()
+
+    if not os.path.exists(SCRIPT_PATH):
+        os.makedirs(SCRIPT_PATH, exist_ok=True)
 
     from whimbox.config.config import global_config
     api_key=global_config.get("Agent", "api_key")
@@ -32,14 +34,16 @@ def run_app():
         time.sleep(3)
         HANDLE_OBJ.refresh_handle()
 
-    from whimbox.mcp_server import start_mcp_server
-    from whimbox.mcp_agent import start_agent
     from whimbox.ingame_ui.ingame_ui import run_ingame_ui
+    from whimbox.mcp_server import start_mcp_server
+    from whimbox.mcp_agent import mcp_agent
     import asyncio
     import threading
 
-    threading.Thread(target=start_mcp_server).start()
-    asyncio.run(start_agent())
+    mcp_thread = threading.Thread(target=start_mcp_server)
+    mcp_thread.daemon = True
+    mcp_thread.start()
+    asyncio.run(mcp_agent.start())
     run_ingame_ui()
 
 def main():

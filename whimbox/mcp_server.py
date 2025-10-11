@@ -5,6 +5,8 @@ from whimbox.task.navigation_task.record_path_task import RecordPathTask
 from whimbox.task.photo_task.daily_photo_task import DailyPhotoTask
 from whimbox.task.task_template import STATE_TYPE_SUCCESS, STATE_TYPE_ERROR
 from whimbox.common.path_lib import SCRIPT_PATH
+from whimbox.config.config import global_config
+from whimbox.common.logger import logger
 
 from fastmcp import FastMCP
 import os
@@ -186,9 +188,11 @@ async def monthly_pass_task() -> dict:
     return task_result.to_dict()
 
 def start_mcp_server():
+    logger.debug("开始初始化MCP服务器")
+    mcp_port = global_config.get_int("General", "mcp_port")
     mcp.run(
         transport="streamable-http",
         host="0.0.0.0",
-        port=2333,
+        port=mcp_port,
     )
     
