@@ -216,7 +216,7 @@ class TaskTemplate:
         else:
             msg = f"❌ {msg}\n"
         if win_ingame_ui:
-            win_ingame_ui.ui_update_signal.emit("update_ai_message", msg)
+            win_ingame_ui.update_message(msg)
         logger.info(msg)
 
 

@@ -12,13 +12,10 @@ from whimbox.common.utils.utils import get_active_window_process_name
 from whimbox.common.cvars import PROCESS_NAME
 
 from whimbox.ingame_ui.components import CollapsedChatWidget, SettingsDialog, ChatView
-from whimbox.ingame_ui.workers import QueryWorker
 
 update_time = 500  # ui更新间隔，ms
 
 class IngameUI(QWidget):
-    ui_update_signal = pyqtSignal(str, str)
-    
     def __init__(self):
         super().__init__()
         
@@ -42,12 +39,6 @@ class IngameUI(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_ui_position)
         self.timer.start(update_time)
-        
-        # 工作线程管理
-        self.current_worker = None
-        
-        # 连接UI更新信号到槽函数（这个连接是在主线程中的）
-        self.ui_update_signal.connect(self.handle_ui_update)
 
         # 窗口设置
         self.setWindowTitle("奇想盒")
@@ -68,56 +59,6 @@ class IngameUI(QWidget):
             QTimer.singleShot(0, self.on_slash_pressed)
         elif key == keyboard.Key.esc:
             QTimer.singleShot(0, self.on_esc_pressed)
-    
-    def handle_ui_update(self, operation: str, param: str = ""):
-        """处理UI更新操作（总是在主线程中执行）"""
-        if not self.chat_view:
-            return
-            
-        if operation == "remove_processing":
-            messages = self.chat_view.get_messages()
-            if messages and messages[-1].content == "正在处理您的请求...":
-                messages.pop()
-                self.chat_view.refresh_chat_display()
-        elif operation == "handle_error":
-            # 移除"正在处理"的消息
-            messages = self.chat_view.get_messages()
-            if messages and messages[-1].content == "正在处理您的请求...":
-                messages.pop()
-                self.chat_view.refresh_chat_display()
-            self.chat_view.add_message(f"抱歉，处理您的请求时出现错误: {param}", 'error')
-        elif operation == "query_finished":
-            if self.current_worker:
-                self.current_worker.deleteLater()
-                self.current_worker = None
-        elif operation == "add_ai_message":
-            # 添加一个正在处理的AI消息作为流式输出的容器
-            message = self.chat_view.add_message("", 'ai')
-            message.is_processing = True
-        elif operation == "update_ai_message":
-            # 更新最后一条AI消息的内容
-            messages = self.chat_view.get_messages()
-            if messages and messages[-1].message_type == 'ai':
-                messages[-1].content += param
-                # 更新对应的widget
-                self.chat_view.update_last_ai_message_widget()
-        elif operation == "finalize_ai_message":
-            # 完成AI消息输出
-            messages = self.chat_view.get_messages()
-            if messages and messages[-1].message_type == 'ai':
-                messages[-1].is_processing = False
-                # 确保消息内容不为空
-                if not messages[-1].content.strip():
-                    messages[-1].content = "AI返回空内容"
-                self.chat_view.update_last_ai_message_widget()
-        elif operation.startswith("status_"):
-            # 处理状态更新
-            status_type = operation[7:]  # 去掉"status_"前缀
-            if status_type == "on_tool_start":
-                self.give_back_focus()
-            if status_type == "on_tool_end":
-                self.acquire_focus()
-            self.chat_view.update_last_ai_status(status_type, param)
     
     
     def init_ui(self):
@@ -233,7 +174,9 @@ class IngameUI(QWidget):
         
         # 创建聊天视图组件
         self.chat_view = ChatView(self.expanded_widget)
-        self.chat_view.message_sent.connect(self.on_message_sent)
+        # 连接焦点管理信号
+        self.chat_view.request_focus.connect(self.acquire_focus)
+        self.chat_view.release_focus.connect(self.give_back_focus)
         
         # 创建功能视图
         self.function_view_widget = self.create_function_view()
@@ -464,23 +407,6 @@ class IngameUI(QWidget):
         if self.is_expanded:
             self.collapse_chat()
     
-    def on_message_sent(self, text: str):
-        """处理发送的消息"""
-        # 如果已有工作线程在运行，则忽略
-        if self.current_worker and self.current_worker.isRunning():
-            return
-
-        # 添加用户消息
-        self.chat_view.add_message(text, 'user')
-        
-        self.chat_view.add_message("正在处理您的请求...", 'ai')
-        
-        # 创建并启动工作线程
-        self.current_worker = QueryWorker(text, self.ui_update_signal)
-        
-        # 启动线程
-        self.current_worker.start()
-    
     def update_ui_position(self):
         """定时更新，处理窗口隐藏和位置"""
         active_process_name = get_active_window_process_name()
@@ -501,6 +427,11 @@ class IngameUI(QWidget):
                     self.position_window()
                     self.last_bbox = win_bbox
     
+    def update_message(self, message: str):
+        if self.current_view == "chat":
+            self.chat_view.ui_update_signal.emit("update_ai_message", message)
+
+            
     # def log_poster(self, log_str: str):
     #     """处理格式化日志输出"""
     #     if DEMO_MODE:

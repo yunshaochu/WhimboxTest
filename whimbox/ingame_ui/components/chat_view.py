@@ -1,15 +1,19 @@
-from typing import List
+from typing import List, Callable, Optional
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 from whimbox.common.logger import logger
 from .chat_message import ChatMessage, ChatMessageWidget
+from ..workers import QueryWorker
 
 
 class ChatView(QWidget):
     """聊天视图组件"""
-    message_sent = pyqtSignal(str)  # 发送消息信号
+    # 信号定义
+    request_focus = pyqtSignal()  # 请求获取焦点
+    release_focus = pyqtSignal()  # 请求释放焦点
+    ui_update_signal = pyqtSignal(str, str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -24,6 +28,12 @@ class ChatView(QWidget):
         self.chat_layout = None
         self.input_line_edit = None
         self.send_button = None
+        
+        # 工作线程管理
+        self.current_worker = None
+        
+        # UI更新信号（内部使用）
+        self.ui_update_signal.connect(self.handle_ui_update)
         
         # 初始化UI
         self.init_ui()
@@ -222,16 +232,75 @@ class ChatView(QWidget):
                     break
     
     def send_message(self):
-        """发送消息"""
+        """发送消息并处理"""
         text = self.input_line_edit.text().strip()
         if not text:
+            return
+        
+        # 如果已有工作线程在运行，则忽略
+        if self.current_worker and self.current_worker.isRunning():
+            logger.warning("Worker thread is still running, ignoring new message")
             return
         
         # 清空输入框
         self.input_line_edit.clear()
         
-        # 发出消息信号
-        self.message_sent.emit(text)
+        # 添加用户消息
+        self.add_message(text, 'user')
+        
+        # 添加处理中消息
+        self.add_message("正在处理您的请求...", 'ai')
+        
+        # 创建并启动工作线程
+        self.current_worker = QueryWorker(text, self.ui_update_signal)
+        self.current_worker.start()
+    
+    def handle_ui_update(self, operation: str, param: str = ""):
+        """处理UI更新操作（总是在主线程中执行）"""
+        if operation == "remove_processing":
+            messages = self.chat_messages
+            if messages and messages[-1].content == "正在处理您的请求...":
+                messages.pop()
+                self.refresh_chat_display()
+        elif operation == "handle_error":
+            # 移除"正在处理"的消息
+            messages = self.chat_messages
+            if messages and messages[-1].content == "正在处理您的请求...":
+                messages.pop()
+                self.refresh_chat_display()
+            self.add_message(f"抱歉，处理您的请求时出现错误: {param}", 'error')
+        elif operation == "query_finished":
+            if self.current_worker:
+                self.current_worker.deleteLater()
+                self.current_worker = None
+        elif operation == "add_ai_message":
+            # 添加一个正在处理的AI消息作为流式输出的容器
+            message = self.add_message("", 'ai')
+            message.is_processing = True
+        elif operation == "update_ai_message":
+            # 更新最后一条AI消息的内容
+            messages = self.chat_messages
+            if messages and messages[-1].message_type == 'ai':
+                messages[-1].content += param
+                # 更新对应的widget
+                self.update_last_ai_message_widget()
+        elif operation == "finalize_ai_message":
+            # 完成AI消息输出
+            messages = self.chat_messages
+            if messages and messages[-1].message_type == 'ai':
+                messages[-1].is_processing = False
+                # 确保消息内容不为空
+                if not messages[-1].content.strip():
+                    messages[-1].content = "AI返回空内容"
+                self.update_last_ai_message_widget()
+        elif operation.startswith("status_"):
+            # 处理状态更新
+            status_type = operation[7:]  # 去掉"status_"前缀
+            if status_type == "on_tool_start":
+                self.release_focus.emit()  # 工具调用时释放焦点
+            if status_type == "on_tool_end":
+                self.request_focus.emit()  # 工具完成后请求焦点
+            self.update_last_ai_status(status_type, param)
     
     def set_focus_to_input(self):
         """设置焦点到输入框"""
