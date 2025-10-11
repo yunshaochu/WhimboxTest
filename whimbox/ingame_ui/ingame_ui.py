@@ -36,7 +36,7 @@ ingame_ui_app.setStyleSheet(_style)
 def run_ingame_ui():
     """运行游戏内UI"""
     win_ingame_ui.show()
-    ingame_ui_app.exec()
+    ingame_ui_app.exec_()
 
 if __name__ == '__main__':
     print('AI游戏助手聊天UI已启动')

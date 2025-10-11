@@ -5,14 +5,15 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from pynput import keyboard
+import sys
 
 from whimbox.common.handle_lib import HANDLE_OBJ
 from whimbox.common.logger import logger
 from whimbox.common.utils.utils import get_active_window_process_name
 from whimbox.common.cvars import PROCESS_NAME
 
-from .components import ChatMessage, ChatMessageWidget, CollapsedChatWidget
-from .workers import QueryWorker
+from whimbox.ingame_ui.components import ChatMessage, ChatMessageWidget, CollapsedChatWidget, SettingsDialog
+from whimbox.ingame_ui.workers import QueryWorker
 
 update_time = 500  # ui更新间隔，ms
 
@@ -35,6 +36,7 @@ class IngameUI(QWidget):
         self.input_line_edit = None
         self.send_button = None
         self.chat_layout = None
+        self.settings_dialog = None
         
         # 初始化UI
         self.init_ui()
@@ -186,9 +188,39 @@ class IngameUI(QWidget):
             }
         """)
         
+        settings_button = QPushButton("⚙️")
+        settings_button.setFixedSize(25, 25)
+        settings_button.clicked.connect(self.open_settings)
+        settings_button.setStyleSheet("""
+            QPushButton {
+                background-color: #E3F2FD;
+                border: 2px solid #2196F3;
+                font-size: 12px;
+                border-radius: 12px;
+            }
+            QPushButton:hover {
+                background-color: #1976D2;
+            }
+        """)
+        
+        minimize_button = QPushButton("➖")
+        minimize_button.setFixedSize(25, 25)
+        minimize_button.clicked.connect(self.collapse_chat)
+        minimize_button.setStyleSheet("""
+            QPushButton {
+                background-color: #FFF9C4;
+                border: 2px solid #FBC02D;
+                font-size: 12px;
+                border-radius: 12px;
+            }
+            QPushButton:hover {
+                background-color: #F9A825;
+            }
+        """)
+
         close_button = QPushButton("❌")
         close_button.setFixedSize(25, 25)
-        close_button.clicked.connect(self.collapse_chat)
+        close_button.clicked.connect(self.close_application)
         close_button.setStyleSheet("""
             QPushButton {
                 background-color: #FFEBEE;
@@ -203,6 +235,8 @@ class IngameUI(QWidget):
         
         title_layout.addWidget(title_label)
         title_layout.addStretch()
+        title_layout.addWidget(settings_button)
+        title_layout.addWidget(minimize_button)
         title_layout.addWidget(close_button)
         
         # 聊天显示区域
@@ -394,6 +428,28 @@ class IngameUI(QWidget):
         self.position_window()
         self.give_back_focus()
     
+    def close_application(self):
+        """关闭应用程序"""
+        # 创建确认对话框
+        reply = QMessageBox.question(
+            self,
+            '确认关闭',
+            '确定要关闭奇想盒吗？',
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        
+        if reply == QMessageBox.Yes:
+            logger.info("User confirmed - closing whimbox")
+            sys.exit(0)
+    
+    def open_settings(self):
+        """打开设置对话框"""
+        logger.info("Opening settings dialog")
+        self.settings_dialog = SettingsDialog(self)
+        self.settings_dialog.show_centered()
+        self.settings_dialog.exec_()
+    
     def acquire_focus(self):
         # 移除透明窗口设置，使窗口可以接收输入
         hwnd = int(self.winId())
@@ -477,6 +533,8 @@ class IngameUI(QWidget):
         active_process_name = get_active_window_process_name()
         if (not active_process_name == PROCESS_NAME) and (not active_process_name == 'python.exe'):
             self.hide()
+            if self.settings_dialog:
+                self.settings_dialog.reject()
             return
         else:
             if not self.isVisible():

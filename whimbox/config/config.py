@@ -162,7 +162,37 @@ class GlobalConfig:
                 return default
             # 尝试从默认配置获取
             return get_default_value(section, key, bool)
-            
+    
+
+    def set(self, section: str, key: str, value: Any) -> None:
+        """设置配置项的值"""
+        if section not in self.config:
+            self.config[section] = {}
+        if key not in self.config[section]:
+            self.config[section][key] = {}
+        
+        # 保持描述信息
+        description = self.config[section][key].get('description', '')
+        if not description and section in DEFAULT_CONFIG and key in DEFAULT_CONFIG[section]:
+            description = DEFAULT_CONFIG[section][key].get('description', '')
+        
+        self.config[section][key] = {
+            'value': value,
+            'description': description
+        }
+
+    def save(self) -> bool:
+        """保存配置到文件"""
+        try:
+            with open(self.config_file, 'w', encoding='utf-8') as f:
+                json.dump(self.config, f, ensure_ascii=False, indent=4)
+            return True
+        except Exception as e:
+            return False
+
+    def reload(self) -> None:
+        """重新加载配置文件"""
+        self._load_config()
 
 # 创建全局配置实例
 global_config = GlobalConfig()
