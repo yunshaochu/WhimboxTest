@@ -3,11 +3,52 @@ import win32gui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+import asyncio
 
 from whimbox.common.handle_lib import HANDLE_OBJ
 from whimbox.common.logger import logger
 from whimbox.config.default_config import DEFAULT_CONFIG
 from whimbox.config.config import global_config
+from whimbox.mcp_agent import mcp_agent
+
+
+class SaveConfigWorker(QThread):
+    """异步保存配置的Worker"""
+    finished = pyqtSignal(bool, str)  # 成功/失败, 错误信息
+    
+    def __init__(self, config_data: Dict[str, Any]):
+        super().__init__()
+        self.config_data = config_data
+    
+    def run(self):
+        """在后台线程中执行保存操作"""
+        try:
+            agent_modified = False
+            # 更新配置值
+            for widget_key, value in self.config_data.items():
+                section, key = widget_key.split('.')
+                # 如果修改了Agent的配置，需要重启mcp_agent
+                if section == "Agent":
+                    org_value = global_config.get(section, key)
+                    if org_value != value:
+                        agent_modified = True
+                global_config.set(section, key, value)
+            
+            # 如果修改了Agent配置，重启mcp_agent
+            if agent_modified:
+                logger.info("agent配置修改，重启mcp_agent")
+                asyncio.run(mcp_agent.start())
+            
+            # 保存配置到文件
+            if global_config.save():
+                logger.info("配置保存成功")
+                self.finished.emit(True, "")
+            else:
+                logger.error("保存配置失败")
+                self.finished.emit(False, "保存配置失败！")
+        except Exception as e:
+            logger.error(f"保存配置失败: {e}")
+            self.finished.emit(False, f"保存配置失败: {e}")
 
 
 class SettingsDialog(QDialog):
@@ -16,6 +57,9 @@ class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.input_widgets = {}  # 存储输入控件的引用
+        self.save_button = None  # 保存按钮引用
+        self.cancel_button = None  # 取消按钮引用
+        self.save_worker = None  # 保存配置的Worker
         
         self.init_ui()
         self.load_config()
@@ -100,10 +144,10 @@ class SettingsDialog(QDialog):
         button_layout = QHBoxLayout()
         button_layout.setSpacing(10)
         
-        save_button = QPushButton("保存")
-        save_button.setFixedHeight(40)
-        save_button.clicked.connect(self.save_config)
-        save_button.setStyleSheet("""
+        self.save_button = QPushButton("保存")
+        self.save_button.setFixedHeight(40)
+        self.save_button.clicked.connect(self.save_config)
+        self.save_button.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
                 color: white;
@@ -119,12 +163,16 @@ class SettingsDialog(QDialog):
             QPushButton:pressed {
                 background-color: #3d8b40;
             }
+            QPushButton:disabled {
+                background-color: #A5D6A7;
+                color: #E0E0E0;
+            }
         """)
         
-        cancel_button = QPushButton("取消")
-        cancel_button.setFixedHeight(40)
-        cancel_button.clicked.connect(self.reject)
-        cancel_button.setStyleSheet("""
+        self.cancel_button = QPushButton("取消")
+        self.cancel_button.setFixedHeight(40)
+        self.cancel_button.clicked.connect(self.reject)
+        self.cancel_button.setStyleSheet("""
             QPushButton {
                 background-color: #f44336;
                 color: white;
@@ -140,11 +188,15 @@ class SettingsDialog(QDialog):
             QPushButton:pressed {
                 background-color: #c2170a;
             }
+            QPushButton:disabled {
+                background-color: #FFCDD2;
+                color: #E0E0E0;
+            }
         """)
         
         button_layout.addStretch()
-        button_layout.addWidget(save_button)
-        button_layout.addWidget(cancel_button)
+        button_layout.addWidget(self.save_button)
+        button_layout.addWidget(self.cancel_button)
         
         main_layout.addLayout(button_layout)
         
@@ -310,10 +362,13 @@ class SettingsDialog(QDialog):
     def save_config(self):
         """保存配置到 global_config"""
         try:
-            # 更新 global_config 中的配置值
+            # 检查是否已经有worker在运行
+            if self.save_worker and self.save_worker.isRunning():
+                return
+            
+            # 收集配置数据
+            config_data = {}
             for widget_key, widget in self.input_widgets.items():
-                section, key = widget_key.split('.')
-                
                 # 获取控件的值
                 if isinstance(widget, QCheckBox):
                     value = 'true' if widget.isChecked() else 'false'
@@ -321,22 +376,38 @@ class SettingsDialog(QDialog):
                     value = widget.text()
                 else:
                     value = ''
+                config_data[widget_key] = value
                 
-                # 使用 global_config.set() 设置值
-                global_config.set(section, key, value)
             
-            # 使用 global_config.save() 保存到文件
-            if global_config.save():
-                logger.info("配置保存成功")
-                QMessageBox.information(self, "成功", "配置保存成功！")
-                self.accept()
-            else:
-                logger.error("保存配置失败")
-                QMessageBox.critical(self, "错误", "保存配置失败！")
+            # 禁用按钮并显示加载状态
+            self.save_button.setEnabled(False)
+            self.cancel_button.setEnabled(False)
+            self.save_button.setText("⏳ 保存中...")
+            
+            # 创建Worker并启动
+            self.save_worker = SaveConfigWorker(config_data)
+            self.save_worker.finished.connect(self.on_save_finished)
+            self.save_worker.start()
             
         except Exception as e:
             logger.error(f"保存配置失败: {e}")
             QMessageBox.critical(self, "错误", f"保存配置失败: {e}")
+            self.restore_buttons()
+    
+    def on_save_finished(self, success: bool, error_msg: str):
+        """保存完成的回调"""
+        self.restore_buttons()
+        
+        if success:
+            self.accept()
+        else:
+            QMessageBox.critical(self, "错误", error_msg)
+    
+    def restore_buttons(self):
+        """恢复按钮状态"""
+        self.save_button.setEnabled(True)
+        self.cancel_button.setEnabled(True)
+        self.save_button.setText("保存")
     
     def show_centered(self):
         """在游戏窗口中央显示对话框"""

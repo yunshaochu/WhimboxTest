@@ -24,19 +24,19 @@
     "Agent": {
         "model":{
             "value": "Qwen/Qwen3-30B-A3B-Instruct-2507",
-            "description": "模型名称"
+            "description": "模型名称(model)"
         },
         "model_provider":{
             "value": "openai",
-            "description": "模型提供商"
+            "description": "提供商(model_provider)"
         },
         "base_url":{
             "value": "https://api.siliconflow.cn/v1/",
-            "description": "模型API地址"
+            "description": "API地址(base_url)"
         },
         "api_key":{
             "value": "",
-            "description": "模型API密钥"
+            "description": "API密钥(api_key)"
         }
     },
     "Game": {

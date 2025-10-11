@@ -12,6 +12,7 @@ from whimbox.common.utils.utils import get_active_window_process_name
 from whimbox.common.cvars import PROCESS_NAME
 
 from whimbox.ingame_ui.components import CollapsedChatWidget, SettingsDialog, ChatView
+from whimbox.mcp_agent import mcp_agent
 
 update_time = 500  # ui更新间隔，ms
 
@@ -265,7 +266,12 @@ class IngameUI(QWidget):
         
         # 添加欢迎消息（仅在首次展开时）
         if self.chat_view and not self.chat_view.has_messages():
-            self.chat_view.add_message("👋 您好！我是奇想盒📦，请告诉我你想做什么？。", 'ai')
+            is_ready, err_msg = mcp_agent.is_ready()
+            if not is_ready:
+                self.chat_view.add_message(f"❌ {err_msg}", 'ai')
+                return
+            else:
+                self.chat_view.add_message("👋 您好！我是奇想盒📦，请告诉我你想做什么？。", 'ai')
     
     def collapse_chat(self):
         """收缩聊天界面"""
@@ -431,7 +437,7 @@ class IngameUI(QWidget):
         if self.current_view == "chat":
             self.chat_view.ui_update_signal.emit("update_ai_message", message)
 
-            
+
     # def log_poster(self, log_str: str):
     #     """处理格式化日志输出"""
     #     if DEMO_MODE:

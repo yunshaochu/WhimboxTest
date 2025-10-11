@@ -21,12 +21,6 @@ def run_app():
     if not os.path.exists(SCRIPT_PATH):
         os.makedirs(SCRIPT_PATH, exist_ok=True)
 
-    from whimbox.config.config import global_config
-    api_key=global_config.get("Agent", "api_key")
-    if not api_key:
-        logger.error("请先配置大模型的api_key")
-        exit()
-
     from whimbox.common.handle_lib import HANDLE_OBJ
     import time
     while not HANDLE_OBJ.get_handle():

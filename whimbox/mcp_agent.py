@@ -31,48 +31,78 @@ class Agent:
         if self._initialized:
             return
         self.langchain_agent = None
+        self.err_msg = ""
+        self.llm = None
+        self.memory = None
+        self.tools = None
+
         self._initialized = True
 
     async def start(self):
         logger.debug("开始初始化agent")
+        self.err_msg = "准备中，请稍等..."
         api_key = global_config.get("Agent", "api_key")
         if not api_key:
-            logger.error("请先配置大模型的api_key")
             self.langchain_agent = None
-            return
-
-        try:
-            llm = init_chat_model(
-                model=global_config.get("Agent", "model"),
-                model_provider=global_config.get("Agent", "model_provider"),
-                base_url=global_config.get("Agent", "base_url"),
-                api_key=api_key
-            )
-        except Exception as e:
-            logger.error(f"初始化agent失败。请检查agent的相关配置。")
-            raise e
-
-        memory = MemorySaver()
-
-        mcp_port = global_config.get_int("General", "mcp_port")
-        mcp_url = f"http://127.0.0.1:{mcp_port}/mcp"
-        for _ in range(10):
-            if await is_mcp_ready(mcp_url):
-                break
-            await asyncio.sleep(0.5)
+            self.err_msg = "请先前往设置，配置大模型的api密钥"
+            self.llm = None
+            logger.error(self.err_msg)
         else:
-            raise RuntimeError("MCP server not ready")
-        logger.debug("MCP server ready")
-        client = MultiServerMCPClient({
-            "whimbox": {
-                "url": mcp_url,
-                "transport": "streamable_http",
-            }
-        })
-        tools = await client.get_tools()
+            try:
+                self.llm = init_chat_model(
+                    model=global_config.get("Agent", "model"),
+                    model_provider=global_config.get("Agent", "model_provider"),
+                    base_url=global_config.get("Agent", "base_url"),
+                    api_key=api_key
+                )
+            except Exception as e:
+                self.llm = None
+                self.err_msg = f"AI初始化失败。请前往设置，检查大模型相关配置。"
+                logger.error(self.err_msg)
+
+        # 初始化mcp tool信息(不重复初始化)
+        if self.tools is None:
+            mcp_port = global_config.get_int("General", "mcp_port")
+            mcp_url = f"http://127.0.0.1:{mcp_port}/mcp"
+            flag = False
+            for _ in range(10):
+                if await is_mcp_ready(mcp_url):
+                    flag = True
+                    break
+                await asyncio.sleep(0.5)
+            if flag:
+                logger.debug("MCP server ready")
+                client = MultiServerMCPClient({
+                    "whimbox": {
+                        "url": mcp_url,
+                        "transport": "streamable_http",
+                    }
+                })
+                self.tools = await client.get_tools()
+            else:
+                self.err_msg = "MCP未就绪，请重启奇想盒"
+                logger.error(self.err_msg)
         
-        self.langchain_agent = create_react_agent(llm, tools, checkpointer=memory, prompt=global_config.prompt, debug=False)
-        logger.debug("MCP AGENT 初始化完成")
+        # 初始化memory（不重复初始化）
+        if self.memory is None:
+            self.memory = MemorySaver()
+        
+        if self.llm and self.tools and self.memory:
+            self.langchain_agent = create_react_agent(
+                model=self.llm, 
+                tools=self.tools, 
+                checkpointer=self.memory, 
+                prompt=global_config.prompt, 
+                debug=False)
+            self.err_msg = ""
+            logger.debug("MCP AGENT 初始化完成")
+        else:
+            self.langchain_agent = None
+            logger.error("MCP AGENT 初始化失败")
+
+    def is_ready(self):
+        status = self.langchain_agent is not None
+        return status, self.err_msg
 
     async def query_agent(self, text, thread_id="default", stream_callback=None, status_callback=None):
         logger.debug("开始调用大模型")
