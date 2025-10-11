@@ -1,4 +1,3 @@
-from typing import List
 import win32gui
 import win32con
 from PyQt5.QtWidgets import *
@@ -12,7 +11,7 @@ from whimbox.common.logger import logger
 from whimbox.common.utils.utils import get_active_window_process_name
 from whimbox.common.cvars import PROCESS_NAME
 
-from whimbox.ingame_ui.components import ChatMessage, ChatMessageWidget, CollapsedChatWidget, SettingsDialog
+from whimbox.ingame_ui.components import CollapsedChatWidget, SettingsDialog, ChatView
 from whimbox.ingame_ui.workers import QueryWorker
 
 update_time = 500  # ui更新间隔，ms
@@ -25,17 +24,15 @@ class IngameUI(QWidget):
         
         # 状态管理
         self.is_expanded = False
-        self.chat_messages: List[ChatMessage] = []
-        self.max_messages = 100  # 最大消息数量
+        self.current_view = "chat"  # "chat" 或 "function"
         
         # UI组件
         self.collapsed_widget = None
         self.expanded_widget = None
-        self.chat_scroll_area = None
-        self.chat_container = None
-        self.input_line_edit = None
-        self.send_button = None
-        self.chat_layout = None
+        self.chat_view = None  # ChatView组件
+        self.function_view_widget = None
+        self.chat_tab = None
+        self.function_tab = None
         self.settings_dialog = None
         
         # 初始化UI
@@ -74,40 +71,45 @@ class IngameUI(QWidget):
     
     def handle_ui_update(self, operation: str, param: str = ""):
         """处理UI更新操作（总是在主线程中执行）"""
+        if not self.chat_view:
+            return
+            
         if operation == "remove_processing":
-            if self.chat_messages and self.chat_messages[-1].content == "正在处理您的请求...":
-                self.chat_messages.pop()
-                self.refresh_chat_display()
+            messages = self.chat_view.get_messages()
+            if messages and messages[-1].content == "正在处理您的请求...":
+                messages.pop()
+                self.chat_view.refresh_chat_display()
         elif operation == "handle_error":
             # 移除"正在处理"的消息
-            if self.chat_messages and self.chat_messages[-1].content == "正在处理您的请求...":
-                self.chat_messages.pop()
-                self.refresh_chat_display()
-            self.add_message(f"抱歉，处理您的请求时出现错误: {param}", 'error')
+            messages = self.chat_view.get_messages()
+            if messages and messages[-1].content == "正在处理您的请求...":
+                messages.pop()
+                self.chat_view.refresh_chat_display()
+            self.chat_view.add_message(f"抱歉，处理您的请求时出现错误: {param}", 'error')
         elif operation == "query_finished":
             if self.current_worker:
                 self.current_worker.deleteLater()
                 self.current_worker = None
         elif operation == "add_ai_message":
             # 添加一个正在处理的AI消息作为流式输出的容器
-            message = ChatMessage("", 'ai')
+            message = self.chat_view.add_message("", 'ai')
             message.is_processing = True
-            self.chat_messages.append(message)
-            self.refresh_chat_display()
         elif operation == "update_ai_message":
             # 更新最后一条AI消息的内容
-            if self.chat_messages and self.chat_messages[-1].message_type == 'ai':
-                self.chat_messages[-1].content += param
+            messages = self.chat_view.get_messages()
+            if messages and messages[-1].message_type == 'ai':
+                messages[-1].content += param
                 # 更新对应的widget
-                self.update_last_ai_message_widget()
+                self.chat_view.update_last_ai_message_widget()
         elif operation == "finalize_ai_message":
             # 完成AI消息输出
-            if self.chat_messages and self.chat_messages[-1].message_type == 'ai':
-                self.chat_messages[-1].is_processing = False
+            messages = self.chat_view.get_messages()
+            if messages and messages[-1].message_type == 'ai':
+                messages[-1].is_processing = False
                 # 确保消息内容不为空
-                if not self.chat_messages[-1].content.strip():
-                    self.chat_messages[-1].content = "AI返回空内容"
-                self.update_last_ai_message_widget()
+                if not messages[-1].content.strip():
+                    messages[-1].content = "AI返回空内容"
+                self.chat_view.update_last_ai_message_widget()
         elif operation.startswith("status_"):
             # 处理状态更新
             status_type = operation[7:]  # 去掉"status_"前缀
@@ -115,37 +117,8 @@ class IngameUI(QWidget):
                 self.give_back_focus()
             if status_type == "on_tool_end":
                 self.acquire_focus()
-            self.update_last_ai_status(status_type, param)
+            self.chat_view.update_last_ai_status(status_type, param)
     
-    def update_last_ai_message_widget(self):
-        """更新最后一个AI消息的widget"""
-        if not self.chat_layout:
-            return
-        
-        # 找到最后一个AI消息的widget
-        for i in range(self.chat_layout.count() - 1, -1, -1):
-            item = self.chat_layout.itemAt(i)
-            if item and item.widget() and isinstance(item.widget(), ChatMessageWidget):
-                widget = item.widget()
-                if widget.message.message_type == 'ai':
-                    widget.update_content(widget.message.content)
-                    self.scroll_to_bottom()
-                    break
-    
-    def update_last_ai_status(self, status_type: str, message: str = ""):
-        """更新最后一个AI消息的状态"""
-        if not self.chat_layout:
-            return
-        
-        # 找到最后一个AI消息的widget
-        for i in range(self.chat_layout.count() - 1, -1, -1):
-            item = self.chat_layout.itemAt(i)
-            if item and item.widget() and isinstance(item.widget(), ChatMessageWidget):
-                widget = item.widget()
-                if widget.message.message_type == 'ai':
-                    widget.update_status(status_type, message)
-                    self.scroll_to_bottom()
-                    break
     
     def init_ui(self):
         """初始化UI组件"""
@@ -239,155 +212,85 @@ class IngameUI(QWidget):
         title_layout.addWidget(minimize_button)
         title_layout.addWidget(close_button)
         
-        # 聊天显示区域
-        self.chat_scroll_area = QScrollArea()
-        self.chat_scroll_area.setWidgetResizable(True)
-        self.chat_scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.chat_scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.chat_scroll_area.setStyleSheet("""
-            QScrollArea {
-                border: 1px solid #E0E0E0;
-                border-radius: 8px;
-                background-color: rgba(240, 240, 240, 150);
-            }
-            QScrollBar:vertical {
-                background-color: #F5F5F5;
-                width: 8px;
-                border-radius: 4px;
-            }
-            QScrollBar::handle:vertical {
-                background-color: #BDBDBD;
-                border-radius: 4px;
-                min-height: 20px;
-            }
-            QScrollBar::handle:vertical:hover {
-                background-color: #9E9E9E;
-            }
-        """)
+        # Tab导航栏
+        tab_layout = QHBoxLayout()
+        tab_layout.setSpacing(4)
+        tab_layout.setContentsMargins(0, 4, 0, 4)
         
-        self.chat_container = QWidget()
-        self.chat_container.setStyleSheet("""
+        self.chat_tab = QPushButton("💬 聊天")
+        self.chat_tab.setFixedHeight(35)
+        self.chat_tab.clicked.connect(lambda: self.switch_to_tab("chat"))
+        
+        self.function_tab = QPushButton("⚡ 功能")
+        self.function_tab.setFixedHeight(35)
+        self.function_tab.clicked.connect(lambda: self.switch_to_tab("function"))
+        
+        # Tab样式
+        self.update_tab_styles()
+        
+        tab_layout.addWidget(self.chat_tab)
+        tab_layout.addWidget(self.function_tab)
+        
+        # 创建聊天视图组件
+        self.chat_view = ChatView(self.expanded_widget)
+        self.chat_view.message_sent.connect(self.on_message_sent)
+        
+        # 创建功能视图
+        self.function_view_widget = self.create_function_view()
+        
+        # 组装布局
+        layout.addLayout(title_layout)
+        layout.addLayout(tab_layout)
+        layout.addWidget(self.chat_view, 1)
+        layout.addWidget(self.function_view_widget, 1)
+        
+        # 默认显示聊天视图
+        self.function_view_widget.hide()
+    
+    def create_function_view(self):
+        """创建功能视图"""
+        function_view = QWidget()
+        function_view.setStyleSheet("""
             QWidget {
                 background-color: transparent;
                 border: none;
             }
         """)
-        self.chat_layout = QVBoxLayout(self.chat_container)
-        self.chat_layout.setContentsMargins(4, 4, 4, 4)
-        self.chat_layout.setSpacing(4)
-        self.chat_layout.addStretch()  # 添加stretch使消息从底部开始
         
-        self.chat_scroll_area.setWidget(self.chat_container)
+        function_layout = QVBoxLayout(function_view)
+        function_layout.setContentsMargins(0, 0, 0, 0)
+        function_layout.setSpacing(0)
         
-        # 输入区域
-        input_layout = QHBoxLayout()
-        self.input_line_edit = QLineEdit()
-        self.input_line_edit.setPlaceholderText("请输入命令...")
-        self.input_line_edit.returnPressed.connect(self.send_message)
-        self.input_line_edit.setStyleSheet("""
-            QLineEdit {
-                background-color: white;
-                color: #424242;
+        # 功能内容区域
+        content_widget = QWidget()
+        content_widget.setStyleSheet("""
+            QWidget {
                 border: 1px solid #E0E0E0;
-                border-radius: 16px;
-                padding: 8px 16px;
-                font-size: 16px;
-            }
-            QLineEdit:focus {
-                border: 2px solid #2196F3;
-                background-color: #FAFAFA;
-            }
-            QLineEdit::placeholder {
-                color: #9E9E9E;
+                border-radius: 8px;
+                background-color: rgba(240, 240, 240, 150);
             }
         """)
         
-        self.send_button = QPushButton("发送")
-        self.send_button.clicked.connect(self.send_message)
-        self.send_button.setStyleSheet("""
-            QPushButton {
-                background-color: #2196F3;
-                color: white;
+        content_layout = QVBoxLayout(content_widget)
+        content_layout.setAlignment(Qt.AlignCenter)
+        
+        # 添加一个占位标签
+        placeholder_label = QLabel("⚡ 功能面板\n\n敬请期待...")
+        placeholder_label.setAlignment(Qt.AlignCenter)
+        placeholder_label.setStyleSheet("""
+            QLabel {
+                background-color: transparent;
+                color: #757575;
+                font-size: 18px;
                 border: none;
-                border-radius: 16px;
-                padding: 8px 16px;
-                font-size: 16px;
-            }
-            QPushButton:hover {
-                background-color: #1976D2;
-            }
-            QPushButton:pressed {
-                background-color: #1565C0;
             }
         """)
         
-        input_layout.addWidget(self.input_line_edit)
-        input_layout.addWidget(self.send_button)
+        content_layout.addWidget(placeholder_label)
+        function_layout.addWidget(content_widget)
         
-        # 组装布局
-        layout.addLayout(title_layout)
-        layout.addWidget(self.chat_scroll_area, 1)
-        layout.addLayout(input_layout)
+        return function_view
     
-    def add_message(self, content: str, message_type: str):
-        """添加消息到聊天列表"""
-        # 限制消息数量
-        if len(self.chat_messages) >= self.max_messages:
-            self.chat_messages = self.chat_messages[-self.max_messages//2:]
-        
-        message = ChatMessage(content, message_type)
-        self.chat_messages.append(message)
-        
-        # 只添加新消息到UI
-        self.add_message_to_ui(message)
-    
-    def add_message_to_ui(self, message: ChatMessage):
-        """将消息添加到UI中"""
-        if self.chat_layout is None:
-            return
-        
-        # 移除stretch（如果存在）
-        stretch_item = self.chat_layout.itemAt(self.chat_layout.count() - 1)
-        if stretch_item and stretch_item.spacerItem():
-            self.chat_layout.removeItem(stretch_item)
-        
-        # 添加消息组件
-        message_widget = ChatMessageWidget(message)
-        self.chat_layout.addWidget(message_widget)
-        
-        # 重新添加stretch
-        self.chat_layout.addStretch()
-        
-        # 滚动到底部
-        QTimer.singleShot(50, self.scroll_to_bottom)
-    
-    def refresh_chat_display(self):
-        """刷新整个聊天显示"""
-        if self.chat_layout is None:
-            return
-        
-        # 清空现有组件
-        while self.chat_layout.count():
-            child = self.chat_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-        
-        # 重新添加所有消息
-        for message in self.chat_messages:
-            message_widget = ChatMessageWidget(message)
-            self.chat_layout.addWidget(message_widget)
-        
-        # 添加stretch
-        self.chat_layout.addStretch()
-        
-        # 滚动到底部
-        QTimer.singleShot(50, self.scroll_to_bottom)
-    
-    def scroll_to_bottom(self):
-        """滚动到聊天区域底部"""
-        if self.chat_scroll_area:
-            scrollbar = self.chat_scroll_area.verticalScrollBar()
-            scrollbar.setValue(scrollbar.maximum())
     
     def show_collapsed(self):
         """显示收缩状态"""
@@ -415,11 +318,11 @@ class IngameUI(QWidget):
         self.acquire_focus()
         
         # 延迟设置焦点，确保窗口完全展开
-        QTimer.singleShot(100, lambda: self.input_line_edit.setFocus() if self.input_line_edit else None)
+        QTimer.singleShot(100, lambda: self.chat_view.set_focus_to_input() if self.chat_view else None)
         
         # 添加欢迎消息（仅在首次展开时）
-        if not self.chat_messages:
-            self.add_message("👋 您好！我是奇想盒📦，请告诉我你想做什么？。", 'ai')
+        if self.chat_view and not self.chat_view.has_messages():
+            self.chat_view.add_message("👋 您好！我是奇想盒📦，请告诉我你想做什么？。", 'ai')
     
     def collapse_chat(self):
         """收缩聊天界面"""
@@ -442,6 +345,61 @@ class IngameUI(QWidget):
         if reply == QMessageBox.Yes:
             logger.info("User confirmed - closing whimbox")
             sys.exit(0)
+    
+    def switch_to_tab(self, tab_name: str):
+        """切换到指定的tab"""
+        if tab_name == "chat":
+            self.chat_view.show()
+            self.function_view_widget.hide()
+            self.current_view = "chat"
+            logger.info("Switched to chat tab")
+        else:  # function
+            self.chat_view.hide()
+            self.function_view_widget.show()
+            self.current_view = "function"
+            logger.info("Switched to function tab")
+        
+        # 更新tab样式
+        self.update_tab_styles()
+    
+    def update_tab_styles(self):
+        """更新tab按钮的样式"""
+        active_style = """
+            QPushButton {
+                background-color: rgba(33, 150, 243, 200);
+                color: white;
+                border: none;
+                border-bottom: 3px solid #1976D2;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: rgba(33, 150, 243, 230);
+            }
+        """
+        
+        inactive_style = """
+            QPushButton {
+                background-color: rgba(240, 240, 240, 150);
+                color: #616161;
+                border: none;
+                border-bottom: 2px solid #E0E0E0;
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: rgba(224, 224, 224, 180);
+                color: #424242;
+            }
+        """
+        
+        if self.current_view == "chat":
+            self.chat_tab.setStyleSheet(active_style)
+            self.function_tab.setStyleSheet(inactive_style)
+        else:
+            self.chat_tab.setStyleSheet(inactive_style)
+            self.function_tab.setStyleSheet(active_style)
     
     def open_settings(self):
         """打开设置对话框"""
@@ -506,21 +464,16 @@ class IngameUI(QWidget):
         if self.is_expanded:
             self.collapse_chat()
     
-    def send_message(self):
-        """发送消息"""
-        text = self.input_line_edit.text().strip()
-        if not text:
-            return
-        
+    def on_message_sent(self, text: str):
+        """处理发送的消息"""
         # 如果已有工作线程在运行，则忽略
         if self.current_worker and self.current_worker.isRunning():
             return
 
         # 添加用户消息
-        self.add_message(text, 'user')
-        self.input_line_edit.clear()
+        self.chat_view.add_message(text, 'user')
         
-        self.add_message("正在处理您的请求...", 'ai')
+        self.chat_view.add_message("正在处理您的请求...", 'ai')
         
         # 创建并启动工作线程
         self.current_worker = QueryWorker(text, self.ui_update_signal)
