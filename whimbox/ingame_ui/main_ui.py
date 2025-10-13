@@ -415,6 +415,9 @@ class IngameUI(QWidget):
     
     def update_ui_position(self):
         """定时更新，处理窗口隐藏和位置"""
+        if not HANDLE_OBJ.get_handle():
+            HANDLE_OBJ.refresh_handle()
+
         active_process_name = get_active_window_process_name()
         if (not active_process_name == PROCESS_NAME) and (not active_process_name == 'python.exe'):
             self.hide()

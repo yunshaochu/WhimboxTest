@@ -10,6 +10,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 from whimbox.ingame_ui.main_ui import IngameUI
+from whimbox.common.logger import logger
 
 # 全局应用和UI实例
 ingame_ui_app = QApplication(sys.argv)
@@ -37,6 +38,7 @@ ingame_ui_app.setStyleSheet(_style)
 def run_ingame_ui():
     """运行游戏内UI"""
     win_ingame_ui.show()
+    logger.info("WHIMBOX_READY")
     ingame_ui_app.exec_()
 
 if __name__ == '__main__':

@@ -3,7 +3,10 @@ from whimbox.common.logger import logger
 from whimbox.common.path_lib import SCRIPT_PATH
 
 def init():
-    """初始化应用程序环境"""
+    """
+    如果更新后有什么初始化或者变更操作，就写在这里
+    启动器会在更新后调用whimbox init命令
+    """
     logger.info("正在初始化应用程序环境...")
     from whimbox.config.config import GlobalConfig
     GlobalConfig()
@@ -21,13 +24,6 @@ def run_app():
     if not os.path.exists(SCRIPT_PATH):
         os.makedirs(SCRIPT_PATH, exist_ok=True)
 
-    from whimbox.common.handle_lib import HANDLE_OBJ
-    import time
-    while not HANDLE_OBJ.get_handle():
-        logger.info("等待游戏启动")
-        time.sleep(3)
-        HANDLE_OBJ.refresh_handle()
-
     from whimbox.ingame_ui.ingame_ui import run_ingame_ui
     from whimbox.mcp_server import start_mcp_server
     from whimbox.mcp_agent import mcp_agent
@@ -38,6 +34,14 @@ def run_app():
     mcp_thread.daemon = True
     mcp_thread.start()
     asyncio.run(mcp_agent.start())
+
+    from whimbox.common.handle_lib import HANDLE_OBJ
+    import time
+    logger.info("WAIT_FOR_GAME_START")
+    while not HANDLE_OBJ.get_handle():
+        time.sleep(5)
+        HANDLE_OBJ.refresh_handle()
+    logger.info("GAME_STARTED")
     run_ingame_ui()
 
 def main():
