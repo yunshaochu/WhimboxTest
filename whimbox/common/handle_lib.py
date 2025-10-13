@@ -2,7 +2,7 @@ import psutil
 import win32gui, win32process
 from whimbox.common.cvars import PROCESS_NAME
 
-def get_handle():
+def _get_handle():
     """获得游戏窗口句柄"""
     
     def get_hwnds_for_pid(pid):
@@ -27,17 +27,27 @@ def get_handle():
 
 class handle_obj():
     def __init__(self) -> None:
-        self.handle = get_handle()
+        self.handle = _get_handle()
 
     def get_handle(self):
         return self.handle
 
     def refresh_handle(self):
-        self.handle = get_handle()
+        self.handle = _get_handle()
         
     def set_foreground(self):
         if self.handle:
             win32gui.SetForegroundWindow(self.handle)
+    
+    def is_alive(self):
+        if not self.handle:
+            return False
+        
+        # 检查窗口句柄是否仍然有效
+        if not win32gui.IsWindow(self.handle):
+            return False
+        
+        return True
 
 HANDLE_OBJ = handle_obj()
 

@@ -415,8 +415,8 @@ class IngameUI(QWidget):
     
     def update_ui_position(self):
         """定时更新，处理窗口隐藏和位置"""
-        if not HANDLE_OBJ.get_handle():
-            HANDLE_OBJ.refresh_handle()
+        if not HANDLE_OBJ.is_alive():
+            sys.exit(0)
 
         active_process_name = get_active_window_process_name()
         if (not active_process_name == PROCESS_NAME) and (not active_process_name == 'python.exe'):
@@ -429,12 +429,10 @@ class IngameUI(QWidget):
                 self.show()
         
         if self.isVisible():
-            # 获取游戏窗口位置
-            if HANDLE_OBJ.get_handle():
-                win_bbox = win32gui.GetWindowRect(HANDLE_OBJ.get_handle())
-                if self.last_bbox != win_bbox:
-                    self.position_window()
-                    self.last_bbox = win_bbox
+            win_bbox = win32gui.GetWindowRect(HANDLE_OBJ.get_handle())
+            if self.last_bbox != win_bbox:
+                self.position_window()
+                self.last_bbox = win_bbox
     
     def update_message(self, message: str):
         if self.current_view == "chat":

@@ -42,6 +42,7 @@ def run_app():
         time.sleep(5)
         HANDLE_OBJ.refresh_handle()
     logger.info("GAME_STARTED")
+
     run_ingame_ui()
 
 def main():
