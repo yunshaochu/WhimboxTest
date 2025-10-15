@@ -95,12 +95,7 @@ ocr = RapidOcr()
 
 # ---------------- 调用 Demo ----------------
 if __name__ == '__main__':
-    from whimbox.common.path_lib import ASSETS_PATH
-    from whimbox.common.utils.img_utils import add_padding
-    # path = os.path.join(ASSETS_PATH, "imgs", "Windows", "BigMap", "common", "AreaBigMapRegionSelect.jpg")
-    # img = cv2.imread(path)
-    # img = add_padding(img, 50)
-    # print(ocr.get_all_texts(img, mode=1, per_monitor=True))
-    path = os.path.join(ASSETS_PATH, "imgs", "Windows", "BigMap", "common", "AreaBigMapRegionSelect.jpg")
-    img = cv2.imread(path)
+    from whimbox.interaction.interaction_core import itt
+    from whimbox.ui.ui_assets import AreaBlessHuanjingLevelsSelect
+    img = itt.capture(AreaBlessHuanjingLevelsSelect.position)
     print(ocr.detect_and_ocr(img, show_res=True))

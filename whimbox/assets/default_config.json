@@ -58,7 +58,11 @@
         },
         "bless_target": {
             "value": "巨蛇遗迹试炼",
-            "description": "闪光幻境的默认目标试炼"
+            "description": "祝福闪光幻境的默认目标"
+        },
+        "monster_target": {
+            "value": "攀越",
+            "description": "魔物试炼幻境的默认目标"
         },
         "ability_plan": {
             "value": 3,

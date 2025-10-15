@@ -51,6 +51,31 @@ async def bless_task(level_name=None) -> dict:
 
 
 @mcp.tool()
+async def monster_task(level_name=None) -> dict:
+    """
+    消耗活跃能量，挑战魔物试炼幻境
+
+    Args:
+        level_name: 可选，要挑战的魔物试炼幻境的关卡名，如果不输入，会自动读取配置文件
+
+    Returns:
+        dict: 包含操作状态的字典，包含status和message字段
+
+    Example:
+        (level_name=能量)
+        (level_name=抛掷)
+    """
+    if len(level_name) > 2:
+        return {
+            "status": STATE_TYPE_ERROR,
+            "message": "魔物试炼幻境的关卡名，只需要输入最后两个字"
+        }
+    monster_task = daily_task.MonsterTask(level_name)
+    task_result = monster_task.task_run()
+    return task_result.to_dict()
+
+
+@mcp.tool()
 async def dig_task(target_item_list=None) -> dict:
     """
     美鸭梨挖掘，只有当明确说明“挖掘”或“美鸭梨挖掘”时才能调用这个工具

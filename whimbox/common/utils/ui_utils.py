@@ -62,7 +62,7 @@ def find_game_img(game_img: GameImg, cap, threshold, scale=0.5):
     box = [top_left[0], top_left[1], bottom_right[0], bottom_right[1]]
     return box
 
-def scroll_find_click(area: Area, target, threshold=0, hsv_limit=None, scale=0, click_offset=(0, 0)) -> bool:
+def scroll_find_click(area: Area, target, threshold=0, hsv_limit=None, scale=0, str_match_mode=0, click_offset=(0, 0)) -> bool:
     '''
     在指定的区域内滚动，寻找并点击目标
 
@@ -72,6 +72,7 @@ def scroll_find_click(area: Area, target, threshold=0, hsv_limit=None, scale=0, 
         threshold: 相似度阈值, 用于ImgIcon和GameImg
         hsv_limit: hsv上下限，用于ImgIcon和str，如([0, 0, 230], [180, 60, 255])
         scale: target的缩放比例，用于ImgIcon或GameImg
+        str_match_mode: 字符串匹配模式，0为完全匹配，1为包含匹配
         click_offset: 点击偏移量，tuple(x, y)
     
     Returns:
@@ -113,9 +114,17 @@ def scroll_find_click(area: Area, target, threshold=0, hsv_limit=None, scale=0, 
         
         elif isinstance(target, str):
             text_box_dict = itt.ocr_and_detect_posi(area, hsv_limit=hsv_limit)
-            if target in text_box_dict:
-                box = text_box_dict[target]
-                break
+            if str_match_mode == 0:
+                if target in text_box_dict:
+                    box = text_box_dict[target]
+                    break
+            elif str_match_mode == 1:
+                for text, text_box in text_box_dict.items():
+                    if target in text:
+                        box = text_box
+                        break
+                if box is not None:
+                    break
         
         else:
             raise Exception(f"不支持的target类型: {type(target)}")

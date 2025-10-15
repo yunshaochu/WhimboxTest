@@ -37,6 +37,12 @@ zxxy_task_info_list = [
         "task_name": DAILY_TASK_CATCH_INSECT
     },
     {
+        "key_words": ["魔物试炼幻境"],
+        "score": 200,
+        "priority": 5,
+        "task_name": DAILY_TASK_MONSTER
+    },
+    {
         "key_words": ["小游戏"],
         "score": 200,
         "priority": 0,

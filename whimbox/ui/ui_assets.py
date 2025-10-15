@@ -91,6 +91,9 @@ ButtonJihuaNumMax = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 ButtonJihuaNumConfirm = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 ButtonJihuaFinallyConfirm = Button(print_log=LOG_WHEN_TRUE,threshold=0.99)
 
+# 魔物试炼幻境相关
+TextHuanjingMonsterFeature = Text("魔物试炼幻境", cap_area = AreaPageTitleFeature)
+
 # 美鸭梨挖掘相关
 ButtonDigGather = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)
 ButtonDigGatherConfirm = Button(print_log=LOG_WHEN_TRUE, threshold=0.99)

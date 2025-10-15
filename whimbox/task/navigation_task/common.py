@@ -18,6 +18,9 @@ class PathInfo(BaseModel):
     count: Optional[int] = None # 目标数量
     region: Optional[str] = None
     map: Optional[str] = None
+    version: Optional[str] = None
+    update_time: Optional[str] = None
+    default: Optional[bool] = None # 是否默认订阅
 
 class PathPoint(BaseModel):
     id: int

@@ -42,6 +42,7 @@ class AllInOneTask(TaskTemplate):
             DAILY_TASK_CATCH_INSECT: AutoPathTask("example4_捕虫测试.json", 3),
             DAILY_TASK_GET_BLESS: daily_task.BlessTask(),
             DAILY_TASK_JIHUA: daily_task.JihuaTask(),
+            DAILY_TASK_MONSTER: daily_task.MonsterTask(),
             DAILY_TASK_TAKE_PHOTO: DailyPhotoTask(),
         }
         for task_name in self.zhaoxi_todo_list:
@@ -60,6 +61,11 @@ class AllInOneTask(TaskTemplate):
         elif energy_cost == "祝福闪光幻境":
             if DAILY_TASK_GET_BLESS not in self.zhaoxi_todo_list:
                 task = daily_task.BlessTask()
+                task.task_run()
+            self.task_result_list['energy_cost_task'] = True
+        elif energy_cost == "魔物试炼幻境":
+            if DAILY_TASK_MONSTER not in self.zhaoxi_todo_list:
+                task = daily_task.MonsterTask()
                 task.task_run()
             self.task_result_list['energy_cost_task'] = True
         else:

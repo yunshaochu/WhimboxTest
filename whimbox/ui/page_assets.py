@@ -14,6 +14,7 @@ page_ability = UIPage(check_icon=TextWardrobeAbilityBattle)
 page_huanjing = UIPage(check_icon=TextHuanjingFeature)
 page_huanjing_jihua = UIPage(check_icon=TextHuanjingJihuaFeature)
 page_huanjing_bless = UIPage(check_icon=TextHuanjingBlessFeature)
+page_huanjing_monster = UIPage(check_icon=TextHuanjingMonsterFeature)
 page_photo = UIPage(check_icon=TextPhotoFeature)
 page_monthly_pass = UIPage(check_icon=TextMonthlyPassFeature)
 
@@ -25,12 +26,11 @@ ui_pages = [
     page_xhsy,
     page_dress,
     page_ability,
-    # 以下都是依靠AreaPageTitleFeature文字来判断的页面
-    # 放在一起，可以减少ocr次数，提高效率
     page_esc,
     page_huanjing,
     page_huanjing_jihua,
     page_huanjing_bless,
+    page_huanjing_monster,
     page_photo,
     page_monthly_pass,
 ]
@@ -54,9 +54,11 @@ page_daily_task.link(ButtonXhsyEntrance, page_xhsy)
 page_huanjing.link('esc', page_daily_task)
 page_huanjing.link(TextHuanjingJihuaEntrace, page_huanjing_jihua)
 page_huanjing.link(TextHuanjingBlessEntrace, page_huanjing_bless)
+page_huanjing.link(TextHuanjingMonsterEntrace, page_huanjing_monster)
 
 page_huanjing_jihua.link('esc', page_huanjing)
 page_huanjing_bless.link('esc', page_huanjing)
+page_huanjing_monster.link('esc', page_huanjing)
 
 page_zxxy.link("esc", page_daily_task)
 
