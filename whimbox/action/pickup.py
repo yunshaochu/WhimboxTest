@@ -2,6 +2,7 @@ from whimbox.task.task_template import TaskTemplate, register_step
 from whimbox.interaction.interaction_core import itt
 from whimbox.ui.ui_assets import TextFPickUp
 from whimbox.common.cvars import DEBUG_MODE
+from whimbox.common.utils.ui_utils import skip_to_page_main
 
 class PickupTask(TaskTemplate):
     def __init__(self, check_stop_func=None):
@@ -28,6 +29,7 @@ class PickupTask(TaskTemplate):
                 else:
                     itt.key_press('f')
                     itt.delay(0.5, comment="等待采集完成")
+                    skip_to_page_main() # 获取到新物品时会弹出窗口，快速跳过
             else:
                 break
         
